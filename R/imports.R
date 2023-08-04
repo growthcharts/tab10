@@ -1,3 +1,3 @@
-#' @importFrom stringr  str_glue
+#' @importFrom stringr  str_glue str_wrap
 #' @importFrom tibble   tibble
 NULL
