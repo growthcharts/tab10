@@ -9,11 +9,14 @@
 
 A tibble with columns:
 \describe{
-\item{out}{The outcome of the model}
-\item{lng}{Language, ISO 639-1 code}
-\item{vsn}{Character, version number}
-\item{lab}{Label of entry}
-\item{txt}{The text of the entry}
+\item{name}{Script name}
+\item{outcome}{The outcome of the model}
+\item{language}{Language, ISO 639-1 code}
+\item{version}{Character, version number}
+\item{frame}{Integer, frame number}
+\item{show}{Logical, show the frame?}
+\item{label}{Label of entry}
+\item{text}{The text of the entry}
 }
 }
 }
