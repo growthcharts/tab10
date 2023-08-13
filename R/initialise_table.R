@@ -15,7 +15,7 @@ initialise_table <- function(
       y = ~y,
       size = I(size),
       color = ~case,
-      colors = colors[c(4, 8)],
+      colors = colors[1L:2L],
       frame = ~framename,
       text = ~pt,
       hoverinfo = "text",
@@ -68,7 +68,7 @@ initialise_table <- function(
     ) %>%
     animation_slider(
       currentvalue = list(
-        prefix = "Beeld ", font = list(color = "black"),
+        prefix = "Beeld ", font = list(color = colors[4L]),
         visible = FALSE
       ),
       y = -0.25

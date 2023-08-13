@@ -1,12 +1,13 @@
 #' Draws 100 labeled records from the case and prediction vector
 #'
-#' @param y     Vector of 0 and 1, indicating a non-case and case, respectively
-#' @param p     Vector of predicted probabilities. Same length as `y`
+#' @inheritParams create_table10
 #' @param probs Vector of cut points to define group quantiles
 #' @param ntab  Total n in the table of 10
 #' @author Stef van Buuren, Aug 2023
-#' @export
 draw_cases <- function(y, p, probs = seq(0, 1, 0.1), ntab = 100L) {
+  op <- options(dplyr.summarise.inform = FALSE)
+  on.exit(options(op))
+
   y <- as.integer(y)
   n <- length(y)
   stopifnot(length(y) == length(p))

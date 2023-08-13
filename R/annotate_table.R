@@ -11,21 +11,21 @@ annotate_table <- function(fig, script, colors) {
 
                 vline <- list(
                   type = "line", y0 = 2.5, y1 = 2.5, x0 = 0.5, x1 = 10.5,
-                  line = list(color = "black", dash = "dot", width = 3),
+                  line = list(color = colors[4L], dash = "dot", width = 3),
                   visible = ifelse(name == "hoog", TRUE, FALSE)
                 )
                 rect <- list(
                   type = "rect", y0 = 0, y1 = 11, x0 = 9.5, x1 = 10.5,
                   layer = "below",
-                  fillcolor = colors[7],
+                  fillcolor = colors[3L],
                   opacity = 0.4,
-                  line = list(width = 0, color = colors[7], dash = "dot"),
+                  line = list(width = 0, color = colors[3L], dash = "dot"),
                   visible = ifelse(name %in% c("uitslag", "vervolg"), TRUE, FALSE)
                 )
                 rr <- list(
                   type = "path",
                   path = rounded_rectangle(x0 = 9.5, x1 = 10.5, y0 = 0.5, y1 = 10.5, h = 0.6),
-                  fillcolor = "grey",
+                  fillcolor = colors[5L],
                   opacity = 0.3,
                   line = list(width = 0),
                   layer = "below",
