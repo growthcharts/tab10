@@ -11,7 +11,7 @@
 #' @param \dots   Arguments passed down to [`initialise_table()`]
 #' @export
 create_tab10 <- function(pri,
-                         name = "overweight-4y-2",
+                         name = "overweight-4y-3",
                          script = NULL,
                          palet = c("mandarin", "redgrey"),
                          display = c("medium", "large"),
@@ -52,10 +52,7 @@ create_tab10 <- function(pri,
       filter(.data$name == !!name)
   }
   stopifnot(all(hasName(script, names(tab10::scripts))))
-  script <- script |>
-    mutate(
-      frametext = str_wrap(.data$frametext, width = !!dpar$wrap)
-    )
+
 
   # Set data
   if (!is.null(seed)) {
@@ -67,6 +64,13 @@ create_tab10 <- function(pri,
                            case = as.logical(yp$y),
                            p = yp$p,
                            centile = centile)
+
+  # Process frame text
+  script <- glue_frametext(data, script, colors)
+  script <- script |>
+    mutate(
+      frametext = str_wrap(.data$frametext, width = !!dpar$wrap)
+    )
 
   # Create display
   f1 <- initialise_table(data = data,
