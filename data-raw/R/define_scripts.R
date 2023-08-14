@@ -2,9 +2,9 @@
 
 scripts <- tibble::tibble(
   name = "overweight-4y-2",
-  outcome = "overweight",
-  language = "nl",
+  outcome = "overweight-4y",
   version = "2",
+  language = "nl",
   framenum = seq(8),
   framename =
     c("intro", "klas", "risico", "groep", "hoog", "kind", "uitslag",

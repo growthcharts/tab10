@@ -1,4 +1,4 @@
-#' @importFrom dplyr    %>% arrange bind_rows cur_group_id filter group_by
+#' @importFrom dplyr    arrange bind_rows cur_group_id filter group_by
 #'                      lead mutate n pull summarise ungroup
 #' @importFrom plotly   animation_button animation_opts animation_slider
 #'                      config hide_colorbar

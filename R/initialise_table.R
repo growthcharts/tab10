@@ -9,7 +9,7 @@
 #' @export
 initialise_table <- function(
     data, script, colors, width = 700, height = 900, size = 1100) {
-  fig <- data %>%
+  fig <- data |>
     plot_ly(
       x = ~x,
       y = ~y,
@@ -24,10 +24,10 @@ initialise_table <- function(
       showlegend = FALSE,
       width = width,
       height = height
-    ) %>%
+    ) |>
     animation_opts(frame = 1400, transition = 700)
 
-  fig <- fig %>%
+  fig <- fig |>
     layout(
       xaxis = list(
         title = "",
@@ -57,22 +57,22 @@ initialise_table <- function(
         text = script$frametext[1L],
         font = list(size = 16)
       )
-    ) %>%
+    ) |>
     hide_colorbar()
-  fig <- fig %>%
+  fig <- fig |>
     animation_button(
       x = 0.1, y = 0.1,
       label = "Go",
       fromcurrent = TRUE,
       visible = FALSE
-    ) %>%
+    ) |>
     animation_slider(
       currentvalue = list(
         prefix = "Beeld ", font = list(color = colors[4L]),
         visible = FALSE
       ),
       y = -0.25
-    ) %>%
+    ) |>
     config(displayModeBar = FALSE)
   fig
 }

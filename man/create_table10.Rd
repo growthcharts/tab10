@@ -5,23 +5,21 @@
 \title{Create a "table of 10" animation from data}
 \usage{
 create_table10(
-  script = "overweight-4y-2",
-  y = NULL,
-  p = NULL,
+  pri,
+  name = "overweight-4y-2",
   palet = "mandarin",
   centile = TRUE,
-  seed = 123,
+  seed = NULL,
   width = 700,
   height = 900,
-  size = 1100
+  size = 1100,
+  wrap = 75
 )
 }
 \arguments{
-\item{script}{Name of script}
+\item{pri}{Numeric. Personal risk estimate (0 < \code{pri} < 1).}
 
-\item{y}{Vector of 0 and 1, indicating a non-case and case, respectively}
-
-\item{p}{Vector of predicted probabilities. Same length as \code{y}}
+\item{name}{Name of script}
 
 \item{palet}{Name of table10 color palette}
 
@@ -34,6 +32,8 @@ create_table10(
 \item{height}{Height of display (px)}
 
 \item{size}{Circle size}
+
+\item{wrap}{Integer. Number of character per line}
 }
 \description{
 Create a "table of 10" animation from data
