@@ -4,7 +4,14 @@
 \alias{annotate_table}
 \title{Annotate an initialised table table of 20}
 \usage{
-annotate_table(fig, script, colors)
+annotate_table(
+  fig,
+  script,
+  colors,
+  frametext_size = 16,
+  xaxis_titlefont_size = 20,
+  xaxis_tickfont_size = 16
+)
 }
 \arguments{
 \item{fig}{Object created by \code{initialise_table()}}
@@ -12,6 +19,12 @@ annotate_table(fig, script, colors)
 \item{script}{Subset of \code{scripts}}
 
 \item{colors}{Vector of colors}
+
+\item{frametext_size}{Frame-text font size}
+
+\item{xaxis_titlefont_size}{X-axis title font size}
+
+\item{xaxis_tickfont_size}{X-axis tick font size}
 }
 \description{
 Annotate an initialised table table of 20

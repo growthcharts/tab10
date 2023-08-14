@@ -7,4 +7,5 @@
 #' @importFrom stats    quantile
 #' @importFrom stringr  str_glue str_wrap
 #' @importFrom tibble   tibble
+#' @importFrom utils    hasName
 NULL

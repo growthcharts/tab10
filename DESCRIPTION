@@ -1,4 +1,4 @@
-Package: table10
+Package: tab10
 Type: Package
 Title: Explains Probability using the Table of Ten
 Version: 0.1.0
@@ -17,6 +17,7 @@ Imports:
     plotly,
     rlang,
     stringr,
-    tibble
+    tibble,
+    utils
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

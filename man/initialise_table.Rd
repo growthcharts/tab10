@@ -4,7 +4,16 @@
 \alias{initialise_table}
 \title{Initialise a table of 10}
 \usage{
-initialise_table(data, script, colors, width = 700, height = 900, size = 1100)
+initialise_table(
+  data,
+  script,
+  colors,
+  width = 700,
+  height = 900,
+  size = 1100,
+  frametext_size = 16,
+  yshift = -100
+)
 }
 \arguments{
 \item{data}{Dataset created by \code{make_coordinates()}}
@@ -18,6 +27,10 @@ initialise_table(data, script, colors, width = 700, height = 900, size = 1100)
 \item{height}{Height of display (px)}
 
 \item{size}{Circle size}
+
+\item{frametext_size}{Frame-text font size}
+
+\item{yshift}{Frame-text box vertical parameter}
 }
 \description{
 Initialise a table of 10

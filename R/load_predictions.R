@@ -1,4 +1,4 @@
 load_predictions <- function(outcome) {
-  table10::predictions |>
+  tab10::predictions |>
     filter(.data$outcome == !! outcome)
 }

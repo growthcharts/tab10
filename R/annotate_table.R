@@ -1,9 +1,14 @@
 #' Annotate an initialised table table of 20
 #'
 #' @param fig     Object created by `initialise_table()`
+#' @param xaxis_titlefont_size X-axis title font size
+#' @param xaxis_tickfont_size X-axis tick font size
 #' @inheritParams initialise_table
 #' @export
-annotate_table <- function(fig, script, colors) {
+annotate_table <- function(fig, script, colors,
+                           frametext_size = 16,
+                           xaxis_titlefont_size = 20,
+                           xaxis_tickfont_size = 16) {
   fig <- plotly_build(fig)
   z <- lapply(1:length(fig$x$frames),
               function(i) {
@@ -36,20 +41,24 @@ annotate_table <- function(fig, script, colors) {
                 if (i <= 3) ticktext <- rep("<b>    </b>", 10)
                 title <- ifelse(i <= 3, "<b></b>", "<b>Overgewicht risico - 4 jaar</b>")
                 xaxis <- list(
-                  title = list(text = title, font = list(size = 20), standoff = 0),
+                  title = list(text = title,
+                               font = list(size = xaxis_titlefont_size),
+                               standoff = 0),
                   ticktext = ticktext,
-                  tickfont = list(size = 16)
+                  tickfont = list(size = xaxis_tickfont_size)
                 )
 
                 ann <- list(
                   text = script$frametext[i],
                   align = ifelse(name == "kind", "centre", "left"),
                   valign = ifelse(name == "kind", "centre", "top"),
-                  font = list(size = ifelse(name == "kind", 24, 16))
+                  font = list(size = ifelse(name == "kind",
+                                            frametext_size + 8,
+                                            frametext_size))
                 )
                 fig$x$frames[[i]]$layout <<- list(shapes = list(vline, rr),
-                                                 xaxis = xaxis,
-                                                 annotations = list(ann))
+                                                  xaxis = xaxis,
+                                                  annotations = list(ann))
                 invisible()
               })
   fig

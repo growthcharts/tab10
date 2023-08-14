@@ -6,9 +6,14 @@
 #' @param width   With of display (px)
 #' @param height  Height of display (px)
 #' @param size    Circle size
+#' @param frametext_size Frame-text font size
+#' @param yshift  Frame-text box vertical parameter
 #' @export
 initialise_table <- function(
-    data, script, colors, width = 700, height = 900, size = 1100) {
+    data, script, colors,
+    width = 700, height = 900, size = 1100,
+    frametext_size = 16, yshift = -100) {
+
   fig <- data |>
     plot_ly(
       x = ~x,
@@ -28,7 +33,7 @@ initialise_table <- function(
     animation_opts(frame = 1400, transition = 700)
 
   fig <- fig |>
-    layout(
+    plotly::layout(
       xaxis = list(
         title = "",
         tickvals = 1:10,
@@ -47,7 +52,7 @@ initialise_table <- function(
         yref = "y",
         x = 0,
         y = 0,
-        yshift = -100,
+        yshift = yshift,
         xanchor = "left",
         yanchor = "top",
         align = "left",
@@ -55,9 +60,10 @@ initialise_table <- function(
         height = 130,
         width = width - 50,
         text = script$frametext[1L],
-        font = list(size = 16)
+        font = list(size = frametext_size)
       )
-    ) |>
+    )
+  fig <- fig |>
     hide_colorbar()
   fig <- fig |>
     animation_button(
