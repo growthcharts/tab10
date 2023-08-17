@@ -1,0 +1,45 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# tab10
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of `tab10` is to support risk communication. Many people
+struggle with the interpretation of probability. This package develops a
+new interactive graphical instrument, the **Table of Ten**, to ease
+gaining insight into personal risk probabilities. The goals of the
+method are to communicate
+
+1.  the absolute predicted probability of some future event;
+2.  the position of the predicted probability relative to other people;
+3.  the uncertainty of the predicted probability;
+4.  the changes in probability of “doing nothing” versus “doing
+    something”.
+
+Not every goal has yet been achieved. Most of the developments in the
+present package relate to points 2 and 3.
+
+## Installation
+
+You can install the development version of tab10 like so:
+
+``` r
+remotes::install_github(growthcharts/tab10)
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+library(tab10)
+fig <- create_tab10(palet = "redgrey")
+fig
+```
+
+<img src="man/figures/README-example-1.png" width="100%" />
+
+GitHub README does not allow animation. Install and run the above code
+locally.
