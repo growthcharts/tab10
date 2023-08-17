@@ -29,9 +29,11 @@ You can install the development version of tab10 like so:
 remotes::install_github("growthcharts/tab10")
 ```
 
-## Example
+## Example overweight
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example to communicate the probability of getting
+overweight at the age of 4 years, given data of infants aged 6-12
+months.
 
 ``` r
 library(tab10)
@@ -39,7 +41,17 @@ fig <- create_tab10(palet = "redgrey")
 fig
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-overweight-1.png" width="100%" />
 
 GitHub README does not allow animation. Install and run the above code
 locally.
+
+## Example very preterm birth
+
+``` r
+library(tab10)
+fig <- create_tab10(name = "preterm-32w-1", palet = "redgrey")
+fig
+```
+
+<img src="man/figures/README-preterm-1.png" width="100%" />
