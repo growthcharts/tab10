@@ -5,8 +5,6 @@
 \alias{scripts}
 \title{Table of Ten scripts}
 \format{
-\subsection{\code{scripts}}{
-
 A tibble with columns:
 \describe{
 \item{name}{Script name}
@@ -14,10 +12,9 @@ A tibble with columns:
 \item{version}{Character, version number}
 \item{language}{Language, ISO 639-1 code}
 \item{frame}{Integer, frame number}
-\item{show}{Logical, show the frame?}
-\item{label}{Label of entry}
-\item{text}{The text of the entry}
-}
+\item{framename}{Character, frame name}
+\item{frameshow}{Logical, show the frame?}
+\item{frametext}{The text of the entry}
 }
 }
 \usage{

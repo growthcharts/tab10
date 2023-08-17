@@ -1,12 +1,18 @@
 annotate_table <- function(fig, script, colors, riskgroup,
-                           frametext_size = 16) {
+                           frametext_size = 16, nhigh = 3) {
+  outcome <- script$outcome[1L]
+  if (outcome == "preterm-32w") {
+    nhigh <- 1
+  }
+
   z <- lapply(1:length(fig$x$frames),
               function(i) {
                 name <- fig$x$frames[[i]]$name
 
                 # cut-off line
                 vline <- list(
-                  type = "line", y0 = 2.5, y1 = 2.5, x0 = 0.5, x1 = 10.5,
+                  type = "line", y0 = nhigh - 0.5, y1 = nhigh - 0.5,
+                  x0 = 0.5, x1 = 10.5,
                   line = list(color = colors[4L], dash = "dot", width = 3),
                   visible = ifelse(name == "hoog", TRUE, FALSE)
                 )

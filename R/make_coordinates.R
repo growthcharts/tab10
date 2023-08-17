@@ -1,4 +1,8 @@
 make_coordinates <- function(script, case, p, centile = TRUE) {
+  outcome <- script$outcome[1L]
+  nhigh <- 3
+  if (outcome == "preterm-32w") nhigh <- 1
+
   nr <- 10L
   nc <- 10L
   prv <- sum(case)
@@ -60,7 +64,7 @@ make_coordinates <- function(script, case, p, centile = TRUE) {
     mutate(
       frame = 5L,
       framename = framenames[.data$frame],
-      y = ifelse(.data$y <= 2, .data$y - 0.25, .data$y + 0.25)
+      y = ifelse(.data$y <= nhigh - 1, .data$y - 0.25, .data$y + 0.25)
     )
 
   data6 <- data4 |>

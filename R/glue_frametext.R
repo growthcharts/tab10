@@ -10,8 +10,16 @@ glue_frametext <- function(data, script, colors, riskgroup,
   if (colors[1L] == "#33B882") control_color <- "groene"
   if (colors[1L] == "#999999") control_color <- "grijze"
 
-  aproblem <- "overgewicht"
-  outcome_age <- "4-jarige"
+  outcome <- script$outcome[1L]
+  if (outcome == "overweight-4y") {
+    aproblem <- "overgewicht"
+    outcome_age <- "4-jarige"
+  }
+  if (outcome == "preterm-32w") {
+    aproblem <- "ernstige vroeggeboorte"
+    outcome_age <- ""
+    high <- 1
+  }
 
   counts <- data |>
     filter(.data$frame == 1L) |>
@@ -61,8 +69,8 @@ glue_frametext <- function(data, script, colors, riskgroup,
     "1" = "voldoet alleen groep 10 aan dit criterium",
     "2" = "voldoen groepen 9 en 10 aan dit criterium",
     "3" = "voldoen groepen 8, 9 en 10 aan dit criterium",
-    "4" = "voldoen groepen 7 tot 10 aan dit criterium",
-    "5" = "voldoen groepen 6 tot 10 aan dit criterium",
+    "4" = "voldoen groepen 7, 8, 9 en 10 aan dit criterium",
+    "5" = "voldoen groepen 6, 7, 8, 9 en 10 aan dit criterium",
     "voldoen er meer dan vijf groepen aan dit criterium")
   script$frametext[5L] <-
     glue(script$frametext[5L],
@@ -71,8 +79,10 @@ glue_frametext <- function(data, script, colors, riskgroup,
          nriskgroup = nriskgroup)
 
   # frame 7
+  relax <- 0
+  if (outcome == "preterm-32w") relax <- 1
   riskgrouplabel <- switch(
-    as.character(casecounts[riskgroup]),
+    as.character(casecounts[riskgroup] + relax),
     "0" = "laag",
     "1" = "laag, maar niet verwaarloosbaar",
     "2" = "behoorlijk",

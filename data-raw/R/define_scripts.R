@@ -92,9 +92,61 @@ script_overweight_4y_3 <- tibble::tibble(
          de app de correcte gegevens gebruikt?"
   ))
 
+script_preterm_32w_1 <- tibble::tibble(
+  name = "preterm-32w-1",
+  outcome = "preterm-32w",
+  version = "1",
+  language = "nl",
+  frame = seq(8),
+  framename =
+    c("intro", "klas", "risico", "groep", "hoog", "kind", "uitslag",
+      "vervolg"),
+  frameshow = rep(TRUE, 8),
+  frametext = c(
+    "We zien hier 100 cirkels. Elke cirkel staat voor één zwangerschap. Er \\
+         zijn <b>{{ncase}} cirkels met een {{case_color}} kleur</b>. \\
+         Dat zijn de zwangerschappen die eindigen met een \\
+         <b>{{aproblem}}</b>, \\
+         d.w.z., bij een zwangerschapsduur korter dan 32 volledige weken. \\
+         Uit onderzoek weten we dat te vroeg geboren kinderen kwetsbaar \\
+         zijn.",
+    "Hoe vaak komt {{aproblem}} voor? Stel dat 25 zwangere vrouwen zich \\
+         verzamelen in een schoolklas. In de schoolklas zitten \\
+         dan <b>rond de {{approx}} vrouwen</b> waarvan de zwangerschap \\
+         met een {{aproblem}} eindigt.",
+    "Zwangerschappen verschillen in de kans op {{aproblem}}. Er zijn \\
+         zwangerschappen met een laag risico, en zwangerschappen met een \\
+         hoger risico. <b>De app berekent voor elke zwangerschap het \\
+         risico</b>. We sorteren nu de 100 zwangerschappen \\
+         in <b>10 risicogroepen</b>.",
+    "Geheel <b>links</b> staan de zwangerschappen met het \\
+         <b>laagste</b> risico. Alle cirkels hebben een {{control_color}} \\
+         kleur. Geen van deze zwangerschappen eindigt in {{aproblem}. \\
+         Geheel <b>rechts</b> staan de zwangerschappen met het <b>hoogste</b> \\
+         risico. Van de 10 zwangerschappen eindigt er {{casecounts[10]}} \\
+         met een {{aproblem}} en {{controlcounts[10]}} niet. Een \\
+         hoog risico betekent dus niet automatisch dat {{aproblem}} \\
+         onvermijdelijk is.",
+    "Welke risico op {{aproblem}} is acceptabel? Gezien de ernst van de \\
+         mogelijke gevolgen voor moeder en kind vinden we een kans van <b>1 \\
+         op de 10</b> hoog. In de figuur {{nriskgroup}}.",
+    "<b>In welke risicogroep valt uw zwangerschap?</b>",
+    "Op basis van wat we nu weten behoort uw zwangerschap tot <b>risicogroep \\
+         {{riskgroup}}</b>. We kunnen niet met zekerheid zeggen of uw \\
+         kind te vroeg geboren zal worden. \\
+         Wel is de kans daarop \\
+         <b>{{riskgrouplabel}}</b>. Naar verwachting zal <b>{{riskgrouptext}} \\
+         van de 10 zwangerschappen</b> uit risicogroep <b>{{riskgroup}}</b> \\
+         eindigen met een {{aproblem}}.",
+    "Het is mogelijk dat de gebruikte gegevens onjuist of \\
+         onvolledig zijn. Bent u bereid om met mij mee te kijken of \\
+         de app de correcte gegevens gebruikt?"
+  ))
+
 scripts <- dplyr::bind_rows(
   script_overweight_4y_3,
-  script_overweight_4y_2
+  script_overweight_4y_2,
+  script_preterm_32w_1
 )
 
 scripts$frametext <- unlist(lapply(scripts$frametext, stringr::str_glue))

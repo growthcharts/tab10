@@ -5,14 +5,11 @@
 \alias{predictions}
 \title{Datasets with model predictions}
 \format{
-\subsection{\code{scripts}}{
-
 A tibble with columns:
 \describe{
 \item{outcome}{The outcome of the model}
-\item{y}{0 = no overweight 4y, 1 = overweight 4y}
+\item{y}{0 = no case, 1 = case}
 \item{p}{Risk estimate, 0 < p < 1}
-}
 }
 }
 \usage{
