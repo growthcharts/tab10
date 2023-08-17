@@ -32,7 +32,7 @@ Not every goal has yet been achieved. Most of the developments in the present pa
 You can install the development version of tab10 like so:
 
 ```{r eval=FALSE}
-remotes::install_github(growthcharts/tab10)
+remotes::install_github("growthcharts/tab10")
 ```
 
 ## Example

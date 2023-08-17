@@ -26,7 +26,7 @@ present package relate to points 2 and 3.
 You can install the development version of tab10 like so:
 
 ``` r
-remotes::install_github(growthcharts/tab10)
+remotes::install_github("growthcharts/tab10")
 ```
 
 ## Example
