@@ -5,11 +5,11 @@
 \title{Create a "table of 10" animation from data}
 \usage{
 create_tab10(
-  pri,
-  name = "overweight-4y-2",
+  pri = NULL,
+  name = "overweight-4y-3",
   script = NULL,
   palet = c("mandarin", "redgrey"),
-  display = c("medium", "large"),
+  display = c("medium", "large", "default"),
   centile = TRUE,
   seed = NULL,
   ...
@@ -19,7 +19,7 @@ create_tab10(
 \item{pri}{Numeric. Personal risk estimate (0 < \code{pri} < 1).}
 
 \item{name}{Name of script within built-in scripts \code{tab10::scripts}.
-Ignored if the \code{script} argument is specified.}
+\code{name} is ignored if the \code{script} argument is specified.}
 
 \item{script}{A tibble with the structure of \code{tab10::scripts}.}
 

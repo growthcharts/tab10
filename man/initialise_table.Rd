@@ -12,6 +12,8 @@ initialise_table(
   height = 900,
   size = 1100,
   frametext_size = 16,
+  xaxis_tickfont_size = 16,
+  xaxis_titlefont_size = 20,
   yshift = -100
 )
 }
@@ -29,6 +31,10 @@ initialise_table(
 \item{size}{Circle size}
 
 \item{frametext_size}{Frame-text font size}
+
+\item{xaxis_tickfont_size}{X-axis tick font size}
+
+\item{xaxis_titlefont_size}{X-axis title font size}
 
 \item{yshift}{Frame-text box vertical parameter}
 }

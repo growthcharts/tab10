@@ -8,11 +8,11 @@ make_coordinates <- function(script, case, p, centile = TRUE) {
   # shuffle records
   idx <- sample(100L)
   case <- case[idx]
-  p <- p[idx]
+  pct <- p <- p[idx]
 
   # transform absolute probability into centile
   if (centile) {
-    p[order(p)] <- seq_len(length(p))
+    pct[order(pct)] <- seq_len(length(pct))
   }
   framenames <- script$framename
 
@@ -21,12 +21,11 @@ make_coordinates <- function(script, case, p, centile = TRUE) {
       frame = 1L,
       framename = framenames[.data$frame],
       p = p,
-      pt = paste0("R", formatC(.data$p,
-        width = 2L,
-        format = "d", flag = "0"
-      )),
+      pct = pct,
+      pt = paste("P:", formatC(.data$p, width = 6L, format = "d", flag = "0")),
+      gp = 1 + (.data$pct - 1) %/% 10,
       case = case,
-      hit = ifelse(.data$p > quantile(.data$p, probs = 1 - !!prv / 100),
+      hit = ifelse(.data$pct > quantile(.data$pct, probs = 1 - !!prv / 100),
         TRUE, FALSE
       )
     )
@@ -46,10 +45,10 @@ make_coordinates <- function(script, case, p, centile = TRUE) {
     )
 
   data4 <- data1 |>
-    arrange(.data$p) |>
+    arrange(.data$pct) |>
     mutate(x = data1$x) |>
     group_by(.data$x) |>
-    arrange(dplyr::desc(case), .by_group = TRUE) |>
+    arrange(desc(case), .by_group = TRUE) |>
     ungroup() |>
     mutate(
       frame = 4L,

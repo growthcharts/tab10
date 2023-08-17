@@ -8,11 +8,16 @@
 #' @param size    Circle size
 #' @param frametext_size Frame-text font size
 #' @param yshift  Frame-text box vertical parameter
+#' @param xaxis_titlefont_size X-axis title font size
+#' @param xaxis_tickfont_size X-axis tick font size
 #' @export
 initialise_table <- function(
     data, script, colors,
     width = 700, height = 900, size = 1100,
-    frametext_size = 16, yshift = -100) {
+    frametext_size = 16,
+    xaxis_tickfont_size = 16,
+    xaxis_titlefont_size = 20,
+    yshift = -100) {
 
   fig <- data |>
     plot_ly(
@@ -35,17 +40,30 @@ initialise_table <- function(
   fig <- fig |>
     plotly::layout(
       xaxis = list(
-        title = "",
+        range = c(0, 11),
+        title = list(text = "<b>Risicogroep</b>",
+                     font = list(size = xaxis_titlefont_size,
+                                 color = "transparent"),
+                     standoff = 0),
+        ticktext = sprintf("<b>%s</b>", as.character(1:10)),
+        tickfont = list(size = xaxis_tickfont_size,
+                        color = "transparent"),
         tickvals = 1:10,
-        ticklabelstep = 1,
-        ticktext = rep("", 10),
         scaleratio = 1,
         scaleanchor = "y",
+        visible = TRUE,
         showgrid = FALSE,
         zeroline = FALSE
       ),
       yaxis = list(
-        visible = FALSE
+        range = c(0, 11),
+        title = "",
+        visible = FALSE,
+        showgrid = FALSE,
+        zeroline = FALSE
+      ),
+      margin = list(
+        b = 80 + 150
       ),
       annotations = list(
         xref = "x",
@@ -77,7 +95,8 @@ initialise_table <- function(
         prefix = "Beeld ", font = list(color = colors[4L]),
         visible = FALSE
       ),
-      y = -0.25
+      x = 0,
+      y = 1.2,
     ) |>
     config(displayModeBar = FALSE)
   fig
