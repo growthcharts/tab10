@@ -72,10 +72,10 @@ create_tab10 <- function(pri = NULL,
                            case = as.logical(yp$y),
                            p = yp$p,
                            centile = centile)
-  rg <- calculate_riskgroup(pri, data)
+  riskgroup <- calculate_riskgroup(pri, data)
 
   # Process frame text
-  script <- glue_frametext(data, script, colors, rg)
+  script <- glue_frametext(data, script, colors, riskgroup)
   if (!is.null(dpar$width)) {
     script <- script |>
       mutate(
@@ -96,6 +96,7 @@ create_tab10 <- function(pri = NULL,
                          yshift = dpar$frametext$yshift)
   f2 <- annotate_table(f1,
                        script = script,
-                       colors = colors)
+                       colors = colors,
+                       riskgroup = riskgroup)
   f2
 }
