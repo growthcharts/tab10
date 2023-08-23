@@ -46,11 +46,11 @@ fig
 GitHub README does not allow animation. Install and run the above code
 locally.
 
-## Example very preterm birth
+## Example preterm birth (GA \< 37 weeks)
 
 ``` r
 library(tab10)
-fig <- create_tab10(name = "preterm-32w-1", palet = "redgrey")
+fig <- create_tab10(name = "preterm-37w-1", palet = "redgrey")
 fig
 ```
 
