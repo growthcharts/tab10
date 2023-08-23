@@ -14,9 +14,8 @@ method are to communicate
 
 1.  the absolute predicted probability of some future event;
 2.  the position of the predicted probability relative to other people;
-3.  the uncertainty of the predicted probability;
-4.  the changes in probability of “doing nothing” versus “doing
-    something”.
+3.  the positive predictive value of the prediction;
+4.  the effect of “doing nothing” versus “doing something”.
 
 Not every goal has yet been achieved. Most of the developments in the
 present package relate to points 2 and 3.
