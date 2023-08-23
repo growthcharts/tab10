@@ -92,9 +92,9 @@ script_overweight_4y_3 <- tibble::tibble(
          de app de correcte gegevens gebruikt?"
   ))
 
-script_preterm_32w_1 <- tibble::tibble(
-  name = "preterm-32w-1",
-  outcome = "preterm-32w",
+script_preterm_37w_1 <- tibble::tibble(
+  name = "preterm-37w-1",
+  outcome = "preterm-37w",
   version = "1",
   language = "nl",
   frame = seq(8),
@@ -107,7 +107,7 @@ script_preterm_32w_1 <- tibble::tibble(
          zijn <b>{{ncase}} cirkels met een {{case_color}} kleur</b>. \\
          Dat zijn de zwangerschappen die eindigen met een \\
          <b>{{aproblem}}</b>, \\
-         d.w.z., bij een zwangerschapsduur korter dan 32 volledige weken. \\
+         d.w.z., bij een zwangerschapsduur korter dan 37 volledige weken. \\
          Uit onderzoek weten we dat te vroeg geboren kinderen kwetsbaar \\
          zijn.",
     "Hoe vaak komt {{aproblem}} voor? Stel dat 25 zwangere vrouwen zich \\
@@ -146,7 +146,7 @@ script_preterm_32w_1 <- tibble::tibble(
 scripts <- dplyr::bind_rows(
   script_overweight_4y_3,
   script_overweight_4y_2,
-  script_preterm_32w_1
+  script_preterm_37w_1
 )
 
 scripts$frametext <- unlist(lapply(scripts$frametext, stringr::str_glue))

@@ -29,7 +29,7 @@ pt_cum <- read_excel(fn) |>
   select(pred1, pred0)
 p1 <- pt_cum$pred1[!is.na(pt_cum$pred1)]
 p0 <- pt_cum$pred0[!is.na(pt_cum$pred0)]
-predictions_pt <- tibble(outcome = "preterm-32w",
+predictions_pt <- tibble(outcome = "preterm-37w",
                          y = c(rep(1, length(p1)), rep(0, length(p0))),
                          pr = c(p1, p0)) |>
   slice_sample(n = 10000) |>

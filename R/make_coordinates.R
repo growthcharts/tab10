@@ -1,7 +1,7 @@
 make_coordinates <- function(script, case, p, centile = TRUE) {
   outcome <- script$outcome[1L]
   nhigh <- 3
-  if (outcome == "preterm-32w") nhigh <- 1
+  if (outcome == "preterm-37w") nhigh <- 1
 
   nr <- 10L
   nc <- 10L

@@ -1,7 +1,7 @@
 annotate_table <- function(fig, script, colors, riskgroup,
                            frametext_size = 16, nhigh = 3) {
   outcome <- script$outcome[1L]
-  if (outcome == "preterm-32w") {
+  if (outcome == "preterm-37w") {
     nhigh <- 1
   }
 

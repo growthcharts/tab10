@@ -15,8 +15,8 @@ glue_frametext <- function(data, script, colors, riskgroup,
     aproblem <- "overgewicht"
     outcome_age <- "4-jarige"
   }
-  if (outcome == "preterm-32w") {
-    aproblem <- "ernstige vroeggeboorte"
+  if (outcome == "preterm-37w") {
+    aproblem <- "vroeggeboorte"
     outcome_age <- ""
     high <- 1
   }
@@ -80,7 +80,7 @@ glue_frametext <- function(data, script, colors, riskgroup,
 
   # frame 7
   relax <- 0
-  if (outcome == "preterm-32w") relax <- 1
+  if (outcome == "preterm-37w") relax <- 1
   riskgrouplabel <- switch(
     as.character(casecounts[riskgroup] + relax),
     "0" = "laag",
