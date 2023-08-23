@@ -20,12 +20,12 @@ knitr::opts_chunk$set(
 
 The goal of `tab10` is to support risk communication. Many people struggle with the interpretation of probability. This package develops a new interactive graphical instrument, the **Table of Ten**, to ease gaining insight into personal risk probabilities. The goals of the method are to communicate
 
-1. the absolute predicted probability of some future event;
-2. the position of the predicted probability relative to other people;
+1. the prevalence of a future outcome;
+2. the rank of the person's predicted probability relative to other people;
 3. the positive predictive value of the prediction;
-4. the effect of "doing nothing" versus "doing something".
+4. the effect of "doing something" versus "doing nothing".
 
-Not every goal has yet been achieved. Most of the developments in the present package relate to points 2 and 3.
+Not every goal has yet been achieved. Most of the developments in the present package relate to points 1, 2 and 3.
 
 ## Installation
 
