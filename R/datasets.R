@@ -26,3 +26,19 @@
 #'   \item{p}{Risk estimate, 0 < p < 1}
 #' }
 "predictions"
+
+#' Dataset with processed risk and rank scores
+#'
+#' Note 1: 100 random draws per outcome
+#'
+#' Note 2: Generated with seed = 1
+#'
+#' @format
+#' A data frame with columns:
+#' \describe{
+#'   \item{outcome}{The outcome of the model}
+#'   \item{p}{Risk estimate, 0 < p < 1}
+#'   \item{pct}{rank}
+#' }
+"risk_rank_data"
+

@@ -5,10 +5,12 @@ glue_frametext <- function(data, script, colors, riskgroup,
   case_color <- "afwijkende"
   if (colors[2L] == "#D55E00") case_color <- "oranje"
   if (colors[2L] == "red") case_color <- "rode"
+  if (colors[2L] == grDevices::hcl(0, 100, 40, 0.5)) case_color <- "rode"
 
   control_color <- "onopvallende"
   if (colors[1L] == "#33B882") control_color <- "groene"
   if (colors[1L] == "#999999") control_color <- "grijze"
+  if (colors[1L] == grDevices::hcl(240, 100, 40, 0.5)) control_color <- "blauwe"
 
   outcome <- script$outcome[1L]
   if (outcome == "overweight-4y") {
@@ -66,11 +68,11 @@ glue_frametext <- function(data, script, colors, riskgroup,
   nriskgroup <- switch(
     as.character(nhigh),
     "0" = "voldoet geen enkele risicogroup aan dit criterium",
-    "1" = "voldoet alleen groep 10 aan dit criterium",
-    "2" = "voldoen groepen 9 en 10 aan dit criterium",
-    "3" = "voldoen groepen 8, 9 en 10 aan dit criterium",
-    "4" = "voldoen groepen 7, 8, 9 en 10 aan dit criterium",
-    "5" = "voldoen groepen 6, 7, 8, 9 en 10 aan dit criterium",
+    "1" = "voldoet alleen groep 9 aan dit criterium",
+    "2" = "voldoen groepen 8 en 9 aan dit criterium",
+    "3" = "voldoen groepen 7, 8 en 9 aan dit criterium",
+    "4" = "voldoen groepen 6, 7, 8 en 9 aan dit criterium",
+    "5" = "voldoen groepen 5, 6, 7, 8 en 9 aan dit criterium",
     "voldoen er meer dan vijf groepen aan dit criterium")
   script$frametext[5L] <-
     glue(script$frametext[5L],
@@ -82,7 +84,7 @@ glue_frametext <- function(data, script, colors, riskgroup,
   relax <- 0
   if (outcome == "preterm-37w") relax <- 1
   riskgrouplabel <- switch(
-    as.character(casecounts[riskgroup] + relax),
+    as.character(casecounts[riskgroup + 1] + relax),
     "0" = "laag",
     "1" = "laag, maar niet verwaarloosbaar",
     "2" = "behoorlijk",
@@ -95,7 +97,7 @@ glue_frametext <- function(data, script, colors, riskgroup,
     "9" = "zeer hoog",
     "10" = "zeer hoog")
   riskgrouptext <- switch(
-    as.character(casecounts[riskgroup]),
+    as.character(casecounts[riskgroup + 1]),
     "0" = "Geen",
     "1" = "E\u00e9n",
     "2" = "Twee",

@@ -6,9 +6,9 @@
 \usage{
 create_tab10(
   pri = NULL,
-  name = "overweight-4y-3",
+  outcome = "overweight-4y",
   script = NULL,
-  palet = c("mandarin", "redgrey"),
+  palet = NULL,
   display = c("medium", "large", "default"),
   centile = TRUE,
   seed = NULL,
@@ -18,8 +18,8 @@ create_tab10(
 \arguments{
 \item{pri}{Numeric. Personal risk estimate (0 < \code{pri} < 1).}
 
-\item{name}{Name of script within built-in scripts \code{tab10::scripts}.
-\code{name} is ignored if the \code{script} argument is specified.}
+\item{outcome}{Name of outcome within built-in scripts \code{tab10::scripts}.
+\code{outcome} is ignored if the \code{script} argument is specified.}
 
 \item{script}{A tibble with the structure of \code{tab10::scripts}.}
 

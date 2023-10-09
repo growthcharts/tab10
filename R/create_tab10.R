@@ -1,8 +1,8 @@
 #' Create a "table of 10" animation from data
 #'
 #' @param pri     Numeric. Personal risk estimate (0 < `pri` < 1).
-#' @param name    Name of script within built-in scripts `tab10::scripts`.
-#'                `name` is ignored if the `script` argument is specified.
+#' @param outcome  Name of outcome within built-in scripts `tab10::scripts`.
+#'                `outcome` is ignored if the `script` argument is specified.
 #' @param script  A tibble with the structure of `tab10::scripts`.
 #' @param palet   Name of table10 color palette
 #' @param display Display size, either `"medium"` or `"large"`)
@@ -11,9 +11,9 @@
 #' @param \dots   Arguments passed down to [`initialise_table()`]
 #' @export
 create_tab10 <- function(pri = NULL,
-                         name = "overweight-4y-3",
+                         outcome = "overweight-4y",
                          script = NULL,
-                         palet = c("mandarin", "redgrey"),
+                         palet = NULL,
                          display = c("medium", "large", "default"),
                          centile = TRUE,
                          seed = NULL,
@@ -23,13 +23,12 @@ create_tab10 <- function(pri = NULL,
     stopifnot(pri >= 0 & pri <= 1)
   }
 
+  # hack
+  name <- "overweight-4y-3"
+  if (outcome == "preterm-37w") name <- "preterm-37w-1"
+
   # Set colors
-  palettes <- list(
-    mandarin = c("#33B882", "#D55E00", "#FF0000BB", "black", "blue"),
-    redgrey = c("#999999", "red", "#D55E00", "black", "blue")
-  )
-  palet <- match.arg(palet)
-  colors <- palettes[[palet]]
+  colors <- pick_palette(palet)
 
   # Set display size
   display <- match.arg(display)
@@ -62,20 +61,14 @@ create_tab10 <- function(pri = NULL,
   }
   stopifnot(all(hasName(script, names(tab10::scripts))))
 
-  # Set data
-  if (!is.null(seed)) {
-    set.seed(seed)
-  }
-  yp <- load_predictions(script$outcome[1L])
-  yp <- draw_cases(y = as.integer(yp$y), p = yp$p)
-  data <- make_coordinates(script = script,
-                           case = as.logical(yp$y),
-                           p = yp$p,
-                           centile = centile)
-  riskgroup <- calculate_riskgroup(pri, data)
+  # Create framedata
+  framedata <- create_framedata(outcome = outcome, seed = seed)
+
+  # Calculate riskgroup for target
+  riskgroup <- calculate_riskgroup(pri, framedata)
 
   # Process frame text
-  script <- glue_frametext(data, script, colors, riskgroup)
+  script <- glue_frametext(framedata, script, colors, riskgroup)
   if (!is.null(dpar$width)) {
     script <- script |>
       mutate(
@@ -84,7 +77,7 @@ create_tab10 <- function(pri = NULL,
   }
 
   # Create display
-  f1 <- initialise_table(data = data,
+  f1 <- initialise_table(data = framedata,
                          script = script,
                          colors = colors,
                          width = dpar$width,

@@ -26,8 +26,8 @@ make_coordinates <- function(script, case, p, centile = TRUE) {
       framename = framenames[.data$frame],
       p = p,
       pct = pct,
-      pt = paste("P:", formatC(.data$p, width = 6L, format = "d", flag = "0")),
-      gp = 1 + (.data$pct - 1) %/% 10,
+      pt = paste("P:", formatC(.data$pct, width = 2L, format = "d")),
+      gp = (.data$pct - 1) %/% 10,
       case = case,
       hit = ifelse(.data$pct > quantile(.data$pct, probs = 1 - !!prv / 100),
         TRUE, FALSE

@@ -45,7 +45,7 @@ initialise_table <- function(
                      font = list(size = xaxis_titlefont_size,
                                  color = "transparent"),
                      standoff = 0),
-        ticktext = sprintf("<b>%s</b>", as.character(1:10)),
+        ticktext = sprintf("<b>%s</b>", as.character(0:9)),
         tickfont = list(size = xaxis_tickfont_size,
                         color = "transparent"),
         tickvals = 1:10,

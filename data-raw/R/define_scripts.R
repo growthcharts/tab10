@@ -4,6 +4,7 @@ script_overweight_4y_2 <- tibble::tibble(
   name = "overweight-4y-2",
   outcome = "overweight-4y",
   version = "2",
+  last = FALSE,
   language = "nl",
   frame = seq(8),
   framename =
@@ -48,6 +49,7 @@ script_overweight_4y_3 <- tibble::tibble(
   name = "overweight-4y-3",
   outcome = "overweight-4y",
   version = "3",
+  last = TRUE,
   language = "nl",
   frame = seq(8),
   framename =
@@ -96,6 +98,7 @@ script_preterm_37w_1 <- tibble::tibble(
   name = "preterm-37w-1",
   outcome = "preterm-37w",
   version = "1",
+  last = TRUE,
   language = "nl",
   frame = seq(8),
   framename =

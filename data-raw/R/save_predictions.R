@@ -40,3 +40,14 @@ predictions_pt <- tibble(outcome = "preterm-37w",
 predictions <- bind_rows(predictions_ov, predictions_pt)
 
 usethis::use_data(predictions, overwrite = TRUE)
+
+# update risk_rank_data
+risk_rank_data <- lapply(unique(tab10::predictions$outcome),
+                         tab10:::create_framedata,
+                         seed = 1) |>
+  dplyr::bind_rows() |>
+  dplyr::filter(frame == 1L) |>
+  dplyr::select(all_of(c("outcome", "p", "pct"))) |>
+  dplyr::arrange(outcome, pct)
+
+usethis::use_data(risk_rank_data, overwrite = TRUE)

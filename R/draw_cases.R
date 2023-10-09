@@ -4,10 +4,15 @@
 #' @param p       Vector of predicted probabilities. Same length as `y`
 #' @param probs   Vector of cut points to define group quantiles
 #' @param ntab    Total n in the table of 10
+#' @param seed    Random generated seed for `set.seed()`
 #' @author Stef van Buuren, Aug 2023
-draw_cases <- function(y, p, probs = seq(0, 1, 0.1), ntab = 100L) {
+draw_cases <- function(y, p, probs = seq(0, 1, 0.1), ntab = 100L, seed = NULL) {
   op <- options(dplyr.summarise.inform = FALSE)
   on.exit(options(op))
+
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
 
   y <- as.integer(y)
   n <- length(y)

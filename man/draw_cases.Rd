@@ -4,7 +4,7 @@
 \alias{draw_cases}
 \title{Draws 100 labeled records from the case and prediction vector}
 \usage{
-draw_cases(y, p, probs = seq(0, 1, 0.1), ntab = 100L)
+draw_cases(y, p, probs = seq(0, 1, 0.1), ntab = 100L, seed = NULL)
 }
 \arguments{
 \item{y}{Vector of 0 and 1, indicating a non-case and case, respectively}
@@ -14,6 +14,8 @@ draw_cases(y, p, probs = seq(0, 1, 0.1), ntab = 100L)
 \item{probs}{Vector of cut points to define group quantiles}
 
 \item{ntab}{Total n in the table of 10}
+
+\item{seed}{Random generated seed for \code{set.seed()}}
 }
 \description{
 Draws 100 labeled records from the case and prediction vector

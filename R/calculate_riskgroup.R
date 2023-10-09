@@ -1,6 +1,6 @@
 calculate_riskgroup <- function(pri, data) {
   if (is.null(pri)) {
-    return(sample(10, size = 1))
+    return(sample(0:9, size = 1))
   }
   df <- data |>
     filter(.data$frame == 1L) |>
