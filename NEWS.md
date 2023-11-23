@@ -1,3 +1,7 @@
+# tab10 0.5.1
+
+* Adds `pc4` dataset for matching postal codes
+
 # tab10 0.5.0
 
 * Adds `pick_palette()`, `plot_densities()`, `probability_bar()`
