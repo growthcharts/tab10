@@ -9,7 +9,7 @@
 #'                      config ggplotly hide_colorbar
 #'                      layout plot_ly plotly_build
 #' @importFrom rlang    .data
-#' @importFrom stats    quantile
+#' @importFrom stats    approx runif rbinom quantile
 #' @importFrom stringr  str_glue str_wrap
 #' @importFrom tibble   tibble
 #' @importFrom utils    hasName

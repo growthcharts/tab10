@@ -4,6 +4,8 @@ plot_densities <- function(data = tab10::predictions,
                                       grDevices::hcl(0, 100, 40, 0.5)),
                            as_plotly = FALSE) {
   outcome <- match.arg(outcome)
+  # colors <- c(grDevices::hcl(240, 100, 40, 0.5),
+  #             grDevices::hcl(0, 100, 40, 0.5))
 
   data <- data |>
     filter(.data$outcome %in% !! outcome) |>
@@ -15,10 +17,11 @@ plot_densities <- function(data = tab10::predictions,
                              0 ~ colors[1],
                              1 ~ colors[2])
     )
+  print(data)
 
   fig <- suppressWarnings(
     ggplot2::ggplot(data,
-                    aes(x = .data$p, y = after_stat(density),
+                    aes(x = .data$p, y = after_stat(.data$density),
                         fill = .data$fill)) +
       ggplot2::scale_fill_manual(values = colors, guide = "none") +
       ggplot2::geom_histogram(colour = NA, binwidth = 0.01) +

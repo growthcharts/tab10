@@ -1,3 +1,7 @@
+# tab10 0.5.0
+
+* Adds `pick_palette()`, `plot_densities()`, `probability_bar()`
+
 # tab10 0.4.0
 
 * Corrects the incorrect labeling of "very preterm" to "preterm" (GA < 37 weeks)
