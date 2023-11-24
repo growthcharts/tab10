@@ -1,3 +1,9 @@
+# tab10 0.5.2
+
+* Turn app into R package
+* Import functions
+* Precalculate empty BMI chart
+
 # tab10 0.5.1
 
 * Adds `pc4` dataset for matching postal codes
