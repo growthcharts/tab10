@@ -66,3 +66,8 @@
 #' @source Constructed from models fitted by Mirthe Hendriks (2023) using CBS-linked data.
 "betas"
 
+#' Pre-calculated empty BMI chart
+#' @format `emptyplot`
+#' An object of class `c("gg", "ggplot")`
+"emptyplot"
+

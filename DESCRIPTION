@@ -11,14 +11,18 @@ Authors@R:
     person("Stef", "van Buuren", , "stef.vanbuuren@tno.nl", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1098-2119"))
 Depends: 
-    R (>= 2.10),
-    shiny
+    R (>= 2.10)
 Imports: 
+    AGD,
+    bsicons,
+    bslib,
     dplyr,
     ggplot2,
     glue,
     plotly,
+    rhandsontable,
     rlang,
+    shiny,
     stringr,
     tibble,
     utils
