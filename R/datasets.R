@@ -52,3 +52,17 @@
 #' }
 #' @source Taken from a file named `pc4_2022_v1.xlxs`.
 "pc4"
+
+#' Estimated regression weights for predictive models
+#' @format `betas`
+#' A data frame with 4052 rows and 3 columns:
+#' \describe{
+#'   \item{outcome}{Model name}
+#'   \item{Voorspeller}{Predictor name}
+#'   \item{Categorie}{Category for discrete variables. Empty of numerical variables.}
+#'   \item{Gewicht}{Estimated regression weight}
+#'   \item{Modelterm}{Name of model term in the original model (for checking)}
+#' }
+#' @source Constructed from models fitted by Mirthe Hendriks (2023) using CBS-linked data.
+"betas"
+

@@ -25,3 +25,28 @@ calculate_gauge_sectors <- function(
   if (is.na(risk[2L])) risk[2L] <- 1
   list(risk = risk, rank = rank)
 }
+
+#' Inverse logit transform
+#'
+#' @param alpha Linear predictor from logistic regression
+#' @return Probability
+#' @examples
+#' expit(0)
+#' @export
+expit <- function(alpha) {
+  1 / (1 + exp(-alpha))
+}
+
+#' Convert probability to risk rank
+#'
+#' @param p Probability
+#' @param outcome Name of risk model
+#' @return Rank between 1 and 100
+#' @examples
+#' p2rank(c(0, 0.15, 0.2, 0.25, 1), "overweight-4y")
+#' @export
+p2rank <- function(p, outcome = "overweight-4y") {
+  df <- tab10::risk_rank_data |>
+    dplyr::filter(.data$outcome == !!outcome)
+  approx(x = df$p, y = df$pct, xout = p, rule = 2)$y
+}

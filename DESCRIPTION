@@ -11,7 +11,8 @@ Authors@R:
     person("Stef", "van Buuren", , "stef.vanbuuren@tno.nl", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1098-2119"))
 Depends: 
-    R (>= 2.10)
+    R (>= 2.10),
+    shiny
 Imports: 
     dplyr,
     ggplot2,
