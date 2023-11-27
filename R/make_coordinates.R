@@ -1,7 +1,10 @@
 make_coordinates <- function(script, case, p, centile = TRUE) {
   outcome <- script$outcome[1L]
-  nhigh <- 3
-  if (outcome == "preterm-37w") nhigh <- 1
+  nhigh <- switch(outcome,
+                  "overweight-4y" = 3,
+                  "preterm-37w" = 1,
+                  "lang-4y" = 3,
+                  NA_integer_)
 
   nr <- 10L
   nc <- 10L

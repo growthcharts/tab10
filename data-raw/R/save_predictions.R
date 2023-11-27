@@ -1,8 +1,11 @@
+# This script creates the internal variables `predictions` and `riskrank`
+# SvB 20231127
+
 library(dplyr)
 library(readxl)
 library(usethis)
 
-# add classifcation of stedelijkheid as an predictor
+# overweight-4y predictions
 fn <- file.path("data-raw/data/cdf_data.xlsx")
 ov_cum <- read_excel(fn) %>%
   rename(pred1 = "ecdf_pred1",
@@ -18,11 +21,9 @@ predictions_ov <- tibble(outcome = "overweight-4y",
   select(-pr)
 
 
-# premature birth
+# premature birth (<37w) predictions
 set.seed(81991)
-
 fn <- file.path(path.expand("~/Project/zonmw_kansrijke_start/WP4/modellen_CBS/20230817/vroeggeboorte/pretermbirth_cdf_RF.xlsx"))
-
 pt_cum <- read_excel(fn) |>
   rename(pred1 = "pred1_prob",
          pred0 = "pred0_prob") |>
@@ -37,11 +38,24 @@ predictions_pt <- tibble(outcome = "preterm-37w",
   mutate(p = pr) |>
   select(-pr)
 
-predictions <- bind_rows(predictions_ov, predictions_pt)
+# language model predictions
+fn <- file.path(path.expand("~/Project/zonmw_kansrijke_start/WP4/modellen_CBS/20231025/voorspeldekansen_spraaktaal_logistisch.xlsx"))
+lg_cum <- read_excel(fn) |>
+  select(pred1, pred0)
+p1 <- lg_cum$pred1[!is.na(lg_cum$pred1)]
+p0 <- lg_cum$pred0[!is.na(lg_cum$pred0)]
+predictions_lg <- tibble(outcome = "lang-4y",
+                         y = c(rep(1, length(p1)), rep(0, length(p0))),
+                         pr = c(p1, p0)) |>
+  group_by(y) |>
+  mutate(p = pr) |>
+  select(-pr)
+
+predictions <- bind_rows(predictions_ov, predictions_pt, predictions_lg)
 
 usethis::use_data(predictions, overwrite = TRUE)
 
-# update risk_rank_data
+# FIRST UPDATE PACKAGE: R BUILD, then update risk_rank_data
 risk_rank_data <- lapply(unique(tab10::predictions$outcome),
                          tab10:::create_framedata,
                          seed = 1) |>
