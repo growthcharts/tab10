@@ -1,3 +1,9 @@
+# tab10 0.5.3.
+
+* Adds `lang-4y` model estimates to `betas`
+* Extends `predictions` and `riskrank` with `lang-4y` model predictions
+* Duplicates `scripts` for `overweight-4y` to `lang-4y`
+
 # tab10 0.5.2
 
 * Turn app into R package
