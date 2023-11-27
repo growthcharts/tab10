@@ -58,8 +58,8 @@ betas <- data.frame(
                 "", "geslachtvrouwelijk", "",
                 "", "LAND_ETNG_mo1", "LAND_ETNG_mo2", "LAND_ETNG_mo3", "LAND_ETNG_mo4", "LAND_ETNG_mo5", "LAND_ETNG_mo6", "",
                 "", "LAND_ETNG_fa1", "LAND_ETNG_fa2", "LAND_ETNG_fa3", "LAND_ETNG_fa4", "LAND_ETNG_fa5", "LAND_ETNG_fa6", "",
-                "", "educc_mo3_vmbopraktijk", "educc_mo4_vmbomavo", "educc_mo5_mbo", "educc_mo6_havovwo", "educc_mo7_hbo", "educc_mo8_womaster", "educc_mo5_mbo",
-                "", "educc_fa3_vmbopraktijk", "educc_fa4_vmbomavo", "educc_fa5_mbo", "educc_fa6_havovwo", "educc_fa7_hbo", "educc_fa8_womaster", "educc_fa5_mbo",
+                "", "educc_mo3_vmbopraktijk", "educc_mo4_vmbomavo", "educc_mo5_mbo", "educc_mo6_havovwo", "educc_mo7_hbo", "educc_mo8_womaster", "",
+                "", "educc_fa3_vmbopraktijk", "educc_fa4_vmbomavo", "educc_fa5_mbo", "educc_fa6_havovwo", "educc_fa7_hbo", "educc_fa8_womaster", "",
                 "bmi_4wks_znl",
                 "bmi_8wks_znl",
                 "bmi_3mnd_znl",
@@ -72,5 +72,45 @@ betas <- data.frame(
                 "", "par_cat1", "par_cat2", "par_cat3", "par_cat4", "par_cat5", "par_cat6+", "",
                 "STED1", "STED2", "STED3", "STED4", "STED5", "STED4")
 )
+
+# spraaktaal <- read.table("data-raw/data/spraaktaal_lr_updated202310.txt", header = TRUE, sep = "\t", dec = ",")
+
+betas2 <- data.frame(
+  outcome = "lang-4y",
+  Voorspeller = c("Intercept",
+                  rep("Geslacht", 3),
+                  rep("Indruk 2 jaar", 3),
+                  rep("Zin 2 woorden", 4),
+                  rep("Pop 6 lichaamsdelen", 4),
+                  rep("Taalomgeving", 4),
+                  rep("Opleiding moeder", 8),
+                  rep("Opleiding vader", 8)),
+  Categorie = c("",
+                "Jongen", "Meisje", "Onbekend",
+                "Adequaat of sneller", "Langzaam", "Onbekend",
+                "-", "M", "+", "Onbekend",
+                "-", "M", "+", "Onbekend",
+                "Onvoldoende", "Matig", "Voldoende", "Onbekend",
+                "Geen, Basis", "VMBO-P", "VMBO-T, MAVO", "MBO", "HAVO, VWO", "HBO", "WO, MASTER", "Onbekend",
+                "Geen, Basis", "VMBO-P", "VMBO-T, MAVO", "MBO", "HAVO, VWO", "HBO", "WO, MASTER", "Onbekend"),
+  Gewicht = c(-0.286513352324863,
+              0, -0.430578574174847, -0.21528928708742,
+              0, 1.615501748309820, 0,
+              0, -0.039769841489009, -0.546754548690739, -0.546754548690739,
+              0, -0.563001735283379, -0.673103495855247, -0.673103495855247,
+              0, -0.355190827810218, -0.394313244380392, -0.394313244380392,
+              0, -0.308525434208786, -0.574507061660560, -0.671761242576409, -0.715930877000559, -0.915381431780554, -0.842333631212232, -0.671761242576409,
+              0, 0.012360812811356, -0.184655345553734, -0.201956567020010, -0.306151692739636,  -0.317153473652155, -0.223275324461918, -0.201956567020010),
+  Modelterm = c("(Intercept)",
+                "", "geslachtvrouwelijk", "",
+                "", "bst_nllangzaam", "",
+                "", "zin2wM", "zin2w+", "",
+                "", "pop6M ", "pop6+", "",
+                "", "taalomgmatig", "taalomgvoldoende", "",
+                "", "educc_mo3_vmbopraktijk", "educc_mo4_vmbomavo", "educc_mo5_mbo", "educc_mo6_havovwo", "educc_mo7_hbo", "educc_mo8_womaster", "",
+                "", "educc_fa3_vmbopraktijk", "educc_fa4_vmbomavo", "educc_fa5_mbo", "educc_fa6_havovwo", "educc_fa7_hbo", "educc_fa8_womaster", "")
+)
+
+betas <- dplyr::bind_rows(betas, betas2)
 
 usethis::use_data(betas, overwrite = TRUE)
