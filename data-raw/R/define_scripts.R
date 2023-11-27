@@ -198,6 +198,7 @@ script_preterm_37w_1 <- tibble::tibble(
 scripts <- dplyr::bind_rows(
   script_overweight_4y_3,
   script_overweight_4y_2,
+  script_language_4y_1,
   script_preterm_37w_1
 )
 
