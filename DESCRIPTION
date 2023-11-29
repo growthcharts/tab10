@@ -1,7 +1,7 @@
 Package: tab10
 Type: Package
 Title: Apps for project Kansrijke Start
-Version: 0.6.0
+Version: 0.6.1
 Description: The app that implements models to predict future childhood 
     overweight and language deficit at the age of four years. 
     The overweight model is designed to be applied at the age of four months. 
@@ -32,6 +32,8 @@ Imports:
 Suggests:
     MASS
 Remotes: 
-    stefvanbuuren/rhandsontable
+    stefvanbuuren/AGD,
+    stefvanbuuren/rhandsontable,
+    growthcharts/tab10
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
