@@ -20,9 +20,12 @@
 #'                      layout plot_ly plotly_build renderPlotly
 #' @importFrom rlang    .data
 #' @importFrom shiny    imageOutput is.reactive moduleServer NS numericInput
+#'                      observe
 #'                      plotOutput reactive reactiveValues
 #'                      renderImage renderPlot renderText
 #'                      selectInput shinyApp textInput textOutput
+#'                      updateSelectInput
+#' @importFrom shinyjs  useShinyjs
 #' @importFrom stats    approx na.omit runif rbinom quantile
 #' @importFrom stringr  str_glue str_wrap
 #' @importFrom tibble   tibble

@@ -23,9 +23,12 @@ create_tab10 <- function(pri = NULL,
     stopifnot(pri >= 0 & pri <= 1)
   }
 
-  # hack
-  name <- "overweight-4y-3"
-  if (outcome == "preterm-37w") name <- "preterm-37w-1"
+  # set script version
+  name <- switch(outcome,
+                 "overweight-4y" = "overweight-4y-3",
+                 "lang-4y" = "language-4y-1",
+                 "preterm-37w" = "preterm-37w-1",
+                 "overweight-4y-3")
 
   # Set colors
   colors <- pick_palette(palet)

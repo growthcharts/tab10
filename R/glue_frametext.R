@@ -17,6 +17,11 @@ glue_frametext <- function(data, script, colors, riskgroup,
     aproblem <- "overgewicht"
     outcome_age <- "4-jarige"
   }
+  if (outcome == "lang-4y") {
+    aproblem <- "een taalachterstand"
+    outcome_age <- "4-jarige"
+    high <- 3
+  }
   if (outcome == "preterm-37w") {
     aproblem <- "vroeggeboorte"
     outcome_age <- ""
@@ -98,17 +103,17 @@ glue_frametext <- function(data, script, colors, riskgroup,
     "10" = "zeer hoog")
   riskgrouptext <- switch(
     as.character(casecounts[riskgroup + 1]),
-    "0" = "Geen",
-    "1" = "E\u00e9n",
-    "2" = "Twee",
-    "3" = "Drie",
-    "4" = "Vier",
-    "5" = "Vijf",
-    "6" = "Zes",
-    "7" = "Zeven",
-    "8" = "Acht",
-    "9" = "Negen",
-    "10" = "Tien"
+    "0" = "heeft geen kind",
+    "1" = "heeft \u00e9\u00e9n kind",
+    "2" = "hebben twee kinderen",
+    "3" = "hebben drie kinderen",
+    "4" = "hebben vier kinderen",
+    "5" = "hebben vijf kinderen",
+    "6" = "hebben zes kinderen",
+    "7" = "hebben zeven kinderen",
+    "8" = "hebben acht kinderen",
+    "9" = "hebben negen kinderen",
+    "10" = "hebben alle kinderen"
     )
   script$frametext[7L] <-
     glue(script$frametext[7L],

@@ -23,6 +23,7 @@ Imports:
     rhandsontable,
     rlang,
     shiny,
+    shinyjs,
     stringr,
     tibble,
     utils

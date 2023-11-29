@@ -59,7 +59,7 @@ script_overweight_4y_3 <- tibble::tibble(
   frametext = c(
     "We zien hier 100 cirkels. Elke cirkel staat voor één kind. Er \\
          zijn <b>{{ncase}} cirkels met een {{case_color}} kleur</b>. \\
-         Dat zijn de kinderen die op {{outcome_age}} leeftijd \\
+         Dat zijn kinderen die op {{outcome_age}} leeftijd \\
          <b>{{aproblem}}</b> hebben. Bij sommige kinderen \\
          is {{aproblem}} normaal, maar voor de meeste is het niet gezond. \\
          Uit onderzoek weten we dat kinderen met {{aproblem}} op \\
@@ -67,7 +67,7 @@ script_overweight_4y_3 <- tibble::tibble(
     "Hoe vaak komt {{aproblem}} voor bij {{outcome_age}} kinderen? Stel dat \\
          een schoolklas bestaat uit 25 kinderen. In een schoolklas zitten \\
          dan <b>rond de {{approx}} kinderen met {{aproblem}}</b>.",
-    "Kinderen verschillen in de kans op {{aproblem}} Er zijn kinderen \\
+    "Kinderen verschillen in de kans op {{aproblem}}. Er zijn kinderen \\
          met een laag risico, en kinderen met een hoger risico. <b>De app \\
          berekent voor elk kind het risico</b>. We sorteren nu de 100 kinderen \\
          in <b>10 risicogroepen</b>.",
@@ -75,23 +75,23 @@ script_overweight_4y_3 <- tibble::tibble(
          Alle cirkels hebben een {{control_color}} kleur. Geen van deze \\
          kinderen krijgt later {{aproblem}. \\
          Geheel <b>rechts</b> staan de kinderen met het <b>hoogste</b> \\
-         risico. Van de 10 kinderen krijgen er {{casecounts[10]}} \\
+         risico. Van de 10 kinderen hebben er {{casecounts[10]}} \\
          later {{aproblem}} en {{controlcounts[10]}} niet. Een \\
          hoog risico betekent dus niet automatisch dat {{aproblem}} \\
          onvermijdelijk is; wel is de kans op later {{aproblem}} aanzienlijk.",
     "Welke risico op {{aproblem}} is acceptabel? Dat is voor iedereen \\
-         verschillend, maar over het algemeen vinden we een kans van <b>3 \\
+         verschillend, maar voor {{aproblem}} vinden we een kans van <b>3 \\
          of meer van de 10</b> hoog. In de figuur {{nriskgroup}}.",
     "<b>In welke groep zit uw kind?</b>",
     "Op basis van wat we nu weten zit uw kind in <b>risicogroep \\
          {{riskgroup}}</b>. We kunnen niet met zekerheid zeggen of uw kind \\
          later {{aproblem}} zal hebben. Wel is de kans daarop \\
-         <b>{{riskgrouplabel}}</b>: <b>{{riskgrouptext}} van de 10 \\
-         kinderen</b> uit risicogroep <b>{{riskgroup}}</b> heeft op \\
+         <b>{{riskgrouplabel}}</b>. Naar verwachting <b>{{riskgrouptext}}\\
+         </b> uit risicogroep <b>{{riskgroup}}</b> op \\
          {{outcome_age}} leeftijd {{aproblem}}.",
     "Het is mogelijk dat de gebruikte gegevens onjuist of \\
-         onvolledig zijn. Bent u bereid om met mij mee te kijken of \\
-         de app de correcte gegevens gebruikt?"
+         onvolledig zijn. In het tabblad links kunt u kijken of \\
+         de app de correcte gegevens gebruikt."
   ))
 
 script_language_4y_1 <- tibble::tibble(
@@ -109,25 +109,25 @@ script_language_4y_1 <- tibble::tibble(
     "We zien hier 100 cirkels. Elke cirkel staat voor één kind. Er \\
          zijn <b>{{ncase}} cirkels met een {{case_color}} kleur</b>. \\
          Dat zijn de kinderen die op {{outcome_age}} leeftijd \\
-         <b>{{aproblem}}</b> hebben. Bij sommige kinderen \\
-         is {{aproblem}} normaal, maar voor de meeste is het niet gezond. \\
+         <b>{{aproblem}}</b> hebben. \\
          Uit onderzoek weten we dat kinderen met {{aproblem}} op \\
-         {{outcome_age}} leeftijd als volwassene ook vaak te zwaar zijn.",
+         {{outcome_age}} leeftijd ook als volwassene hiervan problemen \\
+         kunnen ervaren.",
     "Hoe vaak komt {{aproblem}} voor bij {{outcome_age}} kinderen? Stel dat \\
          een schoolklas bestaat uit 25 kinderen. In een schoolklas zitten \\
          dan <b>rond de {{approx}} kinderen met {{aproblem}}</b>.",
-    "Kinderen verschillen in de kans op {{aproblem}} Er zijn kinderen \\
+    "Kinderen verschillen in de kans op {{aproblem}}. Er zijn kinderen \\
          met een laag risico, en kinderen met een hoger risico. <b>De app \\
          berekent voor elk kind het risico</b>. We sorteren nu de 100 kinderen \\
          in <b>10 risicogroepen</b>.",
     "Geheel <b>links</b> staan de kinderen met het <b>laagste</b> risico. \\
          Alle cirkels hebben een {{control_color}} kleur. Geen van deze \\
-         kinderen krijgt later {{aproblem}. \\
+         kinderen heeft op {{outcome_age}} {{aproblem}. \\
          Geheel <b>rechts</b> staan de kinderen met het <b>hoogste</b> \\
-         risico. Van de 10 kinderen krijgen er {{casecounts[10]}} \\
+         risico. Van de 10 kinderen hebben er {{casecounts[10]}} \\
          later {{aproblem}} en {{controlcounts[10]}} niet. Een \\
          hoog risico betekent dus niet automatisch dat {{aproblem}} \\
-         onvermijdelijk is; wel is de kans op later {{aproblem}} aanzienlijk.",
+         onvermijdelijk is; wel is de kans op {{aproblem}} aanzienlijk.",
     "Welke risico op {{aproblem}} is acceptabel? Dat is voor iedereen \\
          verschillend, maar over het algemeen vinden we een kans van <b>3 \\
          of meer van de 10</b> hoog. In de figuur {{nriskgroup}}.",
@@ -135,12 +135,12 @@ script_language_4y_1 <- tibble::tibble(
     "Op basis van wat we nu weten zit uw kind in <b>risicogroep \\
          {{riskgroup}}</b>. We kunnen niet met zekerheid zeggen of uw kind \\
          later {{aproblem}} zal hebben. Wel is de kans daarop \\
-         <b>{{riskgrouplabel}}</b>: <b>{{riskgrouptext}} van de 10 \\
-         kinderen</b> uit risicogroep <b>{{riskgroup}}</b> heeft op \\
+         <b>{{riskgrouplabel}}</b>. Naar verwachting <b>{{riskgrouptext}}\\
+         </b> uit risicogroep <b>{{riskgroup}}</b> op \\
          {{outcome_age}} leeftijd {{aproblem}}.",
     "Het is mogelijk dat de gebruikte gegevens onjuist of \\
-         onvolledig zijn. Bent u bereid om met mij mee te kijken of \\
-         de app de correcte gegevens gebruikt?"
+         onvolledig zijn. In het tabblad links kunt u kijken of \\
+         de app de correcte gegevens gebruikt."
   ))
 
 script_preterm_37w_1 <- tibble::tibble(
@@ -191,8 +191,8 @@ script_preterm_37w_1 <- tibble::tibble(
          van de 10 zwangerschappen</b> uit risicogroep <b>{{riskgroup}}</b> \\
          eindigen met een {{aproblem}}.",
     "Het is mogelijk dat de gebruikte gegevens onjuist of \\
-         onvolledig zijn. Bent u bereid om met mij mee te kijken of \\
-         de app de correcte gegevens gebruikt?"
+         onvolledig zijn. In het tabblad links kunt u kijken of \\
+         de app de correcte gegevens gebruikt."
   ))
 
 scripts <- dplyr::bind_rows(
