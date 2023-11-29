@@ -1,9 +1,11 @@
 Package: tab10
 Type: Package
-Title: Explains Probability using the Table of Ten
-Version: 0.5.3
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Title: Apps for project Kansrijke Start
+Version: 0.6.0
+Description: The app that implements models to predict future childhood 
+    overweight and language deficit at the age of four years. 
+    The overweight model is designed to be applied at the age of four months. 
+    The language deficit model is designed to be applied at the age of 24 months.
 License: AGPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -29,5 +31,7 @@ Imports:
     utils
 Suggests:
     MASS
+Remotes: 
+    stefvanbuuren/rhandsontable
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

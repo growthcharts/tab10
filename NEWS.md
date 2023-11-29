@@ -1,3 +1,7 @@
+# tab10 0.6.0
+
+* Adds the `go()` function with a ShinyApps implementation of overweight and language predictions models
+
 # tab10 0.5.3.
 
 * Adds `lang-4y` model estimates to `betas`
