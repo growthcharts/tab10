@@ -37,7 +37,7 @@ months.
 
 ``` r
 library(tab10)
-fig <- create_tab10(palet = "redgrey")
+fig <- create_tab10(palet = "redshadow")
 fig
 ```
 
@@ -50,8 +50,22 @@ locally.
 
 ``` r
 library(tab10)
-fig <- create_tab10(name = "preterm-37w-1", palet = "redgrey")
+fig <- create_tab10(name = "preterm-37w-1", palet = "redshadow")
 fig
 ```
 
 <img src="man/figures/README-preterm-1.png" width="100%" />
+
+## Shiny app
+
+The Shiny app implements models to predict future overweight and
+language deficit at age 4 years. The overweight model is designed to be
+applied at the age of **4 months**. The language deficit modek should be
+applied around the age of **24 months**.
+
+To run the Shiny app on your machine, execute
+
+``` r
+library(tab10)
+go()
+```

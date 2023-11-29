@@ -1,7 +1,8 @@
 #' @importFrom AGD      y2z
 #' @importFrom bsicons  bs_icon
 #' @importFrom bslib    card card_header nav_panel layout_column_wrap
-#'                      layout_columns page_navbar sidebar
+#'                      layout_columns navset_tab page_navbar
+#'                      page_sidebar sidebar
 #'                      value_box value_box_theme
 #' @importFrom dplyr    arrange bind_rows case_match cur_group_id
 #'                      desc filter group_by
@@ -20,12 +21,12 @@
 #'                      layout plot_ly plotly_build renderPlotly
 #' @importFrom rlang    .data
 #' @importFrom shiny    imageOutput is.reactive moduleServer NS numericInput
-#'                      observe
+#'                      observe observeEvent
 #'                      plotOutput reactive reactiveValues
 #'                      renderImage renderPlot renderText
 #'                      selectInput shinyApp textInput textOutput
 #'                      updateSelectInput
-#' @importFrom shinyjs  useShinyjs
+#' @importFrom shinyjs  hide show useShinyjs
 #' @importFrom stats    approx na.omit runif rbinom quantile
 #' @importFrom stringr  str_glue str_wrap
 #' @importFrom tibble   tibble
