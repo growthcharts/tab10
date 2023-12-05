@@ -44,13 +44,15 @@
 
 #' Postal codes (4-digits) of The Netherlands with covariates.
 #' @format `pc4`
-#' A data frame with 4052 rows and 3 columns:
+#' A data frame with 4095 rows and 5 columns:
 #' \describe{
 #'   \item{pc4}{Postal code}
 #'   \item{sted}{Urbanicity, 5 levels 1 = low, 5 = high}
 #'   \item{woz}{Average WOZ (house) value in postal code}
+#'   \item{gemeente2020}{community identifyer}
+#'   \item{COROP}{Administrative region (COROP Netherlands)}
 #' }
-#' @source Taken from a file named `pc4_2022_v1.xlxs`.
+#' @source Taken from a file named `pc4_woz_corop.csv`.
 "pc4"
 
 #' Estimated regression weights for predictive models

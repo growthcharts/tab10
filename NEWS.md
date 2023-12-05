@@ -1,3 +1,9 @@
+# tab10 0.6.1.9000
+
+* Create ToT script for `preterm-32w` outcome
+* Extend `pc4` table with `gemeente2020` and `COROP` columns
+* Update `predictions` and `betas` with logistic model `preterm-32w`
+
 # tab10 0.6.1 
 
 * Specify package locations for ShinyApps
