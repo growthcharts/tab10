@@ -21,16 +21,13 @@ predictions_ov <- tibble(outcome = "overweight-4y",
   select(-pr)
 
 
-# premature birth (<37w) predictions
+# premature birth (<32w) predictions
 set.seed(81991)
-fn <- file.path(path.expand("~/Project/zonmw_kansrijke_start/WP4/modellen_CBS/20230817/vroeggeboorte/pretermbirth_cdf_RF.xlsx"))
-pt_cum <- read_excel(fn) |>
-  rename(pred1 = "pred1_prob",
-         pred0 = "pred0_prob") |>
-  select(pred1, pred0)
+fn <- file.path(path.expand("~/Project/zonmw_kansrijke_start/WP4/modellen_CBS/20231130/voorspeldekansen_vroeggeboorte_logreg_vroeg24_37.xlsx"))
+pt_cum <- read_excel(fn)
 p1 <- pt_cum$pred1[!is.na(pt_cum$pred1)]
 p0 <- pt_cum$pred0[!is.na(pt_cum$pred0)]
-predictions_pt <- tibble(outcome = "preterm-37w",
+predictions_pt <- tibble(outcome = "preterm-32w",
                          y = c(rep(1, length(p1)), rep(0, length(p0))),
                          pr = c(p1, p0)) |>
   slice_sample(n = 10000) |>
@@ -56,10 +53,12 @@ predictions <- bind_rows(predictions_ov, predictions_pt, predictions_lg)
 usethis::use_data(predictions, overwrite = TRUE)
 
 # FIRST UPDATE PACKAGE: R BUILD, then update risk_rank_data
-risk_rank_data <- lapply(unique(tab10::predictions$outcome),
-                         tab10:::create_framedata,
-                         seed = 1) |>
-  dplyr::bind_rows() |>
+risk_rank_ov <- tab10:::create_framedata("overweight-4y", ntab = 100, seed = 1)
+risk_rank_lg <- tab10:::create_framedata("lang-4y", ntab = 100, seed = 1)
+risk_rank_pt <- tab10:::create_framedata("preterm-32w", ntab = 1000, seed = 1)
+
+risk_rank_data <-
+  dplyr::bind_rows(risk_rank_ov, risk_rank_lg, risk_rank_pt) |>
   dplyr::filter(frame == 1L) |>
   dplyr::select(all_of(c("outcome", "p", "pct"))) |>
   dplyr::arrange(outcome, pct)

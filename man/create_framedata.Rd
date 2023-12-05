@@ -4,12 +4,14 @@
 \alias{create_framedata}
 \title{Create frame data}
 \usage{
-create_framedata(outcome = "overweight-4y", seed = NULL)
+create_framedata(outcome = "overweight-4y", seed = NULL, ntab = 100)
 }
 \arguments{
 \item{outcome}{Character}
 
 \item{seed}{Seed value}
+
+\item{ntab}{Integer, either 100 or 1000}
 }
 \description{
 Creates a data frame with 800 rows divided over 8 animation frames

@@ -111,6 +111,8 @@ betas2 <- data.frame(
                 "", "educc_fa3_vmbopraktijk", "educc_fa4_vmbomavo", "educc_fa5_mbo", "educc_fa6_havovwo", "educc_fa7_hbo", "educc_fa8_womaster", "")
 )
 
+betas_pt <- read.table("data-raw/data/vroeg24_37_betas.txt", sep = "\t", header = TRUE, dec = ",", row.names = NULL)
+
 betas <- dplyr::bind_rows(betas, betas2)
 
 usethis::use_data(betas, overwrite = TRUE)

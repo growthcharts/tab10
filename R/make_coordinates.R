@@ -1,4 +1,17 @@
-make_coordinates <- function(script, case, p, centile = TRUE) {
+make_coordinates <- function(script, case, p, centile = TRUE, ntab = 100) {
+  if (ntab == 100) {
+    return(make_coordinates_100(script = script, case = case, p = p, centile = centile))
+  }
+  if (ntab == 1000) {
+    return(make_coordinates_1000(script = script, case = case, p = p, centile = centile))
+  }
+}
+
+make_coordinates_1000 <- function(script, case, p, centile = TRUE) {
+  return(NULL)
+}
+
+make_coordinates_100 <- function(script, case, p, centile = TRUE) {
   outcome <- script$outcome[1L]
   nhigh <- switch(outcome,
                   "overweight-4y" = 3,
@@ -33,7 +46,7 @@ make_coordinates <- function(script, case, p, centile = TRUE) {
       gp = (.data$pct - 1) %/% 10,
       case = case,
       hit = ifelse(.data$pct > quantile(.data$pct, probs = 1 - !!prv / 100),
-        TRUE, FALSE
+                   TRUE, FALSE
       )
     )
 
@@ -95,8 +108,8 @@ make_coordinates <- function(script, case, p, centile = TRUE) {
 
 set_case_label <- function(case, language) {
   noyes <- switch(language,
-    nl = c("nee", "ja"),
-    en = c("no", "yes")
+                  nl = c("nee", "ja"),
+                  en = c("no", "yes")
   )
   return(noyes[1L + case])
 }
