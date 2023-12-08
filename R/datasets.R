@@ -73,3 +73,13 @@
 #' An object of class `c("gg", "ggplot")`
 "emptyplot"
 
+#' COROP area of The Netherlands
+#' @format `corop`
+#' A data frame with 40 rows and 3 columns:
+#' \describe{
+#'   \item{corop}{COROP number}
+#'   \item{naam}{COROP name}
+#'   \item{gemeenten}{Communities}
+#' }
+#' @source Taken from a file named `corop.txt`.
+"corop"

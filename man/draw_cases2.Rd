@@ -4,7 +4,7 @@
 \alias{draw_cases2}
 \title{Draws 100 labeled records from the case and prediction vector}
 \usage{
-draw_cases2(y, p, ntab = 100L, seed = NULL)
+draw_cases2(y, p, ntab = 10000L, seed = NULL)
 }
 \arguments{
 \item{y}{Vector of 0 and 1, indicating a non-case and case, respectively}
@@ -19,11 +19,11 @@ draw_cases2(y, p, ntab = 100L, seed = NULL)
 Draws 100 labeled records from the case and prediction vector
 }
 \examples{
-set.seed(1)
-y <- rbinom(2716, 1, 0.2)
-p <- runif(2716, max = 0.5)
-cc <- tab10:::draw_cases2(y, p)
-
+pred <- tab10::predictions
+y <- pred[pred$outcome == "preterm-32w", "y"]
+p <- pred[pred$outcome == "preterm-32w", "p"]
+cc <- tab10:::draw_cases2(y, p, ntab = 10000)
+sum(cc$y)
 }
 \author{
 Stef van Buuren, Aug 2023

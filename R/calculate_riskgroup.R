@@ -1,6 +1,7 @@
-calculate_riskgroup <- function(pri, data) {
+calculate_riskgroup <- function(pri, data, ntab = 100) {
+  maxgrp <- ifelse(ntab == 100, 9, 99)
   if (is.null(pri)) {
-    return(sample(0:9, size = 1))
+    return(sample(0:maxgrp, size = 1))
   }
   df <- data |>
     filter(.data$frame == 1L) |>

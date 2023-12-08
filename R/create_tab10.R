@@ -8,6 +8,7 @@
 #' @param display Display size, either `"medium"` or `"large"`)
 #' @param centile Logical. Tooltips as centiles (default) or as absolute risk
 #' @param seed    Seed value
+#' @param ntab    Number of points in table (either 100 or 10000)
 #' @param \dots   Arguments passed down to [`initialise_table()`]
 #' @export
 create_tab10 <- function(pri = NULL,
@@ -17,6 +18,7 @@ create_tab10 <- function(pri = NULL,
                          display = c("medium", "large", "default"),
                          centile = TRUE,
                          seed = NULL,
+                         ntab = 100,
                          ...) {
   pri <- pri[1L]
   if (!is.null(pri)) {
@@ -28,6 +30,7 @@ create_tab10 <- function(pri = NULL,
                  "overweight-4y" = "overweight-4y-3",
                  "lang-4y" = "language-4y-1",
                  "preterm-37w" = "preterm-37w-1",
+                 "preterm-32w" = "preterm-32w-1",
                  "overweight-4y-3")
 
   # Set colors
@@ -65,13 +68,13 @@ create_tab10 <- function(pri = NULL,
   stopifnot(all(hasName(script, names(tab10::scripts))))
 
   # Create framedata
-  framedata <- create_framedata(outcome = outcome, seed = seed)
+  framedata <- create_framedata(outcome = outcome, seed = seed, ntab = ntab)
 
   # Calculate riskgroup for target
-  riskgroup <- calculate_riskgroup(pri, framedata)
+  riskgroup <- calculate_riskgroup(pri, framedata, ntab = ntab)
 
   # Process frame text
-  script <- glue_frametext(framedata, script, colors, riskgroup)
+  script <- glue_frametext(framedata, script, colors, riskgroup, ntab = ntab)
   if (!is.null(dpar$width)) {
     script <- script |>
       mutate(
@@ -89,10 +92,12 @@ create_tab10 <- function(pri = NULL,
                          xaxis_tickfont_size = dpar$xaxis_tickfont$size,
                          xaxis_titlefont_size = dpar$xaxis_titlefont$size,
                          frametext_size = dpar$frametext$size,
-                         yshift = dpar$frametext$yshift)
+                         yshift = dpar$frametext$yshift,
+                         ntab = ntab)
   f2 <- annotate_table(f1,
                        script = script,
                        colors = colors,
-                       riskgroup = riskgroup)
+                       riskgroup = riskgroup,
+                       ntab = ntab)
   f2
 }

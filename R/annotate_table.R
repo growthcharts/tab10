@@ -1,5 +1,6 @@
 annotate_table <- function(fig, script, colors, riskgroup,
-                           frametext_size = 16, nhigh = 3) {
+                           frametext_size = 16, nhigh = 3,
+                           ntab = 100) {
   outcome <- script$outcome[1L]
   if (outcome == "preterm-37w") {
     nhigh <- 1
@@ -14,7 +15,7 @@ annotate_table <- function(fig, script, colors, riskgroup,
                   type = "line", y0 = nhigh - 0.5, y1 = nhigh - 0.5,
                   x0 = 0.5, x1 = 10.5,
                   line = list(color = colors[4L], dash = "dot", width = 3),
-                  visible = ifelse(name == "hoog", TRUE, FALSE)
+                  visible = ifelse(name == "hoog" && ntab == 100, TRUE, FALSE)
                 )
 
                 # rounded rectangle
@@ -23,7 +24,7 @@ annotate_table <- function(fig, script, colors, riskgroup,
                   path = rounded_rectangle(x0 = 1 + riskgroup - 0.52,
                                            x1 = 1 + riskgroup + 0.52,
                                            y0 = 0.2,
-                                           y1 = 10.8,
+                                           y1 = ifelse(ntab == 100, 10.8, 108),
                                            h = 0.55),
                   fillcolor = colors[5L],
                   opacity = 0.3,

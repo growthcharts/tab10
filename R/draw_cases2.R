@@ -6,24 +6,24 @@
 #' @param seed    Random generated seed for `set.seed()`
 #' @author Stef van Buuren, Aug 2023
 #' @examples
-#' set.seed(1)
-#' y <- rbinom(2716, 1, 0.2)
-#' p <- runif(2716, max = 0.5)
-#' cc <- tab10:::draw_cases2(y, p)
-#'
-draw_cases2 <- function(y, p, ntab = 100L, seed = NULL) {
+#' pred <- tab10::predictions
+#' y <- pred[pred$outcome == "preterm-32w", "y"]
+#' p <- pred[pred$outcome == "preterm-32w", "p"]
+#' cc <- tab10:::draw_cases2(y, p, ntab = 10000)
+#' sum(cc$y)
+draw_cases2 <- function(y, p, ntab = 10000L, seed = NULL) {
   op <- options(dplyr.summarise.inform = FALSE)
   on.exit(options(op))
 
   if (ntab == 100L) {
     probs <- seq(0, 1, 0.1)
     correction <- 0.01
-    col_height <- 10
+    row_height <- 10
   }
-  if (ntab == 1000L) {
+  if (ntab == 10000L) {
     probs <- seq(0, 1, 0.01)
     correction <- 0.001
-    col_height <- 100
+    row_height <- 100
   }
 
   if (!is.null(seed)) {
@@ -32,36 +32,22 @@ draw_cases2 <- function(y, p, ntab = 100L, seed = NULL) {
 
   y <- as.integer(y)
   n <- length(y)
+  stopifnot(length(y) == 10000)
   stopifnot(length(y) == length(p))
 
   q <- quantile(p, probs = probs)
+  q[1L] <- q[1L] - correction
   q[length(q)] <- q[length(q)] + correction
   df <- data.frame(y = y, p = p) |>
     mutate(g = cut(.data$p, breaks = q, labels = FALSE)) |>
     filter(!is.na(.data$g))
 
-  nc <- df |>
-    group_by(.data$g, as.factor(.data$y), .drop = FALSE) |>
-    summarise(size = n(),
-              n = as.integer(round(sum(.data$y) / n * ntab)),
-              gid = cur_group_id()) |>
-    mutate(n = ifelse(.data$`as.factor(.data$y)` == "0", 10L - lead(.data$n), .data$n))
-  nc <- nc |>
-    mutate(y = as.numeric(.data$`as.factor(.data$y)`) - 1)
-
-  # create records for empty g/y combinations in the data
-  pad <- nc[nc$size == 0, c("g", "y")]
-  pad$p <- NA
-  for (i in seq_len(nrow(pad))) {
-    pad$p[i] <- sample(df[df$g == pad$g[i] & df$y == (1 - pad$y[i]), "p"], size = 1)
-  }
-  df <- bind_rows(df, pad)
-
   draw <- df |>
+    arrange(.data$p) |>
+    mutate(g = rep(0:99, each = 100)) |>
     group_by(.data$g, .data$y) |>
-    dplyr::slice_sample(n = 10L, replace = TRUE) |>
     mutate(gid = cur_group_id(),
-           id = 1L:n()) |>
-    filter(nc$n[cur_group_id()] > 0 & .data$id %in% 1L:nc$n[cur_group_id()])
+           id = 1:n())
   draw
 }
+

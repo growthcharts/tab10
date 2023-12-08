@@ -12,6 +12,7 @@ create_tab10(
   display = c("medium", "large", "default"),
   centile = TRUE,
   seed = NULL,
+  ntab = 100,
   ...
 )
 }
@@ -30,6 +31,8 @@ create_tab10(
 \item{centile}{Logical. Tooltips as centiles (default) or as absolute risk}
 
 \item{seed}{Seed value}
+
+\item{ntab}{Number of points in table (either 100 or 10000)}
 
 \item{\dots}{Arguments passed down to \code{\link[=initialise_table]{initialise_table()}}}
 }

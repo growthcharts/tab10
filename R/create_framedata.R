@@ -12,7 +12,12 @@ create_framedata <- function(outcome = "overweight-4y",
     filter(.data$outcome == !! outcome)
   script <- tab10::scripts |>
     filter(.data$outcome == !! outcome & .data$last)
-  yp <- draw_cases2(y = as.integer(yp$y), p = yp$p, seed = seed, ntab = ntab)
+  if (ntab == 100) {
+    yp <- draw_cases(y = as.integer(yp$y), p = yp$p, seed = seed)
+  }
+  if (ntab == 10000) {
+    yp <- draw_cases2(y = as.integer(yp$y), p = yp$p, seed = seed)
+  }
   framedata <- make_coordinates(script = script,
                                 case = as.logical(yp$y),
                                 p = yp$p,

@@ -207,33 +207,34 @@ script_preterm_32w_1 <- tibble::tibble(
       "vervolg"),
   frameshow = rep(TRUE, 8),
   frametext = c(
-    "We zien hier 1000 cirkels. Elke cirkel staat voor één zwangerschap. Er \\
+    "We zien hier 10.000 cirkels. Elke cirkel staat voor één zwangerschap. Er \\
          zijn <b>{{ncase}} cirkels met een {{case_color}} kleur</b>. \\
          Dat zijn de zwangerschappen die eindigen met een \\
          <b>{{aproblem}}</b>, \\
          d.w.z., bij een zwangerschapsduur tussen de 24 en 32 volledige weken. \\
          Uit onderzoek weten we dat te vroeg geboren kinderen kwetsbaar \\
          zijn.",
-    "Hoe vaak komt {{aproblem}} voor? Stel we hebben twee schoolbussen, \\
-         elk met 40 zitplaatsen. Stel dat op iedere plaats een zwangere \\
-         vrouw zit. Uit deze <b>80 zwangerschappen</b> zal dan gemiddeld
-         <b>1 kind te vroeg geboren</b> worden.",
+    "Hoe vaak komt {{aproblem}} voor? De kans is niet zo groot. \\
+         Gemiddeld zal bij <b>één op de 120 zwangerschappen</b> \\
+         het kind te vroeg geboren worden. Een groep van 120 mensen \\
+         vult twee touringcars.",
     "Zwangerschappen verschillen in de kans op {{aproblem}}. Er zijn \\
          zwangerschappen met een laag risico, en zwangerschappen met een \\
          hoger risico. <b>De app berekent voor elke zwangerschap het \\
-         risico</b>. We sorteren nu de 1000 zwangerschappen \\
+         risico</b>. We sorteren nu de 10.000 zwangerschappen \\
          in <b>100 risicogroepen</b>.",
-    "<b>Links-boven</b> staan de zwangerschappen met het \\
+    "<b>Links</b> staan de zwangerschappen met het \\
          <b>laagste</b> risico. Alle cirkels hebben een {{control_color}} \\
          kleur. Geen van deze zwangerschappen eindigt in {{aproblem}. \\
-         <b>Rechts-beneden</b> staan de zwangerschappen met het <b>hoogste</b> \\
-         risico. Van de 10 zwangerschappen eindigt er {{casecounts[10]}} \\
-         met een {{aproblem}} en {{controlcounts[10]}} niet. Een \\
+         <b>Rechts</b> staan de zwangerschappen met het <b>hoogste</b> \\
+         risico. Van de 100 zwangerschappen eindigen er ongeveer
+         {{casecounts[100]}} \\
+         met een {{aproblem}} en {{controlcounts[100]}} niet. Een \\
          hoog risico betekent dus niet automatisch dat {{aproblem}} \\
          onvermijdelijk is.",
     "Welke risico op {{aproblem}} is acceptabel? Gezien de ernst van de \\
-         mogelijke gevolgen voor moeder en kind vinden we een kans van <b>1 \\
-         op de 10</b> hoog. In de figuur {{nriskgroup}}.",
+         mogelijke gevolgen voor moeder en kind vinden we een kans \\
+         <b>hoger dan {{high}} van de 100</b> hoog. In de figuur {{nriskgroup}}.",
     "<b>In welke risicogroep valt uw zwangerschap?</b>",
     "Op basis van wat we nu weten behoort uw zwangerschap tot <b>risicogroep \\
          {{riskgroup}}</b>. We kunnen niet met zekerheid zeggen of uw \\

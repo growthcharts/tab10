@@ -113,6 +113,96 @@ betas2 <- data.frame(
 
 betas_pt <- read.table("data-raw/data/vroeg24_37_betas.txt", sep = "\t", header = TRUE, dec = ",", row.names = NULL)
 
-betas <- dplyr::bind_rows(betas, betas2)
+b <- betas_pt |>
+  dplyr::rename(Modelterm = term, Gewicht = estimate) |>
+  dplyr::select(Gewicht, Modelterm)
+
+betas3 <- data.frame(
+  outcome = "preterm-32w",
+  Voorspeller = c("Intercept",
+                  rep("Geslacht", 3),
+                  rep("# vroeggeboorten 24-37w", 6),
+                  rep("In voorafgaande zwangerschap", 3),
+                  rep("# voorafgaande SGA", 8),
+                  rep("SGA voorafgaande zwangerschap", 3),
+                  rep("Interpregnantie interval", 8),
+                  rep("Amenorroeduur bij start", 4),
+                  rep("Graviditeit", 11),
+                  rep("Opleiding vader", 7),
+                  rep("Opleiding moeder", 7),
+                  rep("Leeftijd vader", 14),
+                  "Leeftijd moeder",
+                  rep("Rol moeder in huishouden", 7),
+                  rep("Besteedbaar inkomen", 5),
+                  rep("Woningbezit", 4),
+                  rep("Stedelijkheid", 6),
+                  rep("COROP", 41)
+                  ),
+  Categorie = c("",
+                "Jongen", "Meisje", "Onbekend",
+                "0", "1", "2", "3", "3+", "Onbekend",
+                "Nee", "Ja", "Onbekend",
+                "nvt", "0", "1", "2", "3", "4", "5+", "Onbekend",
+                "Nee", "Ja", "Onbekend",
+                "nvt", "<6 maanden", "6-12 maanden", "12-18 maanden", "18-24 maanden", "24-30 maanden", ">30 maanden", "Onbekend",
+                "0-70 dagen", "71-112 dagen", ">112 dagen", "Onbekend",
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10+", "Onbekend",
+                "Basis", "VMBO", "MBO 2", "MBO 3-4", "HAVO, VWO", "HBO, WO", "Onbekend",
+                "Basis", "VMBO", "MBO 2", "MBO 3-4", "HAVO, VWO", "HBO, WO", "Onbekend",
+                "11-15", "16-20", "21-25", "26-30", "31-35", "36-40", "41-45", "46-50", "51-55", "56-60", "61-65", "66-70", "71+", "Onbekend",
+                "",
+                "Thuiswonend met kind", "Alleenstaand zonder kind", "Partner zonder kind", "Partner met kind", "Alleenstaand met kind", "Overig", "Onbekend",
+                "Bestaansminimum", "Laag", "Midden", "Hoog", "Onbekend",
+                "Eigen woning", "Huurwoning met huurtoeslag", "Huurwoning zonder huurtoeslag", "Onbekend",
+                "Zeer sterk stedelijk", "Sterk stedelijk", "Matig stedelijk", "Weinig stedelijk", "Niet stedelijk", "Onbekend",
+                as.character(1:40), "Onbekend"
+                ),
+  Gewicht = c(-4.11456,
+              0.15755, 0, 0.0788,
+              0, 0.85600, 1.56311, 2.00407, 1.85500, 0,
+              -0.77686, 0, -0.77686,
+              -0.37915, 0, 0.19996, 0.25924, 0.09993, 0.55989, 0.7, 0,
+              -0.34721, 0, -0.34721,
+              0, 0, -0.33455, -0.37582, -0.32799, -0.20056, -0.12802, -0.33455,
+              -1.50162, -1.29536, 0, -1.50162,
+              0, -0.01764, 0.08170, 0.18084, 0.19788, 0.26294, 0.55335, 0.51417, 0.16134, 0.54555, 0,
+              0, 0.01648, -0.00188,  0.00707, -0.10510, -0.10331, -0.10331,
+              0, 0.05771 , 0.09742, -0.03059, -0.15792, -0.23708, -0.23708,
+              0, -0.04547, -0.21405, -0.17445, -0.21861, -0.15837, -0.13287, -0.19448, -0.11592, -0.30729, 0.18739, -0.45842, 1.11727, 0.27224,
+              0.03524,
+              0, 0.06858, 0.19389, -0.09040, 0.00937, -0.14929, -0.09040,
+              0, 0.11409, 0.08139, 0.04201, 0.08139,
+              0, 0.13728, 0.02764, 0,
+              0, 0.01952, -0.01638, -0.00872, -0.00700, 0.01952,
+               0,        0.75159,  0.06330, -0.02294, -0.09145,  0.04601,  0.20688,  0.23944,  0.10548,  0.14874,
+               0.12201,  0.02671,  0.08536,  0.03316, -0.04124,  0.20961, -0.07001, -0.30398, -0.23648, -0.08267,
+               0.06137,  0.15810, -0.11126, -0.18731, -0.21829,  0.00493,  0.01843, -0.06419, -0.07486, -0.02569,
+              -1.32074, -0.38305,  0.09960,  0.04648, -0.04535,  0.04759, -0.21735,  0.10607,  0.00802, -0.02772,
+              0
+              ),
+  Modelterm = c("(Intercept)",
+                "geslmannelijk", "", "",
+                "", "N_vroeg_24_371", "N_vroeg_24_372", "N_vroeg_24_373", "N_vroeg_24_373+", "",
+                "vooraf_zw_vroeg_24_37nee", "", "",
+                "N_vooraf_sganvt", "", "N_vooraf_sga1", "N_vooraf_sga2", "N_vooraf_sga3", "N_vooraf_sga4", "N_vooraf_sga5+**", "",
+                "", "vooraf_sganee", "",
+                "", "interpreg_cat<6 months", "interpreg_cat6-12 months", "interpreg_cat12-18 months", "interpreg_cat18-24 months", "interpreg_cat24-30 months", "interpreg_cat>30 months", "",
+                "amddd1ond_cat0-70 dagen", "amddd1ond_cat71 - 112 dagen", "", "",
+                "", "grav_cat2", "grav_cat3", "grav_cat4", "grav_cat5", "grav_cat6", "grav_cat7", "grav_cat8", "grav_cat9", "grav_cat10+", "",
+                "", "educationlevel_favmbo_hg", "educationlevel_fambo2", "educationlevel_fambo3_4", "educationlevel_fahavovwo_hg", "educationlevel_fahbo_wo", "Onbekend",
+                "", "educationlevel_movmbo_hg", "educationlevel_mombo2", "educationlevel_mombo3_4", "educationlevel_mohavovwo_hg", "educationlevel_mohbo_wo", "Onbekend",
+                "", "age_at_concp_fa_cat16 - 21", "age_at_concp_fa_cat21 - 26", "age_at_concp_fa_cat26 - 31", "age_at_concp_fa_cat31 - 36",
+                "age_at_concp_fa_cat36 - 41", "age_at_concp_fa_cat41 - 46", "age_at_concp_fa_cat46 - 51", "age_at_concp_fa_cat51 - 56",
+                "age_at_concp_fa_cat56 - 61", "age_at_concp_fa_cat61 - 66", "age_at_concp_fa_cat66 - 71", "age_at_concp_fa_cat71+", "age_at_concp_fa_catvader_NA",
+                "lft_concep",
+                "", "plhh_partner_childalleenstd_znd_kind", "plhh_partner_childpartner_znd_kind", "plhh_partner_childpartner_met_kind", "plhh_partner_childalleenstd_met_kind", "plhh_partner_childoverig", "",
+                "", "income_hh_mo_catlaag", "income_hh_mo_catmidden", "income_hh_mo_cathoog", "",
+                "", "house_ownership_moHuurwoning met huurtoeslag", "house_ownership_moHuurwoning zonder huurtoslag", "",
+                "", "STED_mo2", "STED_mo3", "STED_mo4", "STED_mo5", "",
+                "01", "02", "03", "04", "05", "06", "07", "08", "09", as.character(10:40), ""
+                )
+  )
+
+betas <- dplyr::bind_rows(betas, betas2, betas3)
 
 usethis::use_data(betas, overwrite = TRUE)

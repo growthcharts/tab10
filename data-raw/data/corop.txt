@@ -1,0 +1,41 @@
+corop	naam	gemeenten
+01	Oost-Groningen	Oldambt, Pekela, Stadskanaal, Veendam, Westerwolde
+02	Delfzijl en omgeving	Eemsdelta
+03	Overig Groningen	Groningen, Het Hogeland, Midden-Groningen, Westerkwartier
+04	Noord-Friesland	Achtkarspelen, Ameland, Dantumadeel, Harlingen, Leeuwarden, Noardeast-Fryslan, Schiermonnikoog, Terschelling, Tietjerksteradeel, Vlieland, Waadhoeke
+05	Zuidwest-Friesland	De Friese Meren, Sudwest-Fryslan
+06	Zuidoost-Friesland	Heerenveen, Ooststellingwerf, Opsterland, Smallingerland, Weststellingwerf
+07	Noord-Drenthe	Aa en Hunze, Assen, Midden-Drenthe, Noordenveld, Tynaarlo
+08	Zuidoost-Drenthe	Borger-Odoorn, Coevorden, Emmen
+09	Zuidwest-Drenthe	Hoogeveen, Meppel, Westerveld, De Wolden
+10	Noord-Overijssel	Dalfsen, Hardenberg, Kampen, Ommen, Staphorst, Steenwijkerland, Zwartewaterland, Zwolle
+11	Zuidwest-Overijssel	Deventer, Olst-Wijhe, Raalte
+12	Twente	Almelo, Borne, Dinkelland, Enschede, Haaksbergen, Hellendoorn, Hengelo, Hof van Twente, Losser, Oldenzaal, Rijssen-Holten, Tubbergen, Twenterand, Wierden
+13	Veluwe	Apeldoorn, Barneveld, Ede, Elburg, Epe, Ermelo, Harderwijk, Hattem, Heerde, Nijkerk, Nunspeet, Oldebroek, Putten, Scherpenzeel, Voorst, Wageningen
+14	Achterhoek	Aalten, Berkelland, Bronckhorst, Brummen, Doetinchem, Lochem, Montferland, Oost Gelre, Oude IJsselstreek, Winterswijk, Zutphen
+15	Arnhem/Nijmegen	Arnhem, Berg en Dal, Beuningen, Doesburg, Druten, Duiven, Heumen, Lingewaard, Nijmegen, Overbetuwe, Renkum, Rheden, Rozendaal, Westervoort, Wijchen, Zevenaar
+16	Zuidwest-Gelderland	Buren, Culemborg, Maasdriel, Neder-Betuwe, Tiel, West Betuwe, West Maas en Waal, Zaltbommel
+17	Utrecht	Amersfoort, Baarn, De Bilt, Bunnik, Bunschoten, Eemnes, Houten, IJsselstein, Leusden, Lopik, Montfoort, Nieuwegein, Oudewater, Renswoude, Rhenen, De Ronde Venen, Soest, Stichtse Vecht, Utrecht, Utrechtse Heuvelrug, Veenendaal, Vijfheerenlanden, Wijk bij Duurstede, Woerden, Woudenberg, Zeist
+18	Kop van Noord-Holland	Den Helder, Drechterland, Enkhuizen, Hollands Kroon, Hoorn, Koggenland, Medemblik, Opmeer, Schagen, Stede Broec, Texel
+19	Alkmaar en omgeving	Alkmaar, Bergen, Dijk en Waard, Heiloo
+20	IJmond	Beverwijk, Castricum, Heemskerk, Uitgeest, Velsen
+21	Agglomeratie Haarlem	Bloemendaal, Haarlem, Heemstede, Zandvoort
+22	Zaanstreek	Wormerland, Zaanstad
+23	Groot-Amsterdam	Aalsmeer, Amstelveen, Amsterdam, Diemen, Edam-Volendam, Haarlemmermeer, Landsmeer, Oostzaan, Ouder-Amstel, Purmerend, Uithoorn, Waterland
+24	Het Gooi en Vechtstreek	Blaricum, Gooise Meren, Hilversum, Huizen, Laren, Wijdemeren
+25	Agg Leiden en Bollenstreek	Hillegom, Kaag en Braassem, Katwijk, Leiden, Leiderdorp, Lisse, Noordwijk, Oegstgeest, Teylingen, Voorschoten, Zoeterwoude
+26	Agg s-Gravenhage	Den Haag, Leidschendam-Voorburg, Pijnacker-Nootdorp, Rijswijk, Wassenaar, Zoetermeer
+27	Delft en Westland	Delft, Midden-Delfland, Westland
+28	Oost-Zuid-Holland	Alphen aan den Rijn, Bodegraven-Reeuwijk, Gouda, Krimpenerwaard, Nieuwkoop, Waddinxveen
+29	Groot-Rijnmond	Albrandswaard, Barendrecht, Capelle aan den IJssel, Goeree-Overflakkee, Hoeksche Waard, Krimpen aan den IJssel, Lansingerland, Maassluis, Nissewaard, Ridderkerk, Rotterdam, Schiedam, Vlaardingen, Voorne aan Zee, Zuidplas
+30	Zuidoost-Zuid-Holland	Alblasserdam, Dordrecht, Gorinchem, Hardinxveld-Giessendam, Hendrik-Ido-Ambacht, Molenlanden, Papendrecht, Sliedrecht, Zwijndrecht
+31	Zeeuws-Vlaanderen	Hulst, Sluis, Terneuzen
+32	Overig Zeeland	Borsele, Goes, Kapelle, Middelburg, Noord-Beveland, Reimerswaal, Schouwen-Duiveland, Tholen, Veere, Vlissingen
+33	West-Noord-Brabant	Bergen op Zoom, Breda, Drimmelen, Etten-Leur, Geertruidenberg, Halderberge, Moerdijk, Oosterhout, Roosendaal, Rucphen, Steenbergen, Woensdrecht, Zundert
+34	Midden-Noord-Brabant	Alphen-Chaam, Altena, Baarle-Nassau, Dongen, Gilze en Rijen, Goirle, Hilvarenbeek, Loon op Zand, Oisterwijk, Tilburg, Waalwijk
+35	Noordoost-Noord-Brabant	Bernheze, Boekel, Boxtel, Land van Cuijk, s-Hertogenbosch, Heusden, Maashorst, Meierijstad, Oss, Sint-Michielsgestel, Vught
+36	Zuidoost-Noord-Brabant	Asten, Bergeijk, Best, Bladel, Cranendonck, Deurne, Eersel, Eindhoven, Geldrop-Mierlo, Gemert-Bakel, Heeze-Leende, Helmond, Laarbeek, Nuenen, Gerwen en Nederwetten, Oirschot, Reusel-De Mierden, Someren, Son en Breugel, Valkenswaard, Veldhoven, Waalre
+37	Noord-Limburg	Beesel, Bergen, Gennep, Horst aan de Maas, Mook en Middelaar, Peel en Maas, Venlo, Venray
+38	Midden-Limburg	Echt-Susteren, Leudal, Maasgouw, Nederweert, Roerdalen, Roermond, Weert
+39	Zuid-Limburg	Beek, Beekdaelen, Brunssum, Eijsden-Margraten, Gulpen-Wittem, Heerlen, Kerkrade, Landgraaf, Maastricht, Meerssen, Simpelveld, Sittard-Geleen, Stein, Vaals, Valkenburg aan de Geul, Voerendaal
+40	Flevoland	Almere, Dronten, Lelystad, Noordoostpolder, Urk, Zeewolde

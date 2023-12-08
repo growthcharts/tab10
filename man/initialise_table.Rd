@@ -14,7 +14,8 @@ initialise_table(
   frametext_size = 16,
   xaxis_tickfont_size = 16,
   xaxis_titlefont_size = 20,
-  yshift = -100
+  yshift = -100,
+  ntab = 100
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ initialise_table(
 \item{xaxis_titlefont_size}{X-axis title font size}
 
 \item{yshift}{Frame-text box vertical parameter}
+
+\item{ntab}{Number of elements, either 100 or 10000}
 }
 \description{
 Initialise a table of 10
