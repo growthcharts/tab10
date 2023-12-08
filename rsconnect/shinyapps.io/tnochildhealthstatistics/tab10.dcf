@@ -1,0 +1,10 @@
+name: tab10
+title: Tafel van Tien
+username: tnochildhealthstatistics
+account: tnochildhealthstatistics
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10664656
+bundleId:
+url: https://tnochildhealthstatistics.shinyapps.io/tab10/
+version: 1
