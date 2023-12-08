@@ -327,7 +327,7 @@ ui <- page_sidebar(
         "Spraaktaal 4 jaar" = "lang-4y",
         "Vroeggeboorte <32w" = "preterm-32w"
       ),
-      selected = "preterm-32w"
+      selected = "overweight-4y"
     ),
     selectInput(
       inputId = "color",
@@ -366,7 +366,7 @@ ui <- page_sidebar(
         )
       )
     ),
-    selected = "Gegevens"
+    selected = "GIZ"
   ),
   card(
     id = "card2",
@@ -420,7 +420,7 @@ ui <- page_sidebar(
           plotly::plotlyOutput("tab10_pt")
         )
       ),
-      selected = "Gegevens"
+      selected = "GIZ"
     )
   )
 )
