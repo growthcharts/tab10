@@ -57,12 +57,16 @@ fig
 
 ## Shiny app 
 
-The Shiny app implements models to predict future overweight and language deficit at age 4 years. The overweight model is designed to be applied at the age of **4 months**. The language deficit modek should be applied around the age of **24 months**.
+The Shiny app implements models to predict
 
-To run the Shiny app on your machine, execute
+- overweight at age 4 years from data at age 4 months;
+- language deficit at age 4 years from data at age 2 years;
+- preterm birth (<32 weeks) at week 16-20 of pregnancy.
+
+To run the Shiny app background in RStudio viewer, select the file `shiny/shiny-run.R` in editor, in tab "Background Jobs" press "Start Background Job", check that "script path" ends in `shiny/shiny-run.R` and that "working directory" is `shiny`, then press `Start`. Go to Console and run
 
 ```{r, eval=FALSE}
-library(tab10)
-go()
+rstudioapi::viewer("http://127.0.0.1:4276")
 ```
 
+You can then see live changes made in `shiny/app.R` in the viewer.
