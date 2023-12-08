@@ -1,5 +1,6 @@
-# tab10 0.6.1.9000
+# tab10 0.7.0
 
+* Creates implementation of data viewer and ToT for `preterm-32` logistic model
 * Create ToT script for `preterm-32w` outcome
 * Extend `pc4` table with `gemeente2020` and `COROP` columns
 * Update `predictions` and `betas` with logistic model `preterm-32w`
