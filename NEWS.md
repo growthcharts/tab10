@@ -1,3 +1,7 @@
+# tab10 0.7.1
+
+* Set start-up screen and model to GIZ/overweight-4y
+
 # tab10 0.7.0
 
 * Creates implementation of data viewer and ToT for `preterm-32` logistic model
