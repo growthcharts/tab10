@@ -394,7 +394,7 @@ ui <- page_sidebar(
       ),
       selected = "GIZ"
     )
-  ),
+  )%>% hidden(),
   card(
     id = "card3",
     card_header("Bezoek: 16-20 weken zwangerschap | Uitkomst: Vroeggeboorte <32 weken"),
@@ -422,7 +422,7 @@ ui <- page_sidebar(
       ),
       selected = "GIZ"
     )
-  )
+  )%>% hidden()
 )
 
 server <- function(input, output, session) {
