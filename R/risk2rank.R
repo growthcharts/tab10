@@ -1,13 +1,14 @@
 risk2rank <- function(outcome, risk) {
   df <- tab10::risk_rank_data |>
     dplyr::filter(.data$outcome == !! outcome)
-  approx(x = df$p, y = df$pct, xout = risk, rule = 2)$y
+  approx(x = df$p, y = df$pct, xout = risk, rule = 2, ties = list("ordered", mean))$y
 }
+
 
 rank2risk <- function(outcome, rank) {
   df <- tab10::risk_rank_data |>
     dplyr::filter(.data$outcome == !! outcome)
-  approx(x = df$pct, y = df$p, xout = rank, rule = 2)$y
+  approx(x = df$pct, y = df$p, xout = rank, rule = 2, ties = list("ordered", mean))$y
 }
 
 calculate_gauge_sectors <- function(
@@ -48,5 +49,5 @@ expit <- function(alpha) {
 p2rank <- function(p, outcome = "overweight-4y") {
   df <- tab10::risk_rank_data |>
     dplyr::filter(.data$outcome == !!outcome)
-  approx(x = df$p, y = df$pct, xout = p, rule = 2)$y
+  approx(x = df$p, y = df$pct, xout = p, rule = 2, ties = list("ordered", mean))$y
 }
