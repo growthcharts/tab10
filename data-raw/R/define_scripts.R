@@ -188,7 +188,7 @@ script_preterm_37w_1 <- tibble::tibble(
          kind te vroeg geboren zal worden. \\
          Wel is de kans daarop \\
          <b>{{riskgrouplabel}}</b>. Naar verwachting zal <b>{{riskgrouptext}} \\
-         van de 10 zwangerschappen</b> uit risicogroep <b>{{riskgroup}}</b> \\
+         </b> uit risicogroep <b>{{riskgroup}}</b> \\
          eindigen met een {{aproblem}}.",
     "Het is mogelijk dat de gebruikte gegevens onjuist of \\
          onvolledig zijn. In het tabblad links kunt u kijken of \\
@@ -241,7 +241,7 @@ script_preterm_32w_1 <- tibble::tibble(
          kind te vroeg geboren zal worden. \\
          Wel is de kans daarop \\
          <b>{{riskgrouplabel}}</b>. Naar verwachting zal <b>{{riskgrouptext}} \\
-         van de 10 zwangerschappen</b> uit risicogroep <b>{{riskgroup}}</b> \\
+         </b> uit risicogroep <b>{{riskgroup}}</b> \\
          eindigen met een {{aproblem}}.",
     "Het is mogelijk dat de gebruikte gegevens onjuist of \\
          onvolledig zijn. In het tabblad links kunt u kijken of \\
