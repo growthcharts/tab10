@@ -37,7 +37,7 @@ make_coordinates_10000 <- function(script, case, p, centile = TRUE) {
       p = p,
       pct = pct,
       pt = paste("P:", formatC(.data$pct, width = 2L, format = "d")),
-      gp = (.data$pct - 1) %/% 100,
+      gp = ((.data$pct - 1) %/% 100)+1,
       case = case,
       hit = ifelse(.data$pct > quantile(.data$pct, probs = 1 - !!prv / 10000),
                    TRUE, FALSE
@@ -130,7 +130,7 @@ make_coordinates_100 <- function(script, case, p, centile = TRUE) {
       p = p,
       pct = pct,
       pt = paste("P:", formatC(.data$pct, width = 2L, format = "d")),
-      gp = (.data$pct - 1) %/% 10,
+      gp = ((.data$pct - 1) %/% 10)+1,
       case = case,
       hit = ifelse(.data$pct > quantile(.data$pct, probs = 1 - !!prv / 100),
                    TRUE, FALSE
