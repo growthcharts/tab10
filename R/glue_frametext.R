@@ -79,11 +79,11 @@ glue_frametext <- function(data, script, colors, riskgroup,
     nriskgroup <- switch(
       as.character(nhigh),
       "0" = "voldoet geen enkele risicogroup aan dit criterium",
-      "1" = "voldoet alleen groep 9 aan dit criterium",
-      "2" = "voldoen groepen 8 en 9 aan dit criterium",
-      "3" = "voldoen groepen 7, 8 en 9 aan dit criterium",
-      "4" = "voldoen groepen 6, 7, 8 en 9 aan dit criterium",
-      "5" = "voldoen groepen 5, 6, 7, 8 en 9 aan dit criterium",
+      "1" = "voldoet alleen groep 10 aan dit criterium",
+      "2" = "voldoen groepen 9 en 10 aan dit criterium",
+      "3" = "voldoen groepen 8, 9 en 10 aan dit criterium",
+      "4" = "voldoen groepen 7, 8, 9 en 10 aan dit criterium",
+      "5" = "voldoen groepen 6, 7, 8, 9 en 10 aan dit criterium",
       "voldoen er meer dan vijf groepen aan dit criterium")
   }
   if (ntab == 10000) {
@@ -107,7 +107,7 @@ glue_frametext <- function(data, script, colors, riskgroup,
   relax <- 0
   if (outcome %in% c("preterm-37w", "preterm-32w")) relax <- 1
   riskgrouplabel <- switch(
-    as.character(casecounts[riskgroup + 1] + relax),
+    as.character(casecounts[riskgroup] + relax),
     "0" = "laag",
     "1" = "laag, maar niet verwaarloosbaar",
     "2" = "behoorlijk",
@@ -120,7 +120,7 @@ glue_frametext <- function(data, script, colors, riskgroup,
     "9" = "zeer hoog",
     "10" = "zeer hoog")
   riskgrouptext <- switch(
-    as.character(casecounts[riskgroup + 1]),
+    as.character(casecounts[riskgroup]),
     "0" = "heeft geen kind",
     "1" = "heeft \u00e9\u00e9n kind",
     "2" = "hebben twee kinderen",
@@ -135,7 +135,7 @@ glue_frametext <- function(data, script, colors, riskgroup,
   )
   if (outcome %in% c("preterm-37w", "preterm-32w")) {
     riskgrouptext <- switch(
-      as.character(casecounts[riskgroup + 1]),
+      as.character(casecounts[riskgroup]),
       "0" = "geen van de 100 zwangerschappen",
       "1" = "\u00e9\u00e9n van de 100 zwangerschappen",
       "2" = "twee van de 100 zwangerschappen",
