@@ -21,8 +21,8 @@ annotate_table <- function(fig, script, colors, riskgroup,
                 # rounded rectangle
                 rr <- list(
                   type = "path",
-                  path = rounded_rectangle(x0 = 1 + riskgroup - 0.52,
-                                           x1 = 1 + riskgroup + 0.52,
+                  path = rounded_rectangle(x0 = riskgroup - 0.52,
+                                           x1 = riskgroup + 0.52,
                                            y0 = 0.2,
                                            y1 = ifelse(ntab == 100, 10.8, 108),
                                            h = 0.55),
