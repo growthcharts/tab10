@@ -145,20 +145,42 @@ initialise_table_1000 <- function(
     xaxis_titlefont_size,
     yshift) {
   x_range <- c(0, 101)
-  x_tickvals <- seq(0, 100, by = 10)
-  x_ticktxt <- as.character(x_tickvals)
+  x_tickvals <- seq(0, 101, by = 10.1) #tick values for added grid lines
+  x_ticktxt <- as.character(seq(0, 100, by = 10))
   y_range <- c(0, 101)
+  y_tickvals <- seq(0, 101, by = 10.1) ##tick values for added grid lines
+  y_ticktxt <- as.character(seq(0, 100, by = 10))
   size <- size / 100
   anim_frame <- 4000
   anim_transition <- 3000
 
+  #add rectangle
+  my_rectangle <- list(
+    type = "rect",
+    fillcolor = colors[1L],
+    line = list(color = "black"),
+    opacity = 0.3,
+    x0 = "0",
+    x1 = "101",
+    xref = "x",
+    y0 = 0,
+    y1 = 101,
+    yref = "y"
+  )
+
+
+
   fig <- data |>
+    #add filter to remove controls to speed up visual
+    dplyr::filter(case == TRUE) |>
+   # dplyr::filter(!frame == 5 & y < 3) |>
     plot_ly(
       x = ~x,
       y = ~y,
       size = I(size),
       color = ~case,
-      colors = colors[1L:2L],
+      #colors = colors[1L:2L],
+      colors = colors[2L], #use only color of cases
       frame = ~framename,
       text = ~pt,
       hoverinfo = "text",
@@ -170,8 +192,12 @@ initialise_table_1000 <- function(
     ) |>
     animation_opts(frame = anim_frame, transition = anim_transition)
 
+
   fig <- fig |>
+
+
     plotly::layout(
+      shapes = list(my_rectangle),
       xaxis = list(
         range = x_range,
         title = list(text = "<b>Risicogroep</b>",
@@ -180,20 +206,30 @@ initialise_table_1000 <- function(
                      standoff = 0),
         ticktext = sprintf("<b>%s</b>", x_ticktxt),
         tickfont = list(size = xaxis_tickfont_size,
-                        color = "transparent"),
+                        color = "black"),
         tickvals = x_tickvals,
         scaleratio = 1,
         scaleanchor = "y",
         visible = TRUE,
-        showgrid = FALSE,
-        zeroline = FALSE
+        showgrid = TRUE, #show gridlines
+        zeroline = FALSE,
+        gridwith = 10,
+        gridcolor = "#f0f1f2"
       ),
       yaxis = list(
         range = y_range,
+        #add tickvalues to make sure gridlines appear
+        ticktext = sprintf("<b>%s</b>", y_ticktxt),
+        tickfont = list(size = xaxis_tickfont_size,
+                        color = "black"),
+        tickvals = y_tickvals,
         title = "",
-        visible = FALSE,
-        showgrid = FALSE,
-        zeroline = FALSE
+        visible = TRUE,
+        showgrid = TRUE, #show gridlines
+        zeroline = FALSE,
+        gridwith = 10,
+        gridcolor = "#f0f1f2"
+
       ),
       margin = list(
         b = 80 + 150
@@ -213,7 +249,7 @@ initialise_table_1000 <- function(
         text = script$frametext[1L],
         font = list(size = frametext_size)
       )
-    )
+     )
   fig <- fig |>
     hide_colorbar()
   fig <- fig |>
