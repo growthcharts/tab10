@@ -22,7 +22,11 @@ annotate_table <- function(fig, script, colors, riskgroup,
                   y0 = 0,
                   y1 = 101,
                   yref = "y",
+<<<<<<< HEAD
                   visible = ifelse(i <= 4 && ntab == 10000, TRUE, FALSE)
+=======
+                  visible = ifelse(i <= 4, TRUE, FALSE)
+>>>>>>> c7495afc1f7b495a1721dfa88a6f17f246a09332
                 )
 
 
