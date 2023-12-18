@@ -10,12 +10,34 @@ annotate_table <- function(fig, script, colors, riskgroup,
               function(i) {
                 name <- fig$x$frames[[i]]$name
 
+                #background rectangle
+                my_rectangle <- list(
+                  type = "rect",
+                  fillcolor = colors[1L],
+                  line = list(color = "black"),
+                  opacity = 0.3,
+                  x0 = "0",
+                  x1 = "101",
+                  xref = "x",
+                  y0 = 0,
+                  y1 = 101,
+                  yref = "y",
+                  visible = ifelse(i <= 4, TRUE, FALSE)
+                )
+
+
                 # cut-off line
                 vline <- list(
                   type = "line", y0 = nhigh - 0.5, y1 = nhigh - 0.5,
                   x0 = 0.5, x1 = 10.5,
                   line = list(color = colors[4L], dash = "dot", width = 3),
                   visible = ifelse(name == "hoog" && ntab == 100, TRUE, FALSE)
+                )
+                vline <- list(
+                  type = "line", y0 = nhigh - 0.5, y1 = nhigh - 0.5,
+                  x0 = 0.5, x1 = 100.5,
+                  line = list(color = colors[4L], dash = "dot", width = 1),
+                  visible = ifelse(name == "hoog" && ntab == 10000, TRUE, FALSE)
                 )
 
                 # rounded rectangle
@@ -33,11 +55,24 @@ annotate_table <- function(fig, script, colors, riskgroup,
                   visible = ifelse(name %in% c("uitslag", "vervolg"), TRUE, FALSE)
                 )
 
-                textcolor <- ifelse(i <= 3, "transparent", "black")
+                shapes <- list(my_rectangle, vline, rr)
+
+                textcolor.rg <- ifelse(i <= 3, "transparent", "black")
+                textcolor.ti <- ifelse(i == 3, "transparent", "black")
+                gridcolors <- ifelse(i == 1 | i == 3, "#f0f1f2", "transparent")
+                gridcolors <- ifelse(i == 2, "#b8b8b8", gridcolors)
                 xaxis <- list(
-                  title = list(font = list(color = textcolor)),
-                  tickfont = list(color = textcolor)
+                  title = list(font = list(color = textcolor.rg)),
+                  tickfont = list(color = textcolor.ti),
+                  gridcolor = gridcolors
                 )
+
+                textcolor.tiy <- ifelse(i > 2 && ntab == 10000, "transparent", "black")
+                yaxis <- list(
+                  tickfont = list(color = textcolor.tiy),
+                  gridcolor = gridcolors
+                )
+
 
                 ann <- list(
                   text = script$frametext[i],
@@ -47,8 +82,9 @@ annotate_table <- function(fig, script, colors, riskgroup,
                                             frametext_size + 8,
                                             frametext_size))
                 )
-                fig$x$frames[[i]]$layout <<- list(shapes = list(vline, rr),
+                fig$x$frames[[i]]$layout <<- list(shapes = shapes,
                                                   xaxis = xaxis,
+                                                  yaxis = yaxis,
                                                   annotations = list(ann))
                 invisible()
               })
