@@ -49,7 +49,7 @@ initialise_table_100 <- function(
     yshift) {
   x_range <- c(0, 11)
   x_tickvals <- 1:10
-  x_ticktxt <- as.character(0:9)
+  x_ticktxt <- as.character(1:10)
   y_range <- c(0, 11)
   anim_frame <- 1400
   anim_transition <- 700
