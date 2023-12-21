@@ -158,8 +158,8 @@ initialise_table_1000 <- function(
   my_rectangle <- list(
     type = "rect",
     fillcolor = colors[1L],
-    line = list(color = "black"),
-    opacity = 0.3,
+    line = list(color = "transparent"),
+    opacity = 0.1,
     x0 = "0",
     x1 = "101",
     xref = "x",
@@ -204,8 +204,8 @@ initialise_table_1000 <- function(
                      font = list(size = xaxis_titlefont_size,
                                  color = "transparent"),
                      standoff = 0),
-        ticktext = sprintf("<b>%s</b>", x_ticktxt),
-        tickfont = list(size = xaxis_tickfont_size,
+        ticktext = x_ticktxt,
+        tickfont = list(size = xaxis_tickfont_size/2,
                         color = "black"),
         tickvals = x_tickvals,
         scaleratio = 1,
@@ -219,8 +219,8 @@ initialise_table_1000 <- function(
       yaxis = list(
         range = y_range,
         #add tickvalues to make sure gridlines appear
-        ticktext = sprintf("<b>%s</b>", y_ticktxt),
-        tickfont = list(size = xaxis_tickfont_size,
+        ticktext = y_ticktxt, #sprintf("<b>%s</b>", y_ticktxt),
+        tickfont = list(size = xaxis_tickfont_size/2,
                         color = "black"),
         tickvals = y_tickvals,
         title = "",

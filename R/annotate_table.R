@@ -14,31 +14,31 @@ annotate_table <- function(fig, script, colors, riskgroup,
                 my_rectangle <- list(
                   type = "rect",
                   fillcolor = colors[1L],
-                  line = list(color = "black"),
-                  opacity = 0.3,
+                  line = list(color = "transparent"),
+                  opacity = 0.1,
                   x0 = "0",
                   x1 = "101",
                   xref = "x",
                   y0 = 0,
                   y1 = 101,
                   yref = "y",
-                  visible = ifelse(i <= 4 && ntab == 10000, TRUE, FALSE)
+                  visible = ifelse(ntab == 10000, TRUE, FALSE)
                 )
 
 
                 # cut-off line
                 vline <- list(
                   type = "line", y0 = nhigh - 0.5, y1 = nhigh - 0.5,
-                  x0 = 0.5, x1 = 10.5,
-                  line = list(color = colors[4L], dash = "dot", width = 3),
-                  visible = ifelse(name == "hoog" && ntab == 100, TRUE, FALSE)
+                  x0 = 0.5, x1 = ifelse(ntab == 100, 10.5, 100.5),
+                  line = list(color = colors[4L], dash = "dot", width = ifelse(ntab == 100, 3, 1)),
+                  visible = ifelse(name == "hoog", TRUE, FALSE)
                 )
-                vline <- list(
-                  type = "line", y0 = nhigh - 0.5, y1 = nhigh - 0.5,
-                  x0 = 0.5, x1 = 100.5,
-                  line = list(color = colors[4L], dash = "dot", width = 1),
-                  visible = ifelse(name == "hoog" && ntab == 10000, TRUE, FALSE)
-                )
+               # vline <- list(
+              #    type = "line", y0 = nhigh - 0.5, y1 = nhigh - 0.5,
+              #    x0 = 0.5, x1 = 100.5,
+              #    line = list(color = colors[4L], dash = "dot", width = 1),
+              #    visible = ifelse(name == "hoog" && ntab == 10000, TRUE, FALSE)
+              #  )
 
                 # rounded rectangle
                 rr <- list(
@@ -58,12 +58,19 @@ annotate_table <- function(fig, script, colors, riskgroup,
                 shapes <- list(my_rectangle, vline, rr)
 
                 textcolor.rg <- ifelse(i <= 3, "transparent", "black")
-                textcolor.ti <- ifelse(i == 3, "transparent", "black")
+                textcolor.ti <- ifelse(i <= 3, "transparent", "black")
+
+                textcolor.ti <- ifelse(ntab == 10000 && i < 3, "black", textcolor.ti)
+
+                txtfont.ti <- ifelse(i > 3, "Arial Black", "")
+                txtsize.ti <- ifelse(i > 3, 20, "")
+
                 gridcolors <- ifelse(i == 1 | i == 3, "#f0f1f2", "transparent")
                 gridcolors <- ifelse(i == 2, "#b8b8b8", gridcolors)
+
                 xaxis <- list(
                   title = list(font = list(color = textcolor.rg)),
-                  tickfont = list(color = textcolor.ti),
+                  tickfont = list(color = textcolor.ti, family = txtfont.ti, size = txtsize.ti),
                   gridcolor = gridcolors
                 )
 
