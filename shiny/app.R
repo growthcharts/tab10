@@ -9,6 +9,98 @@ library(shinyjs)
 # Note: Use local version for R 4.3
 # https://github.com/jrowen/rhandsontable/pull/431
 
+#updateSelectInput
+#jamestryout heeft voorgeprogrammeerde kinderen
+#jamesdemo repo
+#current.target reactive om obv kind selectie juiste data in te lezen
+# Some isolate nodig om keten te breken als je anders in loop terecht komt.
+# functie die reactieve schema in kaart brengt om te zien wat de volgorde is.
+
+##example children data ----
+library(bdsreader)
+library(bdsmodels)
+
+tgt_p$psn <-
+  tibble::tibble_row(
+    id = 122,
+    name = "Maria",
+    dob = as.Date("2018-10-11"),
+    dobm = as.Date("1990-12-02"),
+    dobf = as.Date('1995-07-04'),
+    src = 1234,
+    dnr = NA,
+    sex = "female",
+    gad = 189,
+    ga = 27,
+    smo = 1,
+    bw = 990,
+    hgtm = 167,
+    hgtf = 190,
+    agem = NA,
+    etn = "Nederlands",
+    pc4 = "2343",
+    blbf = 6030,
+    blbm = 6030,
+    eduf = 5,
+    edum = 4,
+    par = 1
+  )
+
+tgt_p$xyz <-
+  tibble::tibble(age = c(0.0849, 0.167, 0,0.0849, 0.167, 0.0849, 0.167, 0,0.0849, 0.167, 2, 2, 2, 2),
+                 # xname = rep("age", 10),
+                 yname = c("hgt", "hgt", "wgt", "wgt","wgt", "hdc", "hdc", "bmi", "bmi", "bmi", "ddicmm041", "ddicmm042", "bds823", "bds816"),
+                 y = c(38,43.5,0.99,1.25,2.1,27,30.5,NA,8.66,11.1, 1, 1, 2, 3))
+
+#collect_predictors(tgt_p)
+
+
+tgt_o$psn <-
+  tibble::tibble_row(
+    id = 124,
+    name = "Laura",
+    dob = as.Date("2018-6-11"),
+    dobm = as.Date("1986-12-02"),
+    dobf = as.Date('1984-07-04'),
+    src = 1234,
+    dnr = NA,
+    sex = "female",
+    gad = 276,
+    ga = 39,
+    smo = 0,
+    bw = 3121,
+    hgtm = 168,
+    hgtf = 185,
+    agem = NA,
+    etn = "Nederlands",
+    pc4 = 3451,
+    blbf = 6030,
+    blbm = 6030,
+    eduf = 6,
+    edum = 7,
+    par = 2
+  )
+
+tgt_o$xyz <-
+  tibble::tibble(age = c(0, 0.101, 0.159, 0.236,0.350, 0.753, 1.02, 1.25, 2.04,
+                         0, 0.101, 0.159, 0.236,0.350, 0.753, 1.02, 1.25, 2.04,
+                         0, 0.101, 0.159, 0.236,0.350, 0.753, 1.02, 1.25, 2.04,
+                         2.04,2.04,2.04,2.04),
+                 yname = c(rep("hgt",9), rep("wgt",9),rep("bmi",9), "ddicmm041", "ddicmm042", "bds823", "bds816"),
+                 y = c(48,53.5,56,58.5,65.5,71.5,75,80,90,
+                       2.949,4.179,4.986,5.715,7.937,9.662,10.406,11.904,13.932,
+
+
+                       12.8,14.6,15.9,16.7,18.5,18.9,18.5,18.6,17.2,
+                       1, 1, 1, 1))
+
+#collect_predictors(tgt_o)
+
+
+
+
+
+## input card OV-----
 cards_ov <- list(
   father = card(
     card_header("Vader"),
@@ -81,6 +173,7 @@ cards_ov <- list(
   growth = card(
     card_header("Groei"),
     rHandsontableOutput("hot")
+
   ),
   result = card(
     card_header("Resultaat"),
@@ -103,6 +196,7 @@ cards_ov <- list(
   )
 )
 
+## input card LG----
 cards_lg <- list(
   result = card(
     card_header("Resultaat"),
@@ -182,6 +276,7 @@ cards_lg <- list(
   )
 )
 
+## input card PT----
 cards_pt <- list(
   result = card(
     card_header("Resultaat"),
@@ -312,6 +407,7 @@ cards_pt <- list(
   )
 )
 
+##UI ----
 ui <- page_sidebar(
   useShinyjs(),
   collapsible = TRUE,
@@ -337,8 +433,124 @@ ui <- page_sidebar(
         "Mandarijn" = "mandarin",
         "Rood-grijs" = "redshadow"
       )
+    ),
+    h3("Voorbeeld data"),
+    selectInput(inputId = "cabinet",
+                label = "Data bron",
+                choices = c("-" = "none",
+                            "SMOCK" = "smocc",
+                            "Pinkeltje" = "preterm",
+                            "Graham" = "graham",
+                            "Terneuzen" = "terneuzen",
+                            "Test" = "test"),
+                selected =  "none"),
+    conditionalPanel(
+      condition = "input.cabinet == 'none'",
+      selectInput(inputId = "cpn.none",
+                  label = "Naam kind",
+                  choices = c("-" = "1"),
+                  selected = "1")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'smocc'",
+      selectInput(inputId = "cpn_smocc",
+                  label = "Naam kind",
+                  choices = c("Laura S" = "Laura_S",
+                              "Thomas S" = "Thomas_S",
+                              "Anne S" = "Anne_S",
+                              "Jeroen S" = "Jeroen_S",
+                              "Mark S" = "Mark_S",
+                              "Kevin S" = "Kevin_S",
+                              "Linda S" = "Linda_S",
+                              "Iris S" = "Iris_S",
+                              "Tim S" = "Tim_S",
+                              "Rick S" = "Rick_S"),
+                  selected = "Laura_S")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'preterm'",
+      selectInput(inputId = "cpn.preterm",
+                  label = "Naam kind",
+                  choices = c("Jurre P" = "Jurre_P",
+                              "Sanne P" = "Sanne_P",
+                              "Milan P" = "Milan_P",
+                              "Roos P" = "Roos_P",
+                              "Bram P" = "Bram_P",
+                              "Freek P" = "Freek_P",
+                              "Anouk P" = "Anouk_P",
+                              "Sharon P" = "Sharon_P",
+                              "Nick P" = "Nick_P",
+                              "Simon P" = "Simon_P"),
+                  selected = "Jurre_P")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'graham'",
+      selectInput(inputId = "cpn.graham",
+                  label = "Naam kind",
+                  choices = c("Lotte G" = "Lotte_G",
+                              "Tim G" = "Tim_G",
+                              "Hasna G" = "Hasna_G",
+                              "Naomi G" = "Naomi_G",
+                              "Sven G" = "Sven_G",
+                              "Nikki G" = "Nikki_G",
+                              "Nienke G" = "Nienke_G",
+                              "Femke G" = "Femke_G",
+                              "Bas G" = "Bas_G"),
+                  selected = "Lotto_G")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'terneuzen'",
+      selectInput(inputId = "cpn.terneuzen",
+                  label = "Naam kind",
+                  choices = c("T 163" = "T_163",
+                              "T 1017" = "T_1017",
+                              "T 1413" = "T_1413",
+                              "T 2035" = "T_2035",
+                              "T 2602" = "T_2602",
+                              "T 3254" = "T_3254",
+                              "T 4207" = "T_4207",
+                              "T 5002" = "T_5002",
+                              "T 5270" = "T_5270",
+                              "T 6021" = "T_6021"),
+                  selected = "T_163")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'test'",
+      selectInput(inputId = "cpn.test",
+                  label = "Naam test",
+                  choices = c("Laura" = "laura",
+                              "Maria" = "maria",
+                              "T1 normal file" = "test1",
+                              "T2 No Referentie" = "test2",
+                              "T3 No OrganisatieCode" = "test3",
+                              "T4 OrganisatieCode is string" = "test4",
+                              "T5 No ClientGegevens" = "test5",
+                              "T6 No ContactMomenten" = "test6",
+                              "T7 No Referentie & OrganisatieCode" = "test7",
+                              "T8 Invalid OrganisatieCode" = "test8",
+                              "T9 No bds 19" = "test9",
+                              "T10 No bds 20" = "test10",
+                              "T11 No bds 82" = "test11",
+                              "T12 No bds 91" = "test12",
+                              "T13 No bds 110" = "test13",
+                              "T14 Empty file" = "test14",
+                              "T15 Numeric bds 19 + 62" = "test15",
+                              "T16 Numeric bds 20" = "test16",
+                              "T17 Numeric bds 82" = "test17",
+                              "T18 Numeric bds 91" = "test18",
+                              "T19 Numeric bds 110" = "test19",
+                              "T20 No Groepen" = "test20",
+                              "T21 Minimal JSON" = "test21",
+                              "T22 Range checks" = "test22",
+                              "T23 Num 19 + 62, range 82 + 252, no groepen" = "test23",
+                              "T24 Add ddi" = "test24",
+                              "T25 Extreme D-score at start" = "test25",
+                              "B1 no_vector bug" = "not_a_vector",
+                              "B2 http400 bug" = "http400"),
+                  selected = "laura")
     )
   ),
+  ## ui card OV ----
   card(
     id = "card1",
     card_header("Bezoek: 4 maanden | Uitkomst: Overgewicht 4 jaar"),
@@ -368,6 +580,7 @@ ui <- page_sidebar(
     ),
     selected = "GIZ"
   ),
+  ## ui card LG ----
   card(
     id = "card2",
     card_header("Bezoek: 24 maanden | Uitkomst: Taalontwikkeling 4 jaar"),
@@ -395,6 +608,7 @@ ui <- page_sidebar(
       selected = "GIZ"
     )
   )%>% hidden(),
+  ## ui card PT ----
   card(
     id = "card3",
     card_header("Bezoek: 16-20 weken zwangerschap | Uitkomst: Vroeggeboorte <32 weken"),
@@ -425,8 +639,12 @@ ui <- page_sidebar(
   )%>% hidden()
 )
 
+
+## server ----
 server <- function(input, output, session) {
 
+
+  # left panel ----
   observeEvent(input$outcome, {
     if (input$outcome == "overweight-4y") {
       hide("card2"); hide("card3"); show("card1");
@@ -439,53 +657,170 @@ server <- function(input, output, session) {
     }
   })
 
-  # overweight-4y reactives
+  current.childname <- reactive({
+    cab <- input$cabinet
+    childname <- switch(cab,
+                        "none" = "1",
+                        "smocc" = input$cpn_smocc,
+                        "preterm" = input$cpn.preterm,
+                        "graham" = input$cpn.graham,
+                        "terneuzen" = input$cpn.terneuzen,
+                        "test" = input$cpn.test,
+                        "0")
+    return(childname)
+  })
+
+  current.target <- reactive({
+    childname <- current.childname()
+    if (childname == "0") return(NULL)
+    if (childname == "1") return(NULL)
+    cc <- input$cabinet
+    if (cc == "preterm") cc <- "lollypop"
+    #cf <- current.format()
+    cf <- "2.0"
+    fn <- system.file("extdata", paste0("bds_v", cf), cc, paste0(childname, ".json"),
+                      package = "jamesdemodata")
+    target <- bdsreader::read_bds(txt = fn, append_ddi = TRUE)
+    if(cc == "test" & childname == "laura") target = tgt_o
+    if(cc == "test" & childname == "maria") target = tgt_p
+    target <- collect_predictors(target)
+
+
+    return(target)
+  })
+
+
+
+  # length-weight table
+  values <- reactiveValues()
+
+  observe({
+    if(!is.null(current.target()$tv)){
+      values[["DF"]] <- data.frame(current.target()$tv)
+     }
+   else {
+     if (is.null(values[["DF"]]))
+       values[["DF"]] <- data.frame(
+         Bezoek = c("Geboorte", "4 wk", "8 wk", "3 mnd", "4 mnd"),
+         Datum = format(c(0, 28, 56, 91, 122) + (Sys.Date() - 122), "%d-%m-%Y"),
+         Leeftijd = c(0, 28, 56, 91, 122) / 365.25,
+         Lengte = rep(NA_integer_, 5),
+         mm = rep("mm", 5),
+         Gewicht = rep(NA_integer_, 5),
+         g = rep("g", 5),
+         BMI = rep(NA_real_, 5),
+         SDS = rep(NA_real_, 5))
+     }
+   # values[["DF"]] <- DF
+  })
+
+ # observeEvent(input$updatehot, {
+    observe({
+    if (!is.null(input$hot)) {
+      DF <- hot_to_r(input$hot)
+      DF$Leeftijd <- {
+         dates <- as.Date(DF$Datum, format = "%d-%m-%Y")
+        as.numeric(dates - dates[1]) / 365.25
+      }
+      DF$BMI <-  DF$Gewicht/1000 / ( DF$Lengte/1000)^2
+      DF$SDS <- AGD::y2z(y = DF$BMI,
+                         x =  DF$Leeftijd,
+                         sex = ifelse(input$sex == "Meisje", "F", "M"),
+                         ref = AGD::nl4.bmi)
+
+    values[["DF"]] <- DF
+    # } else {
+    #    if (is.null(values[["DF"]]))
+    #      DF <- data.frame(
+    #        Bezoek = c("Geboorte", "4 wk", "8 wk", "3 mnd", "4 mnd"),
+    #        Datum = format(c(0, 28, 56, 91, 122) + (Sys.Date() - 122), "%d-%m-%Y"),
+    #        Leeftijd = c(0, 28, 56, 91, 122) / 365.25,
+    #        Lengte = rep(NA_integer_, 5),
+    #        mm = rep("mm", 5),
+    #        Gewicht = rep(NA_integer_, 5),
+    #        g = rep("g", 5),
+    #        BMI = rep(NA_real_, 5),
+    #        SDS = rep(NA_real_, 5))
+    #    else
+    #     DF <- values[["DF"]]
+    }
+
+    #DF
+  })
+
+
+
+  #update gegevens tab met voorbeelddata
+  observe({
+    # overweight variables
+    updateSelectInput(inputId = "father_educ",
+                      selected = current.target()[["psn"]][["eduf"]] )
+    updateSelectInput(inputId = "father_country",
+                      selected = current.target()[["psn"]][["ctrf"]] )
+    updateTextInput(inputId = "father_age",
+                    value = current.target()[["psn"]][["agef"]])
+    updateSelectInput(inputId = "mother_educ",
+                      selected = current.target()[["psn"]][["edum"]] )
+    updateSelectInput(inputId = "mother_country",
+                      selected = current.target()[["psn"]][["ctrm"]] )
+    updateTextInput(inputId = "mother_age",
+                    value = current.target()[["psn"]][["agem"]])
+    updateNumericInput(inputId = "pc4",
+                       value = current.target()[["psn"]][["pc4"]])
+    updateSelectInput(inputId = "sex",
+                      selected = current.target()[["psn"]][["sex"]] )
+    updateTextInput(inputId = "ga",
+                    value = current.target()[["psn"]][["ga"]])
+    updateSelectInput(inputId = "par",
+                      selected = current.target()[["psn"]][["par"]] )
+
+    #taalontwikkeling
+    updateSelectInput(inputId = "sex_lg",
+                      selected = current.target()[["psn"]][["sex"]] )
+    updateSelectInput(inputId = "father_educ_lg",
+                      selected = current.target()[["psn"]][["eduf"]] )
+    updateSelectInput(inputId = "mother_educ_lg",
+                      selected = current.target()[["psn"]][["edum"]] )
+    updateSelectInput(inputId = "opinion_lg",
+                      selected = current.target()[["psn"]][["indruklg"]] )
+    updateSelectInput(inputId = "sentences_lg",
+                      selected = current.target()[["psn"]][["zin2w"]] )
+    updateSelectInput(inputId = "doll_lg",
+                      selected = current.target()[["psn"]][["pop6"]] )
+    updateSelectInput(inputId = "langenv_lg",
+                      selected = current.target()[["psn"]][["taalomgeving"]] )
+
+    #preterm
+    updateSelectInput(inputId = "sex_pt",
+                      selected = current.target()[["psn"]][["sex"]] )
+        updateTextInput(inputId = "mother_age_pt",
+                    value = current.target()[["psn"]][["agem"]])
+
+
+
+
+  })
+
+
+
+
+  # overweight-4y reactives ----
   # table lookup for postal code attributes
   pwu <- reactive(
     tab10::pc4[match(input$pc4, tab10::pc4$pc4), ]
   )
-  # length-weight table
-  values <- reactiveValues()
-  data <- reactive({
-    if (!is.null(input$hot)) {
-      DF <- hot_to_r(input$hot)
-      DF$Leeftijd <- {
-        dates <- as.Date(DF$Datum, format = "%d-%m-%Y")
-        as.numeric(dates - dates[1]) / 365.25
-      }
-      DF$BMI <- DF$Gewicht/1000 / (DF$Lengte/1000)^2
-      DF$SDS <- AGD::y2z(y = DF$BMI,
-                         x = DF$Leeftijd,
-                         sex = ifelse(input$sex == "Meisje", "F", "M"),
-                         ref = AGD::nl4.bmi)
-    } else {
-      if (is.null(values[["DF"]]))
-        DF <- data.frame(
-          Bezoek = c("Geboorte", "4 wk", "8 wk", "3 mnd", "4 mnd"),
-          Datum = format(c(0, 28, 56, 91, 122) + (Sys.Date() - 122), "%d-%m-%Y"),
-          Leeftijd = c(0, 28, 56, 91, 122) / 365.25,
-          Lengte = rep(NA_integer_, 5),
-          mm = rep("mm", 5),
-          Gewicht = rep(NA_integer_, 5),
-          g = rep("g", 5),
-          BMI = rep(NA_real_, 5),
-          SDS = rep(NA_real_, 5))
-      else
-        DF <- values[["DF"]]
-    }
-    values[["DF"]] <- DF
-    DF
-  })
 
   bmidata <- reactive(
-    na.omit(hot_to_r(input$hot)[, c("Leeftijd", "SDS")])
+   # na.omit(hot_to_r(input$hot)[, c("Leeftijd", "SDS")])
+    na.omit(values[["DF"]][,c("Leeftijd", "SDS")])
   )
 
   # overweight-4y: beta lookups
   bmiz_beta <- reactive({
     beta <- beta_lookup("", c("BMI-Z 4 weken", "BMI-Z 8 weken",
                               "BMI-Z 3 maanden", "BMI-Z 4 maanden"))
-    DF <- hot_to_r(input$hot)
+    #DF <- hot_to_r(input$hot)
+    DF <- values[["DF"]]
     bmiz <- DF$SDS[-1L]
     bmiz[is.na(bmiz)] <- 0
     sum(bmiz * beta)
@@ -546,7 +881,8 @@ server <- function(input, output, session) {
     ifelse(is.na(pwu()$woz), 338000 * beta, pwu()$woz * 1000 * beta)
   })
 
-  # overweight-4y: calculate risk and rank
+  # overweight-4y: calculate risk and rank ----
+
   overweight_risk <- reactive({
     lp <- -2.25821890 + sex_beta() + bw_beta() + ga_beta() + parity_beta() +
       father_educ_beta() + father_country_beta() + fa_beta() +
@@ -558,7 +894,7 @@ server <- function(input, output, session) {
     p2rank(overweight_risk(), outcome = "overweight-4y")
   )
 
-  # lang-4y: beta lookups
+  # lang-4y: beta lookups ----
   sex_lg_beta <- reactive(
     beta_lookup(input$sex_lg, "Geslacht", "lang-4y")
   )
@@ -581,7 +917,7 @@ server <- function(input, output, session) {
     beta_lookup(input$langenv_lg, "Taalomgeving", "lang-4y")
   )
 
-  # lang-4y: calculate risk and rank
+  # lang-4y: calculate risk and rank ----
   language_risk <- reactive({
     lp <- -0.28651335 + sex_lg_beta() +
       father_educ_lg_beta() + mother_educ_lg_beta() +
@@ -593,7 +929,7 @@ server <- function(input, output, session) {
     p2rank(language_risk(), outcome = "lang-4y")
   )
 
-  # preterm-32w: beta lookups
+  # preterm-32w: beta lookups ----
   sex_pt_beta <- reactive(
     beta_lookup(input$sex_pt, "Geslacht", "preterm-32w")
   )
@@ -664,7 +1000,7 @@ server <- function(input, output, session) {
     beta_lookup(corop_pt(), "COROP", "preterm-32w")
   )
 
-  # preterm-32w: calculate risk and rank
+  # preterm-32w: calculate risk and rank ----
   preterm_risk <- reactive({
     lp <- -4.11456 + sex_pt_beta() +
       N_vroeg_24_37_pt_beta() + vooraf_zw_vroeg_24_37_pt_beta() +
@@ -682,7 +1018,7 @@ server <- function(input, output, session) {
     p2rank(preterm_risk(), outcome = "preterm-32w")
   )
 
-  # overweight-4y: outputs
+  # overweight-4y: outputs ----
   output$gizviz <- renderImage({
     list(
       src = system.file("extdata", "CAF_Picto_0-4.svg", package = "tab10"),
@@ -695,8 +1031,12 @@ server <- function(input, output, session) {
     renderText(format(round(overweight_risk(), digits = 2), nsmall = 2))
   output$rank <-
     renderText(format(round(overweight_rank())))
+
+
   output$hot <- renderRHandsontable({
-    DF <- data()
+    #DF <- isolate(values[["DF"]])
+    DF <- values[["DF"]]
+
     if (!is.null(DF)) {
       rhandsontable(DF,
                     rowHeaders = NULL,
@@ -705,7 +1045,7 @@ server <- function(input, output, session) {
         hot_col(col = "Leeftijd", format = "0.000") |>
         hot_col(col = "BMI", format = "00.0") |>
         hot_col(col = "SDS", format = "0.00") |>
-        hot_col(col = c("Bezoek", "Leeftijd", "mm", "g", "BMI", "SDS"), readOnly = TRUE) |>
+        hot_col(col = c("Bezoek","Leeftijd", "mm", "g", "BMI", "SDS"), readOnly = TRUE) |>
         hot_cols(colWidths = c(90, 120, 60, 70, 40, 70, 20, 70, 70))
       ## Code below colors columns, but deactivates the datepicker
       # hot_cols(renderer =
@@ -742,13 +1082,17 @@ server <- function(input, output, session) {
     )
   )
   output$tab10 <- renderPlotly({
-    create_tab10(pri = overweight_risk(),
+
+    if(length(overweight_risk()) == 0) pri <- 0.06
+    else(pri <- overweight_risk())
+
+    create_tab10(pri = pri,
                  outcome = input$outcome,
                  palet = input$color,
                  seed = 1)
   })
 
-  # lang-4y: outputs
+  # lang-4y: outputs ----
   output$gizviz_lg <- renderImage({
     list(
       src = system.file("extdata", "CAF_Picto_0-4.svg", package = "tab10"),
@@ -767,7 +1111,7 @@ server <- function(input, output, session) {
                  seed = 1)
   })
 
-  # preterm-32w: outputs
+  # preterm-32w: outputs ----
   output$gizviz_pt <- renderImage({
     list(
       src = system.file("extdata", "CAF_Picto_0-4.svg", package = "tab10"),
