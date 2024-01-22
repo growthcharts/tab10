@@ -1,5 +1,7 @@
 library(shiny)
 library(bslib)
+library(bdsreader)
+library(bdsmodels)
 library(rhandsontable)
 library(ggplot2)
 library(tab10)
@@ -620,7 +622,11 @@ ui <- page_sidebar(
         "Rood-grijs" = "redshadow"
       )
     ),
-    h3("Voorbeeld data"),
+
+    br(),
+    hr(),
+    #br(),
+    h5("Voorbeeld data"),
     selectInput(inputId = "cabinet",
                 label = "Data bron",
                 choices = c("-" = "none",
@@ -765,7 +771,9 @@ background: url('opvoeden.png');  background-size: 100% 100%; background-positio
           actionButton("toggleButton05", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
 background: url('omgeving.png');  background-size: 100% 100%; background-position: center;")
 
-        )))
+        )),
+        br()
+        )
         )
       ),
       nav_panel(
@@ -806,8 +814,9 @@ background: url('gezond.png');  background-size:  100% 100%; background-position
 background: url('opvoeden.png');  background-size:  100% 100%; background-position: center;", disable = TRUE),
           actionButton("disButton05", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
 background: url('omgeving.png');  background-size:  100% 100%; background-position: center;", disable = TRUE)
-          )))
-
+          )),
+          br()
+          )
         )
       ),
     ),
@@ -842,7 +851,9 @@ background: url('social.png');  background-size: 100% 100%; background-position:
                      actionButton("toggleButton10", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
 background: url('media.png');  background-size: 100% 100%; background-position: center;")
 
-              )))
+              )),
+            br()
+            )
         )
       ),
       nav_panel(
@@ -883,7 +894,9 @@ background: url('social.png');  background-size: 100% 100%; background-position:
                      actionButton("disButton10", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
 background: url('media.png');  background-size: 100% 100%; background-position: center;")
 
-              )))
+              )),
+            br()
+            )
         )
       ),
       selected = "GIZ start"
@@ -918,7 +931,9 @@ background: url('prem_zwang.png');  background-size: 100% 100%; background-posit
                      actionButton("toggleButton15", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
 background: url('prem_gezond.png');  background-size: 100% 100%; background-position: center;")
 
-              )))
+              )),
+            br()
+            )
         )
 
       ),
@@ -961,7 +976,9 @@ background: url('prem_zwang.png');  background-size: 100% 100%; background-posit
                      actionButton("disButton15", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
 background: url('prem_gezond.png');  background-size: 100% 100%; background-position: center;")
 
-              )))
+              )),
+            br()
+            )
         )
 
       ),
