@@ -596,11 +596,11 @@ ui <- page_sidebar(
       });
     '))
   ),
-
   useShinyjs(),
   collapsible = TRUE,
   fillable = TRUE,
   theme = bslib::bs_theme(),
+  window_title = "tab10",
   sidebar = sidebar(
     title = "",
     selectInput(
@@ -740,7 +740,19 @@ ui <- page_sidebar(
                               "B1 no_vector bug" = "not_a_vector",
                               "B2 http400 bug" = "http400"),
                   selected = "laura")
-    )
+    ),
+    div(HTML("&copy; Copyright, TNO 2024"),
+    style = "
+                 position:fixed;
+                 bottom:10.5px;
+                 width: 100%;
+                 height:20px;
+                 color: black;
+                 padding: 0px;
+                 z-index: 100;
+                 background-color: blanc;
+                 align:right;
+                ")
   ),
   ## ui card OV ----
   card(
