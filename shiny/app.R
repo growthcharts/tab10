@@ -8,6 +8,9 @@ library(tab10)
 library(AGD)
 library(plotly)
 library(shinyjs)
+library(jamesdemodata)
+
+
 # Note: Use local version for R 4.3
 # https://github.com/jrowen/rhandsontable/pull/431
 
@@ -24,8 +27,7 @@ library(shinyjs)
 # current.target <- collect_predictors(m)
 
 ##example children data ----
-library(bdsreader)
-library(bdsmodels)
+
 tgt_p <- list()
 tgt_p$psn <-
   tibble::tibble_row(
@@ -114,7 +116,7 @@ cards_ov <- list(
                 class = "d-flex justify-content-between","Vader",
                 icon(name = NULL,
                      style = "
-                background: url('geld.png');
+                background: url('geld1.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -149,7 +151,7 @@ cards_ov <- list(
                 class = "d-flex justify-content-between","Moeder",
                 icon(name = NULL,
                      style = "
-                background: url('geld.png');
+                background: url('geld1.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -184,7 +186,7 @@ cards_ov <- list(
       class = "d-flex justify-content-between","Leefomgeving",
       icon(name = NULL,
            style = "
-                background: url('geld.png');
+                background: url('geld1.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -281,7 +283,7 @@ cards_lg <- list(
                 class = "d-flex justify-content-between","Vader",
                 icon(name = NULL,
                      style = "
-                background: url('geld.png');
+                background: url('geld1.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -305,7 +307,7 @@ cards_lg <- list(
                 class = "d-flex justify-content-between","Moeder",
                 icon(name = NULL,
                      style = "
-                background: url('geld.png');
+                background: url('geld1.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -329,7 +331,7 @@ cards_lg <- list(
                 class = "d-flex justify-content-between","Taal",
                 icon(name = NULL,
                      style = "
-                background: url('groei.jpg');
+                background: url('taal1.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -384,7 +386,19 @@ cards_pt <- list(
     )
   ),
   medical = card(
-    card_header("Zwangerschap"),
+    card_header(#"Zwangerschap"
+      class = "d-flex justify-content-between","Zwangerschap",
+      icon(name = NULL,
+           style = "
+                background: url('prem_zwang1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+      ),
     selectInput(
       "sex_pt", "Geslacht",
       c("Jongen", "Meisje", "Onbekend"),
@@ -412,7 +426,19 @@ cards_pt <- list(
     )
   ),
   sga = card(
-    card_header("SGA"),
+    card_header(#"SGA"
+      class = "d-flex justify-content-between","SGA",
+      icon(name = NULL,
+           style = "
+                background: url('prem_zwangh1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+                ),
     selectInput(
       "N_vooraf_sga_pt", "# voorafgaande SGA",
       c("nvt", "0", "1", "2", "3", "4", "5+", "Onbekend"),
@@ -427,7 +453,19 @@ cards_pt <- list(
     )
   ),
   preterm = card(
-    card_header("Vroeggeboorte"),
+    card_header(#"Vroeggeboorte"
+      class = "d-flex justify-content-between","Vroeggeboorte",
+      icon(name = NULL,
+           style = "
+                background: url('prem_zwangh1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+      ),
     selectInput(
       "N_vroeg_24_37_pt", "# vroeggeboorten 24-37w",
       c("0", "1", "2", "3", "3+", "Onbekend"),
@@ -446,7 +484,7 @@ cards_pt <- list(
                 class = "d-flex justify-content-between","Vader",
                 icon(name = NULL,
                      style = "
-                background: url('prem_geld.png');
+                background: url('prem_geld1.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -473,7 +511,7 @@ cards_pt <- list(
                 class = "d-flex justify-content-between","Moeder",
                 icon(name = NULL,
                      style = "
-                background: url('prem_lftmoeder.png');
+                background: url('prem_geld1.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -502,7 +540,7 @@ cards_pt <- list(
                 class = "d-flex justify-content-between","Leefomgeving",
                 icon(name = NULL,
                      style = "
-                background: url('prem_geld.png');
+                background: url('prem_geld1.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -520,7 +558,7 @@ cards_pt <- list(
                 class = "d-flex justify-content-between","Welstand",
                 icon(name = NULL,
                      style = "
-                background: url('prem_geld.png');
+                background: url('prem_geld1.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -759,35 +797,7 @@ ui <- page_sidebar(
     id = "card1",
     card_header("Bezoek: 4 maanden | Uitkomst: Overgewicht 4 jaar"),
     navset_tab(
-      nav_panel(
-        title = "GIZ start",
-        bslib::layout_columns(
-         # imageOutput("gizviz")
-          card(
-          card_header("Model onderwerpen"),
-          fluidRow(
-            column(12,
-          actionButton("toggleButton01", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('groei.jpg');  background-size: 100% 100%; background-position: center;"),
-          actionButton("toggleButton02", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('geld.png');  background-size: cover; background-position: center;")
-         )),
-         br(),
-            card_header("Overige onderwerpen"),
-         fluidRow(
-           column(12,
-          actionButton("toggleButton03", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('gezond.png');  background-size: 100% 100%; background-position: center;"),
-          actionButton("toggleButton04", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('opvoeden.png');  background-size: 100% 100%; background-position: center;"),
-          actionButton("toggleButton05", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('omgeving.png');  background-size: 100% 100%; background-position: center;")
 
-        )),
-        br()
-        )
-        )
-      ),
       nav_panel(
         title = "Gegevens",
         bslib::layout_columns(
@@ -799,20 +809,49 @@ background: url('omgeving.png');  background-size: 100% 100%; background-positio
                               fill = FALSE)
       ),
       nav_panel(
+        title = "Start",
+        bslib::layout_columns(
+          # imageOutput("gizviz")
+          card(
+            card_header("Model onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("toggleButton01", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('groei.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton02", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('geld.png');  background-size: cover; background-position: center;")
+              )),
+            br(),
+            card_header("Overige onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("toggleButton03", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('gezond.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton04", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('opvoeden.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton05", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('omgeving.png');  background-size: 100% 100%; background-position: center;")
+
+              )),
+            br()
+          )
+        )
+      ),
+      nav_panel(
         title = "Tafel van Tien",
         bslib::layout_columns(
           plotly::plotlyOutput("tab10")
         )
       ),
       nav_panel(
-        title = "GIZ eind",
+        title = "Eind",
         bslib::layout_columns(
           card(
             card_header("Model onderwerpen"),
             fluidRow(
               column(12,
           actionButton("disButton01", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
-background: url('groei.jpg');  background-size:  100% 100%; background-position: center;", disable = TRUE),
+background: url('groei.png');  background-size:  100% 100%; background-position: center;", disable = TRUE),
           actionButton("disButton02", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
 background: url('geld.png');  background-size: cover; background-position: center;", disable = TRUE)
           )),
@@ -832,15 +871,24 @@ background: url('omgeving.png');  background-size:  100% 100%; background-positi
         )
       ),
     ),
-    selected = "GIZ start"
+    selected = "Gegevens"
   ),
   ## ui card LG ----
   card(
     id = "card2",
     card_header("Bezoek: 24 maanden | Uitkomst: Taalontwikkeling 4 jaar"),
     navset_tab(
+
       nav_panel(
-        title = "GIZ start",
+        title = "Gegevens",
+        bslib::layout_columns(cards_lg[["result"]], cards_lg[["language"]],
+                              col_widths = c(8, 4), row_heights = c(2, 1),
+                              fill = FALSE),
+        bslib::layout_columns(cards_lg[["father"]], cards_lg[["mother"]], cards_lg[["medical"]],
+                              fill = FALSE)
+      ),
+      nav_panel(
+        title = "Start",
         bslib::layout_columns(
           # imageOutput("gizviz")
           card(
@@ -848,7 +896,7 @@ background: url('omgeving.png');  background-size:  100% 100%; background-positi
             fluidRow(
               column(12,
                      actionButton("toggleButton06", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('groei.jpg');  background-size: 100% 100%; background-position: center;"),
+background: url('taal.png');  background-size: 100% 100%; background-position: center;"),
                      actionButton("toggleButton07", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
 background: url('geld.png');  background-size: cover; background-position: center;")
               )),
@@ -865,16 +913,8 @@ background: url('media.png');  background-size: 100% 100%; background-position: 
 
               )),
             br()
-            )
+          )
         )
-      ),
-      nav_panel(
-        title = "Gegevens",
-        bslib::layout_columns(cards_lg[["result"]], cards_lg[["language"]],
-                              col_widths = c(8, 4), row_heights = c(2, 1),
-                              fill = FALSE),
-        bslib::layout_columns(cards_lg[["father"]], cards_lg[["mother"]], cards_lg[["medical"]],
-                              fill = FALSE)
       ),
       nav_panel(
         title = "Tafel van Tien",
@@ -883,7 +923,7 @@ background: url('media.png');  background-size: 100% 100%; background-position: 
         )
       ),
       nav_panel(
-        title = "GIZ eind",
+        title = "Eind",
         bslib::layout_columns(
           # imageOutput("gizviz")
           card(
@@ -891,7 +931,7 @@ background: url('media.png');  background-size: 100% 100%; background-position: 
             fluidRow(
               column(12,
                      actionButton("disButton06", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
-background: url('groei.jpg');  background-size: 100% 100%; background-position: center;"),
+background: url('taal.png');  background-size: 100% 100%; background-position: center;"),
                      actionButton("disButton07", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
 background: url('geld.png');  background-size: cover; background-position: center;")
               )),
@@ -911,7 +951,7 @@ background: url('media.png');  background-size: 100% 100%; background-position: 
             )
         )
       ),
-      selected = "GIZ start"
+      selected = "Gegevens"
     )
   )%>% hidden(),
   ## ui card PT ----
@@ -919,36 +959,7 @@ background: url('media.png');  background-size: 100% 100%; background-position: 
     id = "card3",
     card_header("Bezoek: 16-20 weken zwangerschap | Uitkomst: Vroeggeboorte <32 weken"),
     navset_tab(
-      nav_panel(
-        title = "GIZ start",
-        bslib::layout_columns(
-          # imageOutput("gizviz")
-          card(
-            card_header("Model onderwerpen"),
-            fluidRow(
-              column(12,
-                     actionButton("toggleButton11", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('prem_geld.png');  background-size: 100% 100%; background-position: center;"),
-                     actionButton("toggleButton12", "", class = "btn-primary toggle-button", style = "width: 150px; height: 100px;
-background: url('prem_lftmoeder.png');  background-size: 100% 80%; background-position: center;")
-              )),
-            br(),
-            card_header("Overige onderwerpen"),
-            fluidRow(
-              column(12,
-                     actionButton("toggleButton13", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('prem_leven.png');  background-size: 100% 100%; background-position: center;"),
-                     actionButton("toggleButton14", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('prem_zwang.png');  background-size: 100% 100%; background-position: center;"),
-                     actionButton("toggleButton15", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('prem_gezond.png');  background-size: 100% 100%; background-position: center;")
 
-              )),
-            br()
-            )
-        )
-
-      ),
       nav_panel(
         title = "Gegevens",
         bslib::layout_columns(cards_pt[["result"]], cards_pt[["medical"]],
@@ -959,13 +970,43 @@ background: url('prem_gezond.png');  background-size: 100% 100%; background-posi
                               fill = FALSE)
       ),
       nav_panel(
+        title = "Start",
+        bslib::layout_columns(
+          # imageOutput("gizviz")
+          card(
+            card_header("Model onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("toggleButton11", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('prem_zwang2.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton12", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('prem_zwanghist.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton13", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('prem_geld2.png');  background-size: 100% 100%; background-position: center;")
+              )),
+            br(),
+            card_header("Overige onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("toggleButton14", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('prem_leven2.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton15", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('prem_gezond2.png');  background-size: 100% 100%; background-position: center;")
+
+              )),
+            br()
+          )
+        )
+
+      ),
+      nav_panel(
         title = "Tafel van Tien",
         bslib::layout_columns(
           plotly::plotlyOutput("tab10_pt")
         )
       ),
       nav_panel(
-        title = "GIZ eind",
+        title = "Eind",
         bslib::layout_columns(
           # imageOutput("gizviz")
           card(
@@ -973,20 +1014,20 @@ background: url('prem_gezond.png');  background-size: 100% 100%; background-posi
             fluidRow(
               column(12,
                      actionButton("disButton11", "", class = "btn-primary disabled-button",style = "width: 100px; height: 100px;
-background: url('prem_geld.png');  background-size: 100% 100%; background-position: center;"),
-                     actionButton("disButton12", "", class = "btn-primary disabled-button", style = "width: 150px; height: 100px;
-background: url('prem_lftmoeder.png');  background-size: 100% 80%; background-position: center;")
+background: url('prem_zwang2.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("disButton12", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('prem_zwanghist.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("disButton13", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('prem_geld2.png');  background-size: 100% 100%; background-position: center;")
               )),
             br(),
             card_header("Overige onderwerpen"),
             fluidRow(
               column(12,
-                     actionButton("disButton13", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
-background: url('prem_leven.png');  background-size: 100% 100%; background-position: center;"),
                      actionButton("disButton14", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
-background: url('prem_zwang.png');  background-size: 100% 100%; background-position: center;"),
+background: url('prem_leven2.png');  background-size: 100% 100%; background-position: center;"),
                      actionButton("disButton15", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
-background: url('prem_gezond.png');  background-size: 100% 100%; background-position: center;")
+background: url('prem_gezond2.png');  background-size: 100% 100%; background-position: center;")
 
               )),
             br()
@@ -994,7 +1035,7 @@ background: url('prem_gezond.png');  background-size: 100% 100%; background-posi
         )
 
       ),
-      selected = "GIZ start"
+      selected = "Gegevens"
     )
   )%>% hidden()
 )
