@@ -28,7 +28,8 @@ Imports:
     shinyjs,
     stringr,
     tibble,
-    utils
+    utils,
+    jamesdemodata
 Suggests:
     MASS
 Remotes: 
