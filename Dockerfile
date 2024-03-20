@@ -1,4 +1,4 @@
-FROM arjanhjhuizing/jesse:0.1.0
+FROM arjanhjhuizing/jesse:0.2.0
 
 # Copy config file
 COPY /shiny srv/shiny-server/tab10
@@ -8,7 +8,6 @@ COPY /shiny srv/shiny-server/tab10
 RUN R -e 'install.packages(c(\
              "bsicons", \
              "rhandsontable", \
-             "ggplot2", \
              "AGD", \
              "plotly", \
              "shinyjs", \
@@ -22,9 +21,8 @@ RUN R -e 'install.packages(c(\
 # get github packages
 COPY Renviron .Renviron
 RUN R -e 'install.packages("jsonvalidate")' # require 1.3.2
+RUN R -e 'install.packages("http://cran.r-project.org/src/contrib/Archive/ggplot2/ggplot2_3.0.0.tar.gz", repos=NULL, type="source")' # require 3.4.3
 RUN R -e 'remotes::install_github("https://github.com/growthcharts/bdsmodels")'
+RUN R -e 'remotes::install_github("https://github.com/growthcharts/jamesdemodata")'
 RUN R -e 'remotes::install_github("https://github.com/growthcharts/tab10")'
 RUN rm .Renviron
-
-# On boot, start shiny and crond
-CMD su -c /usr/bin/shiny-server shiny && service cron start
