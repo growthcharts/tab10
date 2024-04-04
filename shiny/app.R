@@ -21,8 +21,9 @@ library(jamesdemodata)
 # Some isolate nodig om keten te breken als je anders in loop terecht komt.
 # functie die reactieve schema in kaart brengt om te zien wat de volgorde is.
 
-# fn <-system.file("extdata/bds_v2.0/smocc/Laura_S.json", package = "jamesdemodata")
-# m <- bdsreader::read_bds(fn, append_ddi = TRUE)
+## NOTE: Run this in the global as to avoid first error when loading an example
+fn <-system.file("extdata/bds_v2.0/smocc/Laura_S.json", package = "jamesdemodata")
+m <- bdsreader::read_bds(fn, append_ddi = TRUE)
 # tgt <- m
 # current.target <- collect_predictors(m)
 
@@ -195,7 +196,7 @@ cards_ov <- list(
                 display: block;
               ")
     ),
-    numericInput("pc4", "Postcode 4-cijfers", value = "", min = 1011, max = 9999, step = 1),
+    numericInput("pc4", "Postcode 4-cijfers", value = "", min = 0, max = 9999, step = 1),
     textOutput("stedelijkheid"),
     textOutput("woz")
   ),
@@ -413,7 +414,7 @@ cards_pt <- list(
       selectize = FALSE
     ),
     selectInput(
-      "amddd1ond_cat_pt", "Amenorroeduur bij start",
+      "amddd1ond_cat_pt", "Amenorroeduur bij start zwangerschapsbegeleiding",
       c("0-70 dagen", "71-112 dagen", ">112 dagen", "Onbekend"),
       selected = "Onbekend",
       selectize = FALSE
@@ -446,7 +447,7 @@ cards_pt <- list(
       selectize = FALSE
     ),
     selectInput(
-      "vooraf_sga_pt", "In voorafgaande zwangerschap",
+      "vooraf_sga_pt", "In direct voorafgaande zwangerschap",
       c("Nee", "Ja", "Onbekend"),
       selected = "Onbekend",
       selectize = FALSE
@@ -473,7 +474,7 @@ cards_pt <- list(
       selectize = FALSE
     ),
     selectInput(
-      "vooraf_zw_vroeg_24_37_pt", "In voorafgaande zwangerschap",
+      "vooraf_zw_vroeg_24_37_pt", "In direct voorafgaande zwangerschap",
       c("Nee", "Ja", "Onbekend"),
       selected = "Onbekend",
       selectize = FALSE
@@ -549,7 +550,7 @@ cards_pt <- list(
                 display: block;
               ")
                 ),
-    numericInput("pc4_pt", "Postcode 4-cijfers", value = "", min = 1011, max = 9999, step = 1),
+    numericInput("pc4_pt", "Postcode 4-cijfers", value = "", min = 0, max = 9999, step = 1),
     textOutput("stedelijkheid_pt"),
     textOutput("COROP_pt")
   ),
@@ -568,7 +569,7 @@ cards_pt <- list(
               ")
     ),
     selectInput(
-      "income_hh_mo_cat_pt", "Besteedbaar inkomen",
+      "income_hh_mo_cat_pt", "Besteedbaar huishoudensinkomen",
       c("Bestaansminimum", "Laag", "Midden", "Hoog", "Onbekend"),
       selected = "Onbekend",
       selectize = FALSE
@@ -817,7 +818,7 @@ ui <- page_sidebar(
             fluidRow(
               column(12,
                      actionButton("toggleButton01", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('groei.png');  background-size: 100% 100%; background-position: center;"),
+background: url('groei.PNG');  background-size: 100% 100%; background-position: center;"),
                      actionButton("toggleButton02", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
 background: url('geld.png');  background-size: cover; background-position: center;")
               )),
@@ -851,7 +852,7 @@ background: url('omgeving.png');  background-size: 100% 100%; background-positio
             fluidRow(
               column(12,
           actionButton("disButton01", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
-background: url('groei.png');  background-size:  100% 100%; background-position: center;", disable = TRUE),
+background: url('groei.PNG');  background-size:  100% 100%; background-position: center;", disable = TRUE),
           actionButton("disButton02", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
 background: url('geld.png');  background-size: cover; background-position: center;", disable = TRUE)
           )),
@@ -896,7 +897,7 @@ background: url('omgeving.png');  background-size:  100% 100%; background-positi
             fluidRow(
               column(12,
                      actionButton("toggleButton06", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
-background: url('taal.png');  background-size: 100% 100%; background-position: center;"),
+background: url('taal.PNG');  background-size: 100% 100%; background-position: center;"),
                      actionButton("toggleButton07", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
 background: url('geld.png');  background-size: cover; background-position: center;")
               )),
@@ -931,7 +932,7 @@ background: url('media.png');  background-size: 100% 100%; background-position: 
             fluidRow(
               column(12,
                      actionButton("disButton06", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
-background: url('taal.png');  background-size: 100% 100%; background-position: center;"),
+background: url('taal.PNG');  background-size: 100% 100%; background-position: center;"),
                      actionButton("disButton07", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
 background: url('geld.png');  background-size: cover; background-position: center;")
               )),
