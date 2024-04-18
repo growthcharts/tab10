@@ -135,16 +135,16 @@ cards_ov <- list(
       selected = "Onbekend",
       selectize = FALSE
     ),
-    selectInput(
-      "father_country", "Geboorteland vader",
-      c(
-        "Nederland", "Marokko", "Turkije", "Suriname",
-        "Antillen en Aruba", "Overige niet-westers", "Overige westers",
-        "Onbekend"
-      ),
-      selected = "Onbekend",
-      selectize = FALSE
-    ),
+    #selectInput(
+    #  "father_country", "Geboorteland vader",
+    #  c(
+    #    "Nederland", "Marokko", "Turkije", "Suriname",
+    #    "Antillen en Aruba", "Overige niet-westers", "Overige westers",
+    #    "Onbekend"
+    #  ),
+    #  selected = "Onbekend",
+    #  selectize = FALSE
+    #),
     textInput("father_age", "Leeftijd vader", value = "")
   ),
   mother = card(
@@ -170,16 +170,16 @@ cards_ov <- list(
       selected = "Onbekend",
       selectize = FALSE
     ),
-    selectInput(
-      "mother_country", "Geboorteland moeder",
-      c(
-        "Nederland", "Marokko", "Turkije", "Suriname",
-        "Antillen en Aruba", "Overige niet-westers", "Overige westers",
-        "Onbekend"
-      ),
-      selected = "Onbekend",
-      selectize = FALSE
-    ),
+    #selectInput(
+    #  "mother_country", "Geboorteland moeder",
+    #  c(
+    #    "Nederland", "Marokko", "Turkije", "Suriname",
+    #    "Antillen en Aruba", "Overige niet-westers", "Overige westers",
+    #    "Onbekend"
+    #  ),
+    #  selected = "Onbekend",
+    #  selectize = FALSE
+    #),
     textInput("mother_age", "Leeftijd moeder", value = "")
   ),
   environment = card(
@@ -529,8 +529,8 @@ cards_pt <- list(
     ),
     textInput("mother_age_pt", "Leeftijd moeder", value = ""),
     selectInput(
-      "plhh_partner_child_pt", "Rol moeder in huishouden",
-      c("Thuiswonend met kind", "Alleenstaand zonder kind", "Partner zonder kind",
+      "plhh_partner_child_pt", "Positie moeder in huishouden",
+      c("Thuiswonend kind", "Alleenstaand zonder kind", "Partner zonder kind",
         "Partner met kind", "Alleenstaand met kind", "Overig", "Onbekend"),
       selected = "Onbekend",
       selectize = FALSE
@@ -1150,6 +1150,14 @@ server <- function(input, output, session) {
     #DF
   })
 
+    #temporary ethnicity variables mother/father - due to ZonMW restraints only updated in background and not shown in gegevens display.
+    temp_father_country <- reactive({if(is.null(current.target())) fc <- "Onbekend"
+                                     if(!is.null(current.target())) fc <-  current.target()[["psn"]][["ctrf"]]
+                                     fc})
+
+    temp_mother_country <- reactive({if(is.null(current.target())) mc <- "Onbekend"
+    if(!is.null(current.target())) mc <- current.target()[["psn"]][["ctrm"]]
+    mc})
 
 
   #update gegevens tab met voorbeelddata
@@ -1157,15 +1165,16 @@ server <- function(input, output, session) {
     # overweight variables
     updateSelectInput(inputId = "father_educ",
                       selected = current.target()[["psn"]][["eduf"]] )
-    updateSelectInput(inputId = "father_country",
-                      selected = current.target()[["psn"]][["ctrf"]] )
+    #updateSelectInput(inputId = "father_country",
+    #                  selected = current.target()[["psn"]][["ctrf"]] )
     updateTextInput(inputId = "father_age",
                     value = current.target()[["psn"]][["agef"]])
     updateSelectInput(inputId = "mother_educ",
                       selected = current.target()[["psn"]][["edum"]] )
-    updateSelectInput(inputId = "mother_country",
-                      selected = current.target()[["psn"]][["ctrm"]] )
-    updateTextInput(inputId = "mother_age",
+   # updateSelectInput(inputId = "mother_country",
+  #                    selected = current.target()[["psn"]][["ctrm"]] )
+
+        updateTextInput(inputId = "mother_age",
                     value = current.target()[["psn"]][["agem"]])
     updateNumericInput(inputId = "pc4",
                        value = current.target()[["psn"]][["pc4"]])
@@ -1248,7 +1257,8 @@ server <- function(input, output, session) {
     beta_lookup(input$father_educ, "Opleiding vader", "overweight-4y")
   )
   father_country_beta <- reactive(
-    beta_lookup(input$father_country, "Geboorteland vader", "overweight-4y")
+   # beta_lookup(input$father_country, "Geboorteland vader", "overweight-4y")
+    beta_lookup(temp_father_country(), "Geboorteland vader", "overweight-4y")
   )
   fa_beta <- reactive({
     beta <- beta_lookup("", "Leeftijd vader", "overweight-4y")
@@ -1259,7 +1269,8 @@ server <- function(input, output, session) {
     beta_lookup(input$mother_educ, "Opleiding moeder", "overweight-4y")
   )
   mother_country_beta <- reactive(
-    beta_lookup(input$mother_country, "Geboorteland moeder", "overweight-4y")
+   # beta_lookup(input$mother_country, "Geboorteland moeder", "overweight-4y")
+    beta_lookup(temp_mother_country(), "Geboorteland moeder", "overweight-4y")
   )
   ma_beta <- reactive({
     beta <- beta_lookup("", "Leeftijd moeder", "overweight-4y")
