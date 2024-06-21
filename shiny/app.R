@@ -673,7 +673,8 @@ ui <- page_sidebar(
                             "Pinkeltje" = "preterm",
                             "Graham" = "graham",
                             "Terneuzen" = "terneuzen",
-                            "Test" = "test"),
+                            "Test" = "test",
+                            "Kansrijke start" = "ksexample"),
                 selected =  "none"),
     conditionalPanel(
       condition = "input.cabinet == 'none'",
@@ -779,6 +780,53 @@ ui <- page_sidebar(
                               "B1 no_vector bug" = "not_a_vector",
                               "B2 http400 bug" = "http400"),
                   selected = "laura")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'ksexample'",
+      selectInput(inputId = "ksexample",
+                  label = "Example nummer",
+                  choices = c("nr(1)" = "(1)",
+                              "nr(2)" = "(2)",
+                              "nr(3)" = "(3)",
+                              "nr(4)" = "(4)",
+                              "nr(5)" = "(5)",
+                              "nr(6)" = "(6)",
+                              "nr(7)" = "(7)",
+                              "nr(8)" = "(8)",
+                              "nr(9)" = "(9)",
+                              "nr(10)" = "(10)",
+                              "nr(11)" = "(11)",
+                              "nr(12)" = "(12)",
+                              "nr(13)" = "(13)",
+                              "nr(14)" = "(14)",
+                              "nr(15)" = "(15)",
+                              "nr(16)" = "(16)",
+                              "nr(17)" = "(17)",
+                              "nr(18)" = "(18)",
+                              "nr(19)" = "(19)",
+                              "nr(20)" = "(20)",
+                              "nr(21)" = "(21)",
+                              "nr(22)" = "(22)",
+                              "nr(23)" = "(23)",
+                              "nr(24)" = "(24)",
+                              "nr(25)" = "(25)",
+                              "nr(26)" = "(26)",
+                              "nr(27)" = "(27)",
+                              "nr(28)" = "(28)",
+                              "nr(29)" = "(29)",
+                              "nr(30)" = "(30)",
+                              "nr(31)" = "(31)",
+                              "nr(32)" = "(32)",
+                              "nr(33)" = "(33)",
+                              "nr(34)" = "(34)",
+                              "nr(35)" = "(35)",
+                              "nr(36)" = "(36)",
+                              "nr(37)" = "(37)",
+                              "nr(38)" = "(38)",
+                              "nr(39)" = "(39)"
+
+                  ),
+                  selected = "nr(1)")
     ),
     div(HTML("&copy; Copyright, TNO 2024"),
     style = "
@@ -1068,6 +1116,7 @@ server <- function(input, output, session) {
                         "graham" = input$cpn.graham,
                         "terneuzen" = input$cpn.terneuzen,
                         "test" = input$cpn.test,
+                        "ks" = input$ksexample,
                         "0")
     return(childname)
   })
@@ -1080,9 +1129,15 @@ server <- function(input, output, session) {
     if (cc == "preterm") cc <- "lollypop"
     #cf <- current.format()
     cf <- "2.0"
+    datapack <- "jamesdemodata"
+    if(cc == "ksexample"){ datapack <- "tab10"}
     fn <- system.file("extdata", paste0("bds_v", cf), cc, paste0(childname, ".json"),
-                      package = "jamesdemodata")
+                      package = datapack)
     target <- bdsreader::read_bds(txt = fn, append_ddi = TRUE)
+
+
+
+
     if(cc == "test" & childname == "laura") target = tgt_o
     if(cc == "test" & childname == "maria") target = tgt_p
     target <- collect_predictors(target)
