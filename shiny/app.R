@@ -674,7 +674,7 @@ ui <- page_sidebar(
                             "Graham" = "graham",
                             "Terneuzen" = "terneuzen",
                             "Test" = "test",
-                            "Kansrijke start" = "ksexample"),
+                            "Kansrijke start" = "ks"),
                 selected =  "none"),
     conditionalPanel(
       condition = "input.cabinet == 'none'",
@@ -782,8 +782,8 @@ ui <- page_sidebar(
                   selected = "laura")
     ),
     conditionalPanel(
-      condition = "input.cabinet == 'ksexample'",
-      selectInput(inputId = "ksexample",
+      condition = "input.cabinet == 'ks'",
+      selectInput(inputId = "cpn.ks",
                   label = "Example nummer",
                   choices = c("nr(1)" = "(1)",
                               "nr(2)" = "(2)",
@@ -1116,7 +1116,7 @@ server <- function(input, output, session) {
                         "graham" = input$cpn.graham,
                         "terneuzen" = input$cpn.terneuzen,
                         "test" = input$cpn.test,
-                        "ks" = input$ksexample,
+                        "ks" = input$cpn.ks,
                         "0")
     return(childname)
   })
@@ -1130,17 +1130,14 @@ server <- function(input, output, session) {
     #cf <- current.format()
     cf <- "2.0"
     datapack <- "jamesdemodata"
-    if(cc == "ksexample"){ datapack <- "tab10"}
-    fn <- system.file("extdata", paste0("bds_v", cf), cc, paste0(childname, ".json"),
+    if(cc == "ks"){ datapack <- "tab10"}
+    fn <- system.file("extdata", paste0("bds_v", cf), cc, paste0("example",childname, ".json"),
                       package = datapack)
-    target <- bdsreader::read_bds(txt = fn, append_ddi = TRUE)
+    target1 <- bdsreader::read_bds(txt = fn, append_ddi = TRUE)
+    if(cc == "test" & childname == "laura") target1 = tgt_o
+    if(cc == "test" & childname == "maria") target1 = tgt_p
 
-
-
-
-    if(cc == "test" & childname == "laura") target = tgt_o
-    if(cc == "test" & childname == "maria") target = tgt_p
-    target <- collect_predictors(target)
+    target <- collect_predictors(target1)
 
 
     return(target)
