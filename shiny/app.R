@@ -22,87 +22,87 @@ library(jamesdemodata)
 # functie die reactieve schema in kaart brengt om te zien wat de volgorde is.
 
 ## NOTE: Run this in the global as to avoid first error when loading an example
-fn <-system.file("extdata/bds_v2.0/smocc/Laura_S.json", package = "jamesdemodata")
-m <- bdsreader::read_bds(fn, append_ddi = TRUE)
+#fn <-system.file("extdata/bds_v2.0/smocc/Laura_S.json", package = "jamesdemodata")
+#m <- bdsreader::read_bds(fn, append_ddi = TRUE)
 # tgt <- m
 # current.target <- collect_predictors(m)
 
 ##example children data ----
 
-tgt_p <- list()
-tgt_p$psn <-
-  tibble::tibble_row(
-    id = 122,
-    name = "Maria",
-    dob = as.Date("2018-10-11"),
-    dobm = as.Date("1990-12-02"),
-    dobf = as.Date('1995-07-04'),
-    src = 1234,
-    dnr = NA,
-    sex = "female",
-    gad = 189,
-    ga = 27,
-    smo = 1,
-    bw = 990,
-    hgtm = 167,
-    hgtf = 190,
-    agem = NA,
-    etn = "Nederlands",
-    pc4 = "2343",
-    blbf = 6030,
-    blbm = 6030,
-    eduf = 5,
-    edum = 4,
-    par = 1
-  )
-
-tgt_p$xyz <-
-  tibble::tibble(age = c(0.0849, 0.167, 0,0.0849, 0.167, 0.0849, 0.167, 0,0.0849, 0.167, 2, 2, 2, 2),
-                 # xname = rep("age", 10),
-                 yname = c("hgt", "hgt", "wgt", "wgt","wgt", "hdc", "hdc", "bmi", "bmi", "bmi", "ddicmm041", "ddicmm042", "bds823", "bds816"),
-                 y = c(38,43.5,0.99,1.25,2.1,27,30.5,NA,8.66,11.1, 1, 1, 2, 3))
-
-#collect_predictors(tgt_p)
-tgt_o <- list()
-
-tgt_o$psn <-
-  tibble::tibble_row(
-    id = 124,
-    name = "Laura",
-    dob = as.Date("2018-6-11"),
-    dobm = as.Date("1986-12-02"),
-    dobf = as.Date('1984-07-04'),
-    src = 1234,
-    dnr = NA,
-    sex = "female",
-    gad = 276,
-    ga = 39,
-    smo = 0,
-    bw = 3121,
-    hgtm = 168,
-    hgtf = 185,
-    agem = NA,
-    etn = "Nederlands",
-    pc4 = 3451,
-    blbf = 6030,
-    blbm = 6030,
-    eduf = 6,
-    edum = 7,
-    par = 2
-  )
-
-tgt_o$xyz <-
-  tibble::tibble(age = c(0, 0.101, 0.159, 0.236,0.350, 0.753, 1.02, 1.25, 2.04,
-                         0, 0.101, 0.159, 0.236,0.350, 0.753, 1.02, 1.25, 2.04,
-                         0, 0.101, 0.159, 0.236,0.350, 0.753, 1.02, 1.25, 2.04,
-                         2.04,2.04,2.04,2.04),
-                 yname = c(rep("hgt",9), rep("wgt",9),rep("bmi",9), "ddicmm041", "ddicmm042", "bds823", "bds816"),
-                 y = c(48,53.5,56,58.5,65.5,71.5,75,80,90,
-                       2.949,4.179,4.986,5.715,7.937,9.662,10.406,11.904,13.932,
-
-
-                       12.8,14.6,15.9,16.7,18.5,18.9,18.5,18.6,17.2,
-                       1, 1, 1, 1))
+# tgt_p <- list()
+# tgt_p$psn <-
+#   tibble::tibble_row(
+#     id = 122,
+#     name = "Maria",
+#     dob = as.Date("2018-10-11"),
+#     dobm = as.Date("1990-12-02"),
+#     dobf = as.Date('1995-07-04'),
+#     src = 1234,
+#     dnr = NA,
+#     sex = "female",
+#     gad = 189,
+#     ga = 27,
+#     smo = 1,
+#     bw = 990,
+#     hgtm = 167,
+#     hgtf = 190,
+#     agem = NA,
+#     etn = "Nederlands",
+#     pc4 = "2343",
+#     blbf = 6030,
+#     blbm = 6030,
+#     eduf = 5,
+#     edum = 4,
+#     par = 1
+#   )
+#
+# tgt_p$xyz <-
+#   tibble::tibble(age = c(0.0849, 0.167, 0,0.0849, 0.167, 0.0849, 0.167, 0,0.0849, 0.167, 2, 2, 2, 2),
+#                  # xname = rep("age", 10),
+#                  yname = c("hgt", "hgt", "wgt", "wgt","wgt", "hdc", "hdc", "bmi", "bmi", "bmi", "ddicmm041", "ddicmm042", "bds823", "bds816"),
+#                  y = c(38,43.5,0.99,1.25,2.1,27,30.5,NA,8.66,11.1, 1, 1, 2, 3))
+#
+# #collect_predictors(tgt_p)
+# tgt_o <- list()
+#
+# tgt_o$psn <-
+#   tibble::tibble_row(
+#     id = 124,
+#     name = "Laura",
+#     dob = as.Date("2018-6-11"),
+#     dobm = as.Date("1986-12-02"),
+#     dobf = as.Date('1984-07-04'),
+#     src = 1234,
+#     dnr = NA,
+#     sex = "female",
+#     gad = 276,
+#     ga = 39,
+#     smo = 0,
+#     bw = 3121,
+#     hgtm = 168,
+#     hgtf = 185,
+#     agem = NA,
+#     etn = "Nederlands",
+#     pc4 = 3451,
+#     blbf = 6030,
+#     blbm = 6030,
+#     eduf = 6,
+#     edum = 7,
+#     par = 2
+#   )
+#
+# tgt_o$xyz <-
+#   tibble::tibble(age = c(0, 0.101, 0.159, 0.236,0.350, 0.753, 1.02, 1.25, 2.04,
+#                          0, 0.101, 0.159, 0.236,0.350, 0.753, 1.02, 1.25, 2.04,
+#                          0, 0.101, 0.159, 0.236,0.350, 0.753, 1.02, 1.25, 2.04,
+#                          2.04,2.04,2.04,2.04),
+#                  yname = c(rep("hgt",9), rep("wgt",9),rep("bmi",9), "ddicmm041", "ddicmm042", "bds823", "bds816"),
+#                  y = c(48,53.5,56,58.5,65.5,71.5,75,80,90,
+#                        2.949,4.179,4.986,5.715,7.937,9.662,10.406,11.904,13.932,
+#
+#
+#                        12.8,14.6,15.9,16.7,18.5,18.9,18.5,18.6,17.2,
+#                        1, 1, 1, 1))
 
 #collect_predictors(tgt_o)
 
@@ -750,8 +750,8 @@ ui <- page_sidebar(
       condition = "input.cabinet == 'test'",
       selectInput(inputId = "cpn.test",
                   label = "Naam test",
-                  choices = c("Laura" = "laura",
-                              "Maria" = "maria",
+                  choices = c(#"Laura" = "laura",
+                              #"Maria" = "maria",
                               "T1 normal file" = "test1",
                               "T2 No Referentie" = "test2",
                               "T3 No OrganisatieCode" = "test3",
@@ -1130,10 +1130,18 @@ server <- function(input, output, session) {
     #cf <- current.format()
     cf <- "2.0"
     datapack <- "jamesdemodata"
-    if(cc == "ks"){ datapack <- "tab10"}
+    if(cc == "ks"){
+      datapack <- "tab10"
+      fn <- system.file("extdata", paste0("bds_v", cf), cc, paste0(childname, ".RDS"),
+                        package = datapack)
+      target1 <- readRDS(fn)
+      }
+    if(cc != "ks"){
     fn <- system.file("extdata", paste0("bds_v", cf), cc, paste0(childname, ".json"),
                       package = datapack)
     target1 <- bdsreader::read_bds(txt = fn, append_ddi = TRUE)
+
+    }
     if(cc == "test" & childname == "laura") target1 = tgt_o
     if(cc == "test" & childname == "maria") target1 = tgt_p
 
