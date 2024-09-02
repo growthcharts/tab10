@@ -151,7 +151,7 @@ betas3 <- data.frame(
                 "Basis", "VMBO", "MBO 2", "MBO 3-4", "HAVO, VWO", "HBO, WO", "Onbekend",
                 "11-15", "16-20", "21-25", "26-30", "31-35", "36-40", "41-45", "46-50", "51-55", "56-60", "61-65", "66-70", "71+", "Onbekend",
                 "",
-                "Thuiswonend met kind", "Alleenstaand zonder kind", "Partner zonder kind", "Partner met kind", "Alleenstaand met kind", "Overig", "Onbekend",
+                "Thuiswonend kind", "Alleenstaand zonder kind", "Partner zonder kind", "Partner met kind", "Alleenstaand met kind", "Overig", "Onbekend",
                 "Bestaansminimum", "Laag", "Midden", "Hoog", "Onbekend",
                 "Eigen woning", "Huurwoning met huurtoeslag", "Huurwoning zonder huurtoeslag", "Onbekend",
                 "Zeer sterk stedelijk", "Sterk stedelijk", "Matig stedelijk", "Weinig stedelijk", "Niet stedelijk", "Onbekend",
