@@ -12,7 +12,7 @@ library(shinyjs)
 # https://github.com/jrowen/rhandsontable/pull/431
 
 # Get data function for use in UI
-source('/srv/shiny-server/postReq/getData.R', chdir = TRUE) # Current JESSE data location
+#source('/srv/shiny-server/postReq/getData.R', chdir = TRUE) # Current JESSE data location
 
 ## input card OV-----
 cards_ov <- list(
@@ -822,8 +822,8 @@ background: url('prem_geld2.png');  background-size: 100% 100%; background-posit
               card_header("Overige onderwerpen"),
               fluidRow(
                 column(12,
-                       actionButton("disButton13", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
-background: url('prem_leven.png');  background-size: 100% 100%; background-position: center;"),
+#                        actionButton("disButton13", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+# background: url('prem_leven.png');  background-size: 100% 100%; background-position: center;"),
                        actionButton("disButton14", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
 background: url('prem_leven2.png');  background-size: 100% 100%; background-position: center;"),
                        actionButton("disButton15", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
@@ -835,7 +835,7 @@ background: url('prem_gezond2.png');  background-size: 100% 100%; background-pos
           )
 
         ),
-        selected = "Start"
+        selected = "Gegevens"
       )
     )%>% hidden()
   )
@@ -1345,13 +1345,13 @@ server <- function(input, output, session) {
   )
 
   output$tab10_pt <- renderPlotly({
+    validate(need(input$outcome == "preterm-32w", message = "")) # ensure input has updated and no message is returned to the frontend
     create_tab10(pri = preterm_risk(),
                  outcome = input$outcome,
                  palet = input$color,
                  seed = 1,
                  ntab = 10000)
   })
-
 }
 
 shinyApp(ui, server)
