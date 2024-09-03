@@ -104,10 +104,10 @@ glue_frametext <- function(data, script, colors, riskgroup,
          nriskgroup = nriskgroup)
 
   # frame 7
-  relax <- 0
-  if (outcome %in% c("preterm-37w", "preterm-32w")) relax <- 1
+  relax <- 1
+  if (outcome %in% c("preterm-37w", "preterm-32w")) relax <- 10
   riskgrouplabel <- switch(
-    as.character(casecounts[riskgroup] + relax),
+    as.character(floor(casecounts[riskgroup] / relax)),
     "0" = "laag",
     "1" = "laag, maar niet verwaarloosbaar",
     "2" = "behoorlijk",
