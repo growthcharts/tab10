@@ -1,4 +1,4 @@
-FROM ghcr.io/growthcharts/jesse:0.2.1
+FROM ghcr.io/growthcharts/jesse:0.2.2
 
 # Copy config file
 COPY /shiny srv/shiny-server/tab10
