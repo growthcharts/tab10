@@ -1,3 +1,8 @@
+# tab10 0.7.2
+
+* Add Dockerfile for JESSE 0.2.2 deploy
+* Strip example data from app
+
 # tab10 0.7.1
 
 * Set start-up screen and model to GIZ/overweight-4y

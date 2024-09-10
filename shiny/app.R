@@ -12,7 +12,7 @@ library(shinyjs)
 # https://github.com/jrowen/rhandsontable/pull/431
 
 # Get data function for use in UI
-#source('/srv/shiny-server/postReq/getData.R', chdir = TRUE) # Current JESSE data location
+source('/srv/shiny-server/postReq/getData.R', chdir = TRUE) # Current JESSE data location
 
 ## input card OV-----
 cards_ov <- list(
