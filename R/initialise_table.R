@@ -172,7 +172,7 @@ initialise_table_1000 <- function(
 
   fig <- data |>
     #add filter to remove controls to speed up visual
-    dplyr::filter(case == TRUE) |>
+    dplyr::filter(.data$case == TRUE) |>
    # dplyr::filter(!frame == 5 & y < 3) |>
     plot_ly(
       x = ~x,
