@@ -42,6 +42,7 @@ Suggests:
 Remotes: 
     stefvanbuuren/AGD,
     stefvanbuuren/rhandsontable,
+    growthcharts/jamesdemodata,
     growthcharts/tab10
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
