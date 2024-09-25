@@ -13,7 +13,8 @@ Authors@R:
     person("Stef", "van Buuren", , "stef.vanbuuren@tno.nl", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1098-2119"))
 Depends: 
-    R (>= 2.10)
+    R (>= 2.10),
+    jamesdemodata
 Imports: 
     AGD,
     bsicons,
@@ -28,8 +29,7 @@ Imports:
     shinyjs,
     stringr,
     tibble,
-    utils,
-    jamesdemodata
+    utils
 Suggests:
     MASS
 Remotes: 
@@ -37,4 +37,4 @@ Remotes:
     stefvanbuuren/rhandsontable,
     growthcharts/tab10
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
