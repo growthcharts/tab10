@@ -1,3 +1,13 @@
+# tab10 0.8.0
+
+* Various changes to make all R CMD CHECK warnings and notes disappear
+* Updates DESCRIPTION and NEWS.md
+
+# tab10 0.7.2
+
+* Add Dockerfile for JESSE 0.2.2 deploy (only in shinyserver branch)
+* Strip example data from app (only in shinyserver branch)
+
 # tab10 0.7.1
 
 * Set start-up screen and model to GIZ/overweight-4y
