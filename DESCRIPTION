@@ -9,9 +9,16 @@ Description: The app that implements models to predict future childhood
 License: AGPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-Authors@R: 
-    person("Stef", "van Buuren", , "stef.vanbuuren@tno.nl", role = c("cre", "aut"),
-           comment = c(ORCID = "0000-0003-1098-2119"))
+Authors@R: c(person("Stef", "van Buuren", 
+                    email = "stef.vanbuuren@tno.nl", 
+                    role = c("cre", "aut"),
+                    comment = c(ORCID = "0000-0003-1098-2119")),
+             person("Iris", "Eekhout", 
+                    email = "iris.eekhout@tno.nl", 
+                    role = "aut"),
+             person("Arjan", "Huizing", 
+                    email = "arjan.huizing@tno.nl", 
+                    role = "aut"))
 Depends: 
     R (>= 3.5.0),
     jamesdemodata
