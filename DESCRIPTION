@@ -19,7 +19,7 @@ Imports:
     bsicons,
     bslib,
     dplyr,
-    ggplot2,
+    ggplot2 (<= 3.4.4),
     glue,
     plotly,
     rhandsontable,
