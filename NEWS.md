@@ -1,3 +1,8 @@
+# tab10 0.9.0
+
+* merges `app_jesse.R` from the `shinyserver` branch, which contains the JESSE integration and runs on a server (#4)
+* restores the inadvertently deleted local Shiny app `app.R`
+
 # tab10 0.8.1
 
 * Adds CITATION file
