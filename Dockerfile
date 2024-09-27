@@ -1,7 +1,9 @@
 FROM ghcr.io/growthcharts/jesse:0.2.2
 
 # Copy config file
-COPY /shiny srv/shiny-server/tab10
+COPY /shiny srv/shiny-server/app
+# Overwrite default app.R with jesse version
+RUN mv srv/shiny-server/app/app_jesse.R srv/shiny-server/app/app.R
 
 # install R packages required
 
