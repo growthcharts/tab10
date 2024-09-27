@@ -8,8 +8,10 @@ library(tab10)
 library(AGD)
 library(plotly)
 library(shinyjs)
-# Note: Use local version for R 4.3
-# https://github.com/jrowen/rhandsontable/pull/431
+
+## Note to developer:
+## See scripts/startup_problems.R for potential fixes of initialization
+## problems
 
 # Get data function for use in UI
 source('/srv/shiny-server/postReq/getData.R', chdir = TRUE) # Current JESSE data location

@@ -1,7 +1,7 @@
 Package: tab10
 Type: Package
 Title: Apps for project Kansrijke Start
-Version: 0.7.2
+Version: 0.8.0
 Description: The app that implements models to predict future childhood 
     overweight and language deficit at the age of four years. 
     The overweight model is designed to be applied at the age of four months. 
@@ -9,17 +9,25 @@ Description: The app that implements models to predict future childhood
 License: AGPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-Authors@R: 
-    person("Stef", "van Buuren", , "stef.vanbuuren@tno.nl", role = c("cre", "aut"),
-           comment = c(ORCID = "0000-0003-1098-2119"))
+Authors@R: c(person("Stef", "van Buuren", 
+                    email = "stef.vanbuuren@tno.nl", 
+                    role = c("cre", "aut"),
+                    comment = c(ORCID = "0000-0003-1098-2119")),
+             person("Iris", "Eekhout", 
+                    email = "iris.eekhout@tno.nl", 
+                    role = "aut"),
+             person("Arjan", "Huizing", 
+                    email = "arjan.huizing@tno.nl", 
+                    role = "aut"))
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5.0),
+    jamesdemodata
 Imports: 
     AGD,
     bsicons,
     bslib,
     dplyr,
-    ggplot2,
+    ggplot2 (<= 3.4.4),
     glue,
     plotly,
     rhandsontable,
@@ -28,13 +36,13 @@ Imports:
     shinyjs,
     stringr,
     tibble,
-    utils,
-    jamesdemodata
+    utils
 Suggests:
     MASS
 Remotes: 
     stefvanbuuren/AGD,
     stefvanbuuren/rhandsontable,
+    growthcharts/jamesdemodata,
     growthcharts/tab10
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
