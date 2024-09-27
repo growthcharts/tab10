@@ -1,0 +1,1530 @@
+library(shiny)
+library(bslib)
+library(bdsreader)
+library(bdsmodels)
+library(rhandsontable)
+library(ggplot2)
+library(tab10)
+library(AGD)
+library(plotly)
+library(shinyjs)
+library(jamesdemodata)
+
+## Note to developer:
+## See scripts/startup_problems.R for potential fixes of initialization
+## problems
+
+## input card OV-----
+cards_ov <- list(
+  father = card(
+    card_header(#"Vader",
+      class = "d-flex justify-content-between","Vader",
+      icon(name = NULL,
+           style = "
+                background: url('geld1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    selectInput(
+      "father_educ", "Opleiding vader",
+      c(
+        "Geen, Basis", "VMBO-P", "VMBO-T, MAVO", "MBO", "HAVO, VWO",
+        "HBO", "WO, MASTER", "Onbekend"
+      ),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    #selectInput(
+    #  "father_country", "Geboorteland vader",
+    #  c(
+    #    "Nederland", "Marokko", "Turkije", "Suriname",
+    #    "Antillen en Aruba", "Overige niet-westers", "Overige westers",
+    #    "Onbekend"
+    #  ),
+    #  selected = "Onbekend",
+    #  selectize = FALSE
+    #),
+    textInput("father_age", "Leeftijd vader", value = "")
+  ),
+  mother = card(
+    card_header(#"Moeder",
+      class = "d-flex justify-content-between","Moeder",
+      icon(name = NULL,
+           style = "
+                background: url('geld1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    selectInput(
+      "mother_educ", "Opleiding moeder",
+      c(
+        "Geen, Basis", "VMBO-P", "VMBO-T, MAVO", "MBO", "HAVO, VWO",
+        "HBO", "WO, MASTER", "Onbekend"
+      ),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    #selectInput(
+    #  "mother_country", "Geboorteland moeder",
+    #  c(
+    #    "Nederland", "Marokko", "Turkije", "Suriname",
+    #    "Antillen en Aruba", "Overige niet-westers", "Overige westers",
+    #    "Onbekend"
+    #  ),
+    #  selected = "Onbekend",
+    #  selectize = FALSE
+    #),
+    textInput("mother_age", "Leeftijd moeder", value = "")
+  ),
+  environment = card(
+    card_header(#"Leefomgeving",
+      class = "d-flex justify-content-between","Leefomgeving",
+      icon(name = NULL,
+           style = "
+                background: url('geld1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    numericInput("pc4", "Postcode 4-cijfers", value = "", min = 0, max = 9999, step = 1),
+    textOutput("stedelijkheid"),
+    textOutput("woz")
+  ),
+  medical = card(
+    card_header("Medisch"),
+    selectInput(
+      "sex", "Geslacht",
+      c("Jongen", "Meisje", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    textInput("ga", "Zwangerschapsduur (w)", value = ""),
+    selectInput(
+      "par", "Pariteit",
+      c("0", "1", "2", "3", "4", "5", "6+", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+  ),
+  growth = card(
+    card_header(class = "d-flex justify-content-between","Groei",
+                icon(name = NULL,
+                     style = "
+                background: url('groei.jpg');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")),
+    rHandsontableOutput("hot")
+
+  ),
+  result = card(
+    card_header("Resultaat"),
+    layout_columns(
+      tab10::bmiChartUI("bmichart"),
+      layout_columns(
+        col_widths = c(12, 12),
+        value_box(title = "Kans overgewicht, 4 jaar",
+                  value = textOutput("probability"),
+                  showcase = bsicons::bs_icon("person-lines-fill"),
+                  theme = value_box_theme(
+                    bg = rgb(224, 241, 231, maxColorValue = 255), fg = "#0B538E"),),
+        value_box(title = "Rang",
+                  value = textOutput("rank"),
+                  showcase = bsicons::bs_icon("sort-up"),
+                  theme = value_box_theme(
+                    bg = rgb(224, 241, 231, maxColorValue = 255), fg = "#0B538E"),)
+      )
+    )
+  )
+)
+
+## input card LG----
+cards_lg <- list(
+  result = card(
+    card_header("Resultaat"),
+    layout_columns(
+      col_widths = c(6, 6),
+      value_box(title = "Kans taalachterstand, 4 jaar",
+                value = textOutput("probability_lg"),
+                showcase = bsicons::bs_icon("person-lines-fill"),
+                theme = value_box_theme(
+                  bg = rgb(224, 241, 231, maxColorValue = 255), fg = "#0B538E"),),
+      value_box(title = "Rang",
+                value = textOutput("rank_lg"),
+                showcase = bsicons::bs_icon("sort-up"),
+                theme = value_box_theme(
+                  bg = rgb(224, 241, 231, maxColorValue = 255), fg = "#0B538E"),)
+    )
+  ),
+  medical = card(
+    card_header("Medisch"),
+    selectInput(
+      "sex_lg", "Geslacht",
+      c("Jongen", "Meisje", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    )
+  ),
+  father = card(
+    card_header(#"Vader",
+      class = "d-flex justify-content-between","Vader",
+      icon(name = NULL,
+           style = "
+                background: url('geld1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    selectInput(
+      "father_educ_lg", "Opleiding vader",
+      c(
+        "Geen, Basis", "VMBO-P", "VMBO-T, MAVO", "MBO", "HAVO, VWO",
+        "HBO", "WO, MASTER", "Onbekend"
+      ),
+      selected = "Onbekend",
+      selectize = FALSE
+    )
+  ),
+  mother = card(
+    card_header(#"Moeder",
+      class = "d-flex justify-content-between","Moeder",
+      icon(name = NULL,
+           style = "
+                background: url('geld1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    selectInput(
+      "mother_educ_lg", "Opleiding moeder",
+      c(
+        "Geen, Basis", "VMBO-P", "VMBO-T, MAVO", "MBO", "HAVO, VWO",
+        "HBO", "WO, MASTER", "Onbekend"
+      ),
+      selected = "Onbekend",
+      selectize = FALSE
+    )
+  ),
+  language = card(
+    card_header(#"Taal",
+      class = "d-flex justify-content-between","Taal",
+      icon(name = NULL,
+           style = "
+                background: url('taal1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    selectInput(
+      "opinion_lg", "Indruk 2 jaar",
+      c("Adequaat of sneller", "Langzaam", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    selectInput(
+      "sentences_lg", "Zinnen 2 woorden",
+      c("-", "M", "+", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    selectInput(
+      "doll_lg", "Pop 6 lichaamsdelen",
+      c("-", "M", "+", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    selectInput(
+      "langenv_lg", "Taalomgeving",
+      c("Onvoldoende", "Matig", "Voldoende", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    )
+  )
+)
+
+## input card PT----
+cards_pt <- list(
+  result = card(
+    card_header("Resultaat"),
+    layout_columns(
+      col_widths = c(6, 6),
+      value_box(title = "Kans vroeggeboorte, <32 weken",
+                value = textOutput("probability_pt"),
+                showcase = bsicons::bs_icon("person-lines-fill"),
+                theme = value_box_theme(
+                  bg = rgb(224, 241, 231, maxColorValue = 255), fg = "#0B538E"),),
+      value_box(title = "Rang",
+                value = textOutput("rank_pt"),
+                showcase = bsicons::bs_icon("sort-up"),
+                theme = value_box_theme(
+                  bg = rgb(224, 241, 231, maxColorValue = 255), fg = "#0B538E"),)
+    )
+  ),
+  medical = card(
+    card_header(#"Zwangerschap"
+      class = "d-flex justify-content-between","Zwangerschap",
+      icon(name = NULL,
+           style = "
+                background: url('prem_zwang1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    selectInput(
+      "sex_pt", "Geslacht",
+      c("Jongen", "Meisje", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    selectInput(
+      "interpreg_cat_pt", "Interpregnantie interval",
+      c("nvt", "<6 maanden", "6-12 maanden", "12-18 maanden",
+        "18-24 maanden", "24-30 maanden", ">30 maanden", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    selectInput(
+      "amddd1ond_cat_pt", "Amenorroeduur bij start zwangerschapsbegeleiding",
+      c("0-70 dagen", "71-112 dagen", ">112 dagen", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    selectInput(
+      "grav_cat_pt", "Graviditeit",
+      c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10+", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    )
+  ),
+  sga = card(
+    card_header(#"SGA"
+      class = "d-flex justify-content-between","SGA",
+      icon(name = NULL,
+           style = "
+                background: url('prem_zwangh1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    selectInput(
+      "N_vooraf_sga_pt", "# voorafgaande SGA",
+      c("nvt", "0", "1", "2", "3", "4", "5+", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    selectInput(
+      "vooraf_sga_pt", "In direct voorafgaande zwangerschap",
+      c("Nee", "Ja", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    )
+  ),
+  preterm = card(
+    card_header(#"Vroeggeboorte"
+      class = "d-flex justify-content-between","Vroeggeboorte",
+      icon(name = NULL,
+           style = "
+                background: url('prem_zwangh1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    selectInput(
+      "N_vroeg_24_37_pt", "# vroeggeboorten 24-37w",
+      c("0", "1", "2", "3", "3+", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    selectInput(
+      "vooraf_zw_vroeg_24_37_pt", "In direct voorafgaande zwangerschap",
+      c("Nee", "Ja", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    )
+  ),
+  father = card(
+    card_header(#"Vader",
+      class = "d-flex justify-content-between","Vader",
+      icon(name = NULL,
+           style = "
+                background: url('prem_geld1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    selectInput(
+      "father_educ_pt", "Opleiding vader",
+      c("Basis", "VMBO", "MBO 2", "MBO 3-4", "HAVO, VWO", "HBO, WO", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    selectInput(
+      "father_age_pt", "Leeftijd vader",
+      c("11-15", "16-20", "21-25", "26-30", "31-35", "36-40", "41-45", "46-50", "51-55", "56-60", "61-65", "66-70", "71+", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    )
+  ),
+  mother = card(
+    card_header(#"Moeder",
+      class = "d-flex justify-content-between","Moeder",
+      icon(name = NULL,
+           style = "
+                background: url('prem_geld1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    selectInput(
+      "mother_educ_pt", "Opleiding moeder",
+      c("Basis", "VMBO", "MBO 2", "MBO 3-4", "HAVO, VWO", "HBO, WO", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    textInput("mother_age_pt", "Leeftijd moeder", value = ""),
+    selectInput(
+      "plhh_partner_child_pt", "Positie moeder in huishouden",
+      c("Thuiswonend kind", "Alleenstaand zonder kind", "Partner zonder kind",
+        "Partner met kind", "Alleenstaand met kind", "Overig", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    )
+  ),
+  environment = card(
+    card_header(#"Leefomgeving",
+      class = "d-flex justify-content-between","Leefomgeving",
+      icon(name = NULL,
+           style = "
+                background: url('prem_geld1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    numericInput("pc4_pt", "Postcode 4-cijfers", value = "", min = 0, max = 9999, step = 1),
+    textOutput("stedelijkheid_pt"),
+    textOutput("COROP_pt")
+  ),
+  household = card(
+    card_header(#"Welstand",
+      class = "d-flex justify-content-between","Welstand",
+      icon(name = NULL,
+           style = "
+                background: url('prem_geld1.png');
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 32px;
+                width: 32px;
+                display: block;
+              ")
+    ),
+    selectInput(
+      "income_hh_mo_cat_pt", "Besteedbaar huishoudensinkomen",
+      c("Bestaansminimum", "Laag", "Midden", "Hoog", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    ),
+    selectInput(
+      "house_ownership_mo_pt", "Woningbezit",
+      c("Eigen woning", "Huurwoning met huurtoeslag", "Huurwoning zonder huurtoeslag", "Onbekend"),
+      selected = "Onbekend",
+      selectize = FALSE
+    )
+  )
+)
+
+##UI ----
+ui <- page_sidebar(
+  #CSS code to color border of GIZ tiles.
+  tags$head(
+    tags$style(HTML('
+      .toggle-button {
+        border-style: solid;
+        border-width: 3px; /* Adjust the border width as needed */
+      }
+      .disabled-button {
+        pointer-events: none;
+        border-style: solid;
+        border-width: 3px;
+      }
+      .btn-primary {
+        border-color: white;
+      }
+      .btn-danger {
+        border-color: #3dd29e;
+      }
+    ')),
+    tags$script(HTML('
+      $(document).on("shiny:connected", function() {
+        $(".toggle-button").each(function() {
+          var button = $(this);
+          var toggleState = false;
+          button.data("toggle-state", toggleState);
+          updateButtonBorderColor(button, toggleState);
+
+          button.click(function() {
+            toggleState = !toggleState;
+            button.data("toggle-state", toggleState);
+            updateButtonBorderColor(button, toggleState);
+            Shiny.setInputValue(button.attr("id"), toggleState);
+          });
+        });
+
+
+        function updateButtonBorderColor(button, state) {
+          var buttonId = button.attr("id");
+          var disButtonId = "#disButton" + buttonId.slice(-2);
+          if (state) {
+            button.css("border-color", "#3dd29e");
+            $(disButtonId).css("border-color", "#3dd29e");
+          } else {
+            button.css("border-color", "white");
+            $(disButtonId).css("border-color", "white");
+          }
+        }
+      });
+    '))
+  ),
+  useShinyjs(),
+  collapsible = TRUE,
+  fillable = TRUE,
+  theme = bslib::bs_theme(),
+  window_title = "tab10",
+  sidebar = sidebar(
+    title = "",
+    selectInput(
+      inputId = "outcome",
+      label = "Model",
+      choices = list(
+        "Overgewicht 4 jaar" = "overweight-4y",
+        "Spraaktaal 4 jaar" = "lang-4y",
+        "Vroeggeboorte <32w" = "preterm-32w"
+      ),
+      selected = "overweight-4y"
+    ),
+    selectInput(
+      inputId = "color",
+      label = "Kleur",
+      choices = list(
+        "Rood-blauw" = "softred",
+        "Mandarijn" = "mandarin",
+        "Rood-grijs" = "redshadow"
+      )
+    ),
+
+    br(),
+    hr(),
+    #br(),
+    h5("Voorbeeld data"),
+    selectInput(inputId = "cabinet",
+                label = "Data bron",
+                choices = c("-" = "none",
+                            "SMOCK" = "smocc",
+                            "Pinkeltje" = "preterm",
+                            "Graham" = "graham",
+                            "Terneuzen" = "terneuzen",
+                            "Test" = "test",
+                            "Kansrijke start" = "ks"),
+                selected =  "none"),
+    conditionalPanel(
+      condition = "input.cabinet == 'none'",
+      selectInput(inputId = "cpn.none",
+                  label = "Naam kind",
+                  choices = c("-" = "1"),
+                  selected = "1")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'smocc'",
+      selectInput(inputId = "cpn_smocc",
+                  label = "Naam kind",
+                  choices = c("Laura S" = "Laura_S",
+                              "Thomas S" = "Thomas_S",
+                              "Anne S" = "Anne_S",
+                              "Jeroen S" = "Jeroen_S",
+                              "Mark S" = "Mark_S",
+                              "Kevin S" = "Kevin_S",
+                              "Linda S" = "Linda_S",
+                              "Iris S" = "Iris_S",
+                              "Tim S" = "Tim_S",
+                              "Rick S" = "Rick_S"),
+                  selected = "Laura_S")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'preterm'",
+      selectInput(inputId = "cpn.preterm",
+                  label = "Naam kind",
+                  choices = c("Jurre P" = "Jurre_P",
+                              "Sanne P" = "Sanne_P",
+                              "Milan P" = "Milan_P",
+                              "Roos P" = "Roos_P",
+                              "Bram P" = "Bram_P",
+                              "Freek P" = "Freek_P",
+                              "Anouk P" = "Anouk_P",
+                              "Sharon P" = "Sharon_P",
+                              "Nick P" = "Nick_P",
+                              "Simon P" = "Simon_P"),
+                  selected = "Jurre_P")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'graham'",
+      selectInput(inputId = "cpn.graham",
+                  label = "Naam kind",
+                  choices = c("Lotte G" = "Lotte_G",
+                              "Tim G" = "Tim_G",
+                              "Hasna G" = "Hasna_G",
+                              "Naomi G" = "Naomi_G",
+                              "Sven G" = "Sven_G",
+                              "Nikki G" = "Nikki_G",
+                              "Nienke G" = "Nienke_G",
+                              "Femke G" = "Femke_G",
+                              "Bas G" = "Bas_G"),
+                  selected = "Lotto_G")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'terneuzen'",
+      selectInput(inputId = "cpn.terneuzen",
+                  label = "Naam kind",
+                  choices = c("T 163" = "T_163",
+                              "T 1017" = "T_1017",
+                              "T 1413" = "T_1413",
+                              "T 2035" = "T_2035",
+                              "T 2602" = "T_2602",
+                              "T 3254" = "T_3254",
+                              "T 4207" = "T_4207",
+                              "T 5002" = "T_5002",
+                              "T 5270" = "T_5270",
+                              "T 6021" = "T_6021"),
+                  selected = "T_163")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'test'",
+      selectInput(inputId = "cpn.test",
+                  label = "Naam test",
+                  choices = c(#"Laura" = "laura",
+                    #"Maria" = "maria",
+                    "T1 normal file" = "test1",
+                    "T2 No Referentie" = "test2",
+                    "T3 No OrganisatieCode" = "test3",
+                    "T4 OrganisatieCode is string" = "test4",
+                    "T5 No ClientGegevens" = "test5",
+                    "T6 No ContactMomenten" = "test6",
+                    "T7 No Referentie & OrganisatieCode" = "test7",
+                    "T8 Invalid OrganisatieCode" = "test8",
+                    "T9 No bds 19" = "test9",
+                    "T10 No bds 20" = "test10",
+                    "T11 No bds 82" = "test11",
+                    "T12 No bds 91" = "test12",
+                    "T13 No bds 110" = "test13",
+                    "T14 Empty file" = "test14",
+                    "T15 Numeric bds 19 + 62" = "test15",
+                    "T16 Numeric bds 20" = "test16",
+                    "T17 Numeric bds 82" = "test17",
+                    "T18 Numeric bds 91" = "test18",
+                    "T19 Numeric bds 110" = "test19",
+                    "T20 No Groepen" = "test20",
+                    "T21 Minimal JSON" = "test21",
+                    "T22 Range checks" = "test22",
+                    "T23 Num 19 + 62, range 82 + 252, no groepen" = "test23",
+                    "T24 Add ddi" = "test24",
+                    "T25 Extreme D-score at start" = "test25",
+                    "B1 no_vector bug" = "not_a_vector",
+                    "B2 http400 bug" = "http400"),
+                  selected = "laura")
+    ),
+    conditionalPanel(
+      condition = "input.cabinet == 'ks'",
+      selectInput(inputId = "cpn.ks",
+                  label = "Example nummer",
+                  choices = c("nr(1)" = "example(1)",
+                              "nr(2)" = "example(2)",
+                              "nr(3)" = "example(3)",
+                              "nr(4)" = "example(4)",
+                              "nr(5)" = "example(5)",
+                              "nr(6)" = "example(6)",
+                              "nr(7)" = "example(7)",
+                              "nr(8)" = "example(8)",
+                              "nr(9)" = "example(9)",
+                              "nr(10)" = "example(10)",
+                              "nr(11)" = "example(11)",
+                              "nr(12)" = "example(12)",
+                              "nr(13)" = "example(13)",
+                              "nr(14)" = "example(14)",
+                              "nr(15)" = "example(15)",
+                              "nr(16)" = "example(16)",
+                              "nr(17)" = "example(17)",
+                              "nr(18)" = "example(18)",
+                              "nr(19)" = "example(19)",
+                              "nr(20)" = "example(20)",
+                              "nr(21)" = "example(21)",
+                              "nr(22)" = "example(22)",
+                              "nr(23)" = "example(23)",
+                              "nr(24)" = "example(24)",
+                              "nr(25)" = "example(25)",
+                              "nr(26)" = "example(26)",
+                              "nr(27)" = "example(27)",
+                              "nr(28)" = "example(28)",
+                              "nr(29)" = "example(29)",
+                              "nr(30)" = "example(30)",
+                              "nr(31)" = "example(31)",
+                              "nr(32)" = "example(32)",
+                              "nr(33)" = "example(33)",
+                              "nr(34)" = "example(34)",
+                              "nr(35)" = "example(35)",
+                              "nr(36)" = "example(36)",
+                              "nr(37)" = "example(37)",
+                              "nr(38)" = "example(38)",
+                              "nr(39)" = "example(39)"
+
+                  ),
+                  selected = "nr(1)")
+    ),
+    div(HTML("&copy; Copyright, TNO 2024"),
+        style = "
+                 position:fixed;
+                 bottom:10.5px;
+                 width: 100%;
+                 height:20px;
+                 color: black;
+                 padding: 0px;
+                 z-index: 100;
+                 background-color: blanc;
+                 align:right;
+                ")
+  ),
+  ## ui card OV ----
+  card(
+    id = "card1",
+    card_header("Bezoek: 4 maanden | Uitkomst: Overgewicht 4 jaar"),
+    navset_tab(
+
+      nav_panel(
+        title = "Gegevens",
+        bslib::layout_columns(
+          layout_column_wrap(cards_ov[["result"]], cards_ov[["growth"]], heights_equal = "row", width = 1),
+          cards_ov[["medical"]],
+          col_widths = c(8, 4), fill = FALSE
+        ),
+        bslib::layout_columns(cards_ov[["father"]], cards_ov[["mother"]], cards_ov[["environment"]],
+                              fill = FALSE)
+      ),
+      nav_panel(
+        title = "Start",
+        bslib::layout_columns(
+          # imageOutput("gizviz")
+          card(
+            card_header("Model onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("toggleButton01", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('groei.PNG');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton02", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('geld.png');  background-size: cover; background-position: center;")
+              )),
+            br(),
+            card_header("Overige onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("toggleButton03", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('gezond.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton04", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('opvoeden.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton05", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('omgeving.png');  background-size: 100% 100%; background-position: center;")
+
+              )),
+            br()
+          )
+        )
+      ),
+      nav_panel(
+        title = "Tafel van Tien",
+        bslib::layout_columns(
+          plotly::plotlyOutput("tab10")
+        )
+      ),
+      nav_panel(
+        title = "Eind",
+        bslib::layout_columns(
+          card(
+            card_header("Model onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("disButton01", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('groei.PNG');  background-size:  100% 100%; background-position: center;", disable = TRUE),
+                     actionButton("disButton02", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('geld.png');  background-size: cover; background-position: center;", disable = TRUE)
+              )),
+            br(),
+            card_header("Overige onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("disButton03", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('gezond.png');  background-size:  100% 100%; background-position: center;", disable = TRUE),
+                     actionButton("disButton04", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('opvoeden.png');  background-size:  100% 100%; background-position: center;", disable = TRUE),
+                     actionButton("disButton05", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('omgeving.png');  background-size:  100% 100%; background-position: center;", disable = TRUE)
+              )),
+            br()
+          )
+        )
+      ),
+    ),
+    selected = "Gegevens"
+  ),
+  ## ui card LG ----
+  card(
+    id = "card2",
+    card_header("Bezoek: 24 maanden | Uitkomst: Taalontwikkeling 4 jaar"),
+    navset_tab(
+
+      nav_panel(
+        title = "Gegevens",
+        bslib::layout_columns(cards_lg[["result"]], cards_lg[["language"]],
+                              col_widths = c(8, 4), row_heights = c(2, 1),
+                              fill = FALSE),
+        bslib::layout_columns(cards_lg[["father"]], cards_lg[["mother"]], cards_lg[["medical"]],
+                              fill = FALSE)
+      ),
+      nav_panel(
+        title = "Start",
+        bslib::layout_columns(
+          # imageOutput("gizviz")
+          card(
+            card_header("Model onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("toggleButton06", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('taal.PNG');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton07", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('geld.png');  background-size: cover; background-position: center;")
+              )),
+            br(),
+            card_header("Overige onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("toggleButton08", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('gezond.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton09", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('social.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton10", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('media.png');  background-size: 100% 100%; background-position: center;")
+
+              )),
+            br()
+          )
+        )
+      ),
+      nav_panel(
+        title = "Tafel van Tien",
+        bslib::layout_columns(
+          plotly::plotlyOutput("tab10_lg")
+        )
+      ),
+      nav_panel(
+        title = "Eind",
+        bslib::layout_columns(
+          # imageOutput("gizviz")
+          card(
+            card_header("Model onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("disButton06", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('taal.PNG');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("disButton07", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('geld.png');  background-size: cover; background-position: center;")
+              )),
+            br(),
+            card_header("Overige onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("disButton08", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('gezond.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("disButton09", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('social.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("disButton10", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('media.png');  background-size: 100% 100%; background-position: center;")
+
+              )),
+            br()
+          )
+        )
+      ),
+      selected = "Gegevens"
+    )
+  )%>% hidden(),
+  ## ui card PT ----
+  card(
+    id = "card3",
+    card_header("Bezoek: 16-20 weken zwangerschap | Uitkomst: Vroeggeboorte <32 weken"),
+    navset_tab(
+
+      nav_panel(
+        title = "Gegevens",
+        bslib::layout_columns(cards_pt[["result"]], cards_pt[["medical"]],
+                              col_widths = c(8, 4), fill = FALSE),
+        bslib::layout_columns(cards_pt[["preterm"]], cards_pt[["sga"]], cards_pt[["environment"]],
+                              fill = FALSE),
+        bslib::layout_columns(cards_pt[["father"]], cards_pt[["mother"]], cards_pt[["household"]],
+                              fill = FALSE)
+      ),
+      nav_panel(
+        title = "Start",
+        bslib::layout_columns(
+          # imageOutput("gizviz")
+          card(
+            card_header("Model onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("toggleButton11", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('prem_zwang2.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton12", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('prem_zwanghist.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton13", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('prem_geld2.png');  background-size: 100% 100%; background-position: center;")
+              )),
+            br(),
+            card_header("Overige onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("toggleButton14", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('prem_leven2.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("toggleButton15", "", class = "btn-primary toggle-button", style = "width: 100px; height: 100px;
+background: url('prem_gezond2.png');  background-size: 100% 100%; background-position: center;")
+
+              )),
+            br()
+          )
+        )
+
+      ),
+      nav_panel(
+        title = "Tafel van Tien",
+        bslib::layout_columns(
+          plotly::plotlyOutput("tab10_pt")
+        )
+      ),
+      nav_panel(
+        title = "Eind",
+        bslib::layout_columns(
+          # imageOutput("gizviz")
+          card(
+            card_header("Model onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("disButton11", "", class = "btn-primary disabled-button",style = "width: 100px; height: 100px;
+background: url('prem_zwang2.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("disButton12", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('prem_zwanghist.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("disButton13", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('prem_geld2.png');  background-size: 100% 100%; background-position: center;")
+              )),
+            br(),
+            card_header("Overige onderwerpen"),
+            fluidRow(
+              column(12,
+                     actionButton("disButton14", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('prem_leven2.png');  background-size: 100% 100%; background-position: center;"),
+                     actionButton("disButton15", "", class = "btn-primary disabled-button", style = "width: 100px; height: 100px;
+background: url('prem_gezond2.png');  background-size: 100% 100%; background-position: center;")
+
+              )),
+            br()
+          )
+        )
+
+      ),
+      selected = "Gegevens"
+    )
+  )%>% hidden()
+)
+
+
+## server ----
+server <- function(input, output, session) {
+
+
+  # left panel ----
+  observeEvent(input$outcome, {
+    if (input$outcome == "overweight-4y") {
+      hide("card2"); hide("card3"); show("card1");
+    }
+    if (input$outcome == "lang-4y") {
+      hide("card1"); hide("card3"); show("card2");
+    }
+    if (input$outcome == "preterm-32w") {
+      hide("card1"); hide("card2"); show("card3");
+    }
+  })
+
+  current.childname <- reactive({
+    cab <- input$cabinet
+    childname <- switch(cab,
+                        "none" = "1",
+                        "smocc" = input$cpn_smocc,
+                        "preterm" = input$cpn.preterm,
+                        "graham" = input$cpn.graham,
+                        "terneuzen" = input$cpn.terneuzen,
+                        "test" = input$cpn.test,
+                        "ks" = input$cpn.ks,
+                        "0")
+    return(childname)
+  })
+
+  current.target <- reactive({
+    childname <- current.childname()
+    if (childname == "0") return(NULL)
+    if (childname == "1") return(NULL)
+    cc <- input$cabinet
+    if (cc == "preterm") cc <- "lollypop"
+    #cf <- current.format()
+    cf <- "2.0"
+    datapack <- "jamesdemodata"
+    if(cc == "ks"){
+      datapack <- "tab10"
+      fn <- system.file("extdata", paste0("bds_v", cf), cc, paste0(childname, ".RDS"),
+                        package = datapack)
+      target1 <- readRDS(fn)
+    }
+    if(cc != "ks"){
+      fn <- system.file("extdata", paste0("bds_v", cf), cc, paste0(childname, ".json"),
+                        package = datapack)
+      target1 <- bdsreader::read_bds(txt = fn, append_ddi = TRUE)
+
+    }
+    if(cc == "test" & childname == "laura") target1 = tgt_o
+    if(cc == "test" & childname == "maria") target1 = tgt_p
+
+    target <- collect_predictors(target1)
+
+
+    return(target)
+  })
+
+
+
+  # length-weight table
+  values <- reactiveValues()
+
+  observe({
+    if(!is.null(current.target()$tv)){
+      values[["DF"]] <- data.frame(current.target()$tv)
+    }
+    else {
+      if (is.null(values[["DF"]]))
+        values[["DF"]] <- data.frame(
+          Bezoek = c("Geboorte", "4 wk", "8 wk", "3 mnd", "4 mnd"),
+          Datum = format(c(0, 28, 56, 91, 122) + (Sys.Date() - 122), "%d-%m-%Y"),
+          Leeftijd = c(0, 28, 56, 91, 122) / 365.25,
+          Lengte = rep(NA_integer_, 5),
+          mm = rep("mm", 5),
+          Gewicht = rep(NA_integer_, 5),
+          g = rep("g", 5),
+          BMI = rep(NA_real_, 5),
+          SDS = rep(NA_real_, 5))
+    }
+    # values[["DF"]] <- DF
+  })
+
+  # observeEvent(input$updatehot, {
+  observe({
+    if (!is.null(input$hot)) {
+      DF <- hot_to_r(input$hot)
+      DF$Leeftijd <- {
+        dates <- as.Date(DF$Datum, format = "%d-%m-%Y")
+        as.numeric(dates - dates[1]) / 365.25
+      }
+      DF$BMI <-  DF$Gewicht/1000 / ( DF$Lengte/1000)^2
+      DF$SDS <- AGD::y2z(y = DF$BMI,
+                         x =  DF$Leeftijd,
+                         sex = ifelse(input$sex == "Meisje", "F", "M"),
+                         ref = AGD::nl4.bmi)
+
+      values[["DF"]] <- DF
+      # } else {
+      #    if (is.null(values[["DF"]]))
+      #      DF <- data.frame(
+      #        Bezoek = c("Geboorte", "4 wk", "8 wk", "3 mnd", "4 mnd"),
+      #        Datum = format(c(0, 28, 56, 91, 122) + (Sys.Date() - 122), "%d-%m-%Y"),
+      #        Leeftijd = c(0, 28, 56, 91, 122) / 365.25,
+      #        Lengte = rep(NA_integer_, 5),
+      #        mm = rep("mm", 5),
+      #        Gewicht = rep(NA_integer_, 5),
+      #        g = rep("g", 5),
+      #        BMI = rep(NA_real_, 5),
+      #        SDS = rep(NA_real_, 5))
+      #    else
+      #     DF <- values[["DF"]]
+    }
+
+    #DF
+  })
+
+  #temporary ethnicity variables mother/father - due to ZonMW restraints only updated in background and not shown in gegevens display.
+  temp_father_country <- reactive({if(is.null(current.target())) fc <- "Onbekend"
+  if(!is.null(current.target())) fc <-  current.target()[["psn"]][["ctrf"]]
+  fc})
+
+  temp_mother_country <- reactive({if(is.null(current.target())) mc <- "Onbekend"
+  if(!is.null(current.target())) mc <- current.target()[["psn"]][["ctrm"]]
+  mc})
+
+
+  #update gegevens tab met voorbeelddata
+  observe({
+    # overweight variables
+    updateSelectInput(inputId = "father_educ",
+                      selected = current.target()[["psn"]][["eduf"]] )
+    #updateSelectInput(inputId = "father_country",
+    #                  selected = current.target()[["psn"]][["ctrf"]] )
+    updateTextInput(inputId = "father_age",
+                    value = current.target()[["psn"]][["agef"]])
+    updateSelectInput(inputId = "mother_educ",
+                      selected = current.target()[["psn"]][["edum"]] )
+    # updateSelectInput(inputId = "mother_country",
+    #                    selected = current.target()[["psn"]][["ctrm"]] )
+
+    updateTextInput(inputId = "mother_age",
+                    value = current.target()[["psn"]][["agem"]])
+    updateNumericInput(inputId = "pc4",
+                       value = current.target()[["psn"]][["pc4"]])
+    updateSelectInput(inputId = "sex",
+                      selected = current.target()[["psn"]][["sex"]] )
+    updateTextInput(inputId = "ga",
+                    value = current.target()[["psn"]][["ga"]])
+    updateSelectInput(inputId = "par",
+                      selected = current.target()[["psn"]][["par"]] )
+
+    #taalontwikkeling
+    updateSelectInput(inputId = "sex_lg",
+                      selected = current.target()[["psn"]][["sex"]] )
+    updateSelectInput(inputId = "father_educ_lg",
+                      selected = current.target()[["psn"]][["eduf"]] )
+    updateSelectInput(inputId = "mother_educ_lg",
+                      selected = current.target()[["psn"]][["edum"]] )
+    updateSelectInput(inputId = "opinion_lg",
+                      selected = current.target()[["psn"]][["indruklg"]] )
+    updateSelectInput(inputId = "sentences_lg",
+                      selected = current.target()[["psn"]][["zin2w"]] )
+    updateSelectInput(inputId = "doll_lg",
+                      selected = current.target()[["psn"]][["pop6"]] )
+    updateSelectInput(inputId = "langenv_lg",
+                      selected = current.target()[["psn"]][["taalomgeving"]] )
+
+    #preterm
+    updateSelectInput(inputId = "sex_pt",
+                      selected = current.target()[["psn"]][["sex"]] )
+    updateTextInput(inputId = "mother_age_pt",
+                    value = current.target()[["psn"]][["agem"]])
+
+
+
+
+  })
+
+
+
+
+  # overweight-4y reactives ----
+  # table lookup for postal code attributes
+  pwu <- reactive(
+    tab10::pc4[match(input$pc4, tab10::pc4$pc4), ]
+  )
+
+  bmidata <- reactive(
+    # na.omit(hot_to_r(input$hot)[, c("Leeftijd", "SDS")])
+    na.omit(values[["DF"]][,c("Leeftijd", "SDS")])
+  )
+
+  # overweight-4y: beta lookups
+  bmiz_beta <- reactive({
+    beta <- beta_lookup("", c("BMI-Z 4 weken", "BMI-Z 8 weken",
+                              "BMI-Z 3 maanden", "BMI-Z 4 maanden"))
+    #DF <- hot_to_r(input$hot)
+    DF <- values[["DF"]]
+    bmiz <- DF$SDS[-1L]
+    bmiz[is.na(bmiz)] <- 0
+    sum(bmiz * beta)
+  })
+  sex_beta <- reactive(
+    beta_lookup(input$sex, "Geslacht", "overweight-4y")
+  )
+  bw_beta <- reactive({
+    beta <- beta_lookup("", "Geboortegewicht", "overweight-4y")
+    DF <- values[["DF"]]
+    bw <- as.numeric(DF$Gewicht[1L])
+    ifelse(is.na(bw), 3300 * beta, bw * beta)
+  })
+  ga_beta <- reactive({
+    beta <- beta_lookup("", "Zwangerschapsduur", "overweight-4y")
+    ga <- as.numeric(input$ga)
+    ifelse(is.na(ga), 40 * beta, ga * beta)
+  })
+  parity_beta <- reactive(
+    beta_lookup(input$par, "Pariteit", "overweight-4y")
+  )
+  father_educ_beta <- reactive(
+    beta_lookup(input$father_educ, "Opleiding vader", "overweight-4y")
+  )
+  father_country_beta <- reactive(
+    # beta_lookup(input$father_country, "Geboorteland vader", "overweight-4y")
+    beta_lookup(temp_father_country(), "Geboorteland vader", "overweight-4y")
+  )
+  fa_beta <- reactive({
+    beta <- beta_lookup("", "Leeftijd vader", "overweight-4y")
+    fa <- as.numeric(input$father_age)
+    ifelse(is.na(fa), 34 * beta, fa * beta)
+  })
+  mother_educ_beta <- reactive(
+    beta_lookup(input$mother_educ, "Opleiding moeder", "overweight-4y")
+  )
+  mother_country_beta <- reactive(
+    # beta_lookup(input$mother_country, "Geboorteland moeder", "overweight-4y")
+    beta_lookup(temp_mother_country(), "Geboorteland moeder", "overweight-4y")
+  )
+  ma_beta <- reactive({
+    beta <- beta_lookup("", "Leeftijd moeder", "overweight-4y")
+    ma <- as.numeric(input$mother_age)
+    ifelse(is.na(ma), 32 * beta, ma * beta)
+  })
+  sted <- reactive({
+    switch(as.character(pwu()$urb),
+           "1" = "Zeer sterk stedelijk",
+           "2" = "Sterk stedelijk",
+           "3" = "Matig stedelijk",
+           "4" = "Weinig stedelijk",
+           "5" = "Niet stedelijk",
+           "Onbekend")
+  })
+  sted_beta <- reactive({
+    beta_lookup(sted(), "Stedelijkheid", "overweight-4y")
+  })
+  woz_beta <- reactive({
+    beta <- beta_lookup("", "WOZ woning", "overweight-4y")
+    ifelse(is.na(pwu()$woz), 338000 * beta, pwu()$woz * 1000 * beta)
+  })
+
+  # overweight-4y: calculate risk and rank ----
+
+  overweight_risk <- reactive({
+    lp <- -2.25821890 + sex_beta() + bw_beta() + ga_beta() + parity_beta() +
+      father_educ_beta() + father_country_beta() + fa_beta() +
+      mother_educ_beta() + mother_country_beta() + ma_beta() +
+      sted_beta() + woz_beta() + bmiz_beta()
+    expit(lp)
+  })
+  overweight_rank <- reactive(
+    p2rank(overweight_risk(), outcome = "overweight-4y")
+  )
+
+  # lang-4y: beta lookups ----
+  sex_lg_beta <- reactive(
+    beta_lookup(input$sex_lg, "Geslacht", "lang-4y")
+  )
+  father_educ_lg_beta <- reactive(
+    beta_lookup(input$father_educ_lg, "Opleiding vader", "lang-4y")
+  )
+  mother_educ_lg_beta <- reactive(
+    beta_lookup(input$mother_educ_lg, "Opleiding moeder", "lang-4y")
+  )
+  opinion_lg_beta <- reactive(
+    beta_lookup(input$opinion_lg, "Indruk 2 jaar", "lang-4y")
+  )
+  sentences_lg_beta <- reactive(
+    beta_lookup(input$sentences_lg, "Zin 2 woorden", "lang-4y")
+  )
+  doll_lg_beta <- reactive(
+    beta_lookup(input$doll_lg, "Pop 6 lichaamsdelen", "lang-4y")
+  )
+  langenv_lg_beta <- reactive(
+    beta_lookup(input$langenv_lg, "Taalomgeving", "lang-4y")
+  )
+
+  # lang-4y: calculate risk and rank ----
+  language_risk <- reactive({
+    lp <- -0.28651335 + sex_lg_beta() +
+      father_educ_lg_beta() + mother_educ_lg_beta() +
+      opinion_lg_beta() + sentences_lg_beta() + doll_lg_beta() +
+      langenv_lg_beta()
+    expit(lp)
+  })
+  language_rank <- reactive(
+    p2rank(language_risk(), outcome = "lang-4y")
+  )
+
+  # preterm-32w: beta lookups ----
+  sex_pt_beta <- reactive(
+    beta_lookup(input$sex_pt, "Geslacht", "preterm-32w")
+  )
+  N_vroeg_24_37_pt_beta <- reactive(
+    beta_lookup(input$N_vroeg_24_37_pt, "# vroeggeboorten 24-37w", "preterm-32w")
+  )
+  vooraf_zw_vroeg_24_37_pt_beta <- reactive(
+    beta_lookup(input$vooraf_zw_vroeg_24_37_pt, "In voorafgaande zwangerschap", "preterm-32w")
+  )
+  N_vooraf_sga_pt_beta <- reactive(
+    beta_lookup(input$N_vooraf_sga_pt, "# voorafgaande SGA", "preterm-32w")
+  )
+  vooraf_sga_pt_beta <- reactive(
+    beta_lookup(input$vooraf_sga_pt, "SGA voorafgaande zwangerschap", "preterm-32w")
+  )
+  interpreg_cat_pt_beta <- reactive(
+    beta_lookup(input$interpreg_cat_pt, "Interpregnantie interval", "preterm-32w")
+  )
+  amddd1ond_cat_pt_beta <- reactive(
+    beta_lookup(input$amddd1ond_cat_pt, "Amenorroeduur bij start", "preterm-32w")
+  )
+  grav_cat_pt_beta <- reactive(
+    beta_lookup(input$grav_cat_pt, "Graviditeit", "preterm-32w")
+  )
+  father_educ_pt_beta <- reactive(
+    beta_lookup(input$father_educ_pt, "Opleiding vader", "preterm-32w")
+  )
+  father_age_pt_beta <- reactive(
+    beta_lookup(input$father_age_pt, "Leeftijd vader", "preterm-32w")
+  )
+  mother_educ_pt_beta <- reactive(
+    beta_lookup(input$mother_educ_pt, "Opleiding moeder", "preterm-32w")
+  )
+  mother_age_pt_beta <- reactive({
+    beta <- beta_lookup("", "Leeftijd moeder", "preterm-32w")
+    ma <- as.numeric(input$mother_age_pt)
+    ifelse(is.na(ma), 32 * beta, ma * beta)
+  })
+  plhh_partner_child_pt_beta <- reactive(
+    beta_lookup(input$plhh_partner_child_pt, "Rol moeder in huishouden", "preterm-32w")
+  )
+  income_hh_mo_cat_pt_beta <- reactive(
+    beta_lookup(input$income_hh_mo_cat_pt, "Besteedbaar inkomen", "preterm-32w")
+  )
+  house_ownership_mo_pt_beta <- reactive(
+    beta_lookup(input$house_ownership_mo_pt, "Woningbezit", "preterm-32w")
+  )
+  pwu_pt <- reactive(
+    tab10::pc4[match(input$pc4_pt, tab10::pc4$pc4), ]
+  )
+  sted_pt <- reactive({
+    switch(as.character(pwu_pt()$urb),
+           "1" = "Zeer sterk stedelijk",
+           "2" = "Sterk stedelijk",
+           "3" = "Matig stedelijk",
+           "4" = "Weinig stedelijk",
+           "5" = "Niet stedelijk",
+           "Onbekend")
+  })
+  sted_pt_beta <- reactive({
+    beta_lookup(sted_pt(), "Stedelijkheid", "preterm-32w")
+  })
+  corop_pt <- reactive({
+    corop <- as.character(pwu_pt()$COROP)
+    ifelse(is.na(corop), "Onbekend", corop)
+  })
+  corop_pt_beta <- reactive(
+    beta_lookup(corop_pt(), "COROP", "preterm-32w")
+  )
+
+  # preterm-32w: calculate risk and rank ----
+  preterm_risk <- reactive({
+    lp <- -4.11456 + sex_pt_beta() +
+      N_vroeg_24_37_pt_beta() + vooraf_zw_vroeg_24_37_pt_beta() +
+      N_vooraf_sga_pt_beta() + vooraf_sga_pt_beta() +
+      interpreg_cat_pt_beta() + interpreg_cat_pt_beta() +
+      amddd1ond_cat_pt_beta() + grav_cat_pt_beta() +
+      father_educ_pt_beta() + father_age_pt_beta() +
+      mother_educ_pt_beta() + mother_age_pt_beta() +
+      plhh_partner_child_pt_beta() + income_hh_mo_cat_pt_beta() +
+      house_ownership_mo_pt_beta() +
+      sted_pt_beta() + corop_pt_beta()
+    expit(lp)
+  })
+  preterm_rank <- reactive(
+    p2rank(preterm_risk(), outcome = "preterm-32w")
+  )
+
+  # overweight-4y: outputs ----
+  output$gizviz <- renderImage({
+    list(
+      src = system.file("extdata", "CAF_Picto_0-4.svg", package = "tab10"),
+      alt = "Figuur dat de GIZ-methodiek 0-4 jaar samenvat"
+    )},
+    deleteFile = FALSE
+  )
+
+
+
+
+  tab10::bmiChartServer(id = "bmichart", bmidata, tab10::emptyplot)
+  output$probability <-
+    renderText(format(round(overweight_risk(), digits = 2), nsmall = 2))
+  output$rank <-
+    renderText(format(round(overweight_rank())))
+
+
+  output$hot <- renderRHandsontable({
+    #DF <- isolate(values[["DF"]])
+    DF <- values[["DF"]]
+
+    if (!is.null(DF)) {
+      rhandsontable(DF,
+                    rowHeaders = NULL,
+                    width = 610) |>
+        hot_col(col = "Datum", type = "date", dateFormat = "DD-MM-YYYY") |>
+        hot_col(col = "Leeftijd", format = "0.000") |>
+        hot_col(col = "BMI", format = "00.0") |>
+        hot_col(col = "SDS", format = "0.00") |>
+        hot_col(col = c("Bezoek","Leeftijd", "mm", "g", "BMI", "SDS"), readOnly = TRUE) |>
+        hot_cols(colWidths = c(90, 120, 60, 70, 40, 70, 20, 70, 70))
+      ## Code below colors columns, but deactivates the datepicker
+      # hot_cols(renderer =
+      # "function(instance, td, row, col, prop, value, cellProperties) {
+      #    Handsontable.renderers.TextRenderer.apply(this, arguments);
+      #    if (col == 3) {
+      #       td.style.background = '#00000011';
+      #    }
+      #    if (col == 5) {
+      #       td.style.background = '#00000011';
+      #    }
+      #    return td;
+      #  }")
+    }
+  })
+  output$stedelijkheid <- renderText(
+    ifelse(is.na(pwu()$urb),
+           "Bebouwing: ",
+           paste0("Bebouwing: ", sted())
+    )
+  )
+  output$woz <- renderText(
+    ifelse(
+      is.na(pwu()$woz),
+      "WOZ: ",
+      paste0(
+        "WOZ: ",
+        format(pwu()$woz * 1000,
+               big.mark = ".",
+               decimal.mark = ",",
+               scientific = FALSE
+        )
+      )
+    )
+  )
+  output$tab10 <- renderPlotly({
+
+    if(length(overweight_risk()) == 0) pri <- 0.06
+    else(pri <- overweight_risk())
+
+    create_tab10(pri = pri,
+                 outcome = input$outcome,
+                 palet = input$color,
+                 seed = 1)
+  })
+
+  # lang-4y: outputs ----
+  output$gizviz_lg <- renderImage({
+    list(
+      src = system.file("extdata", "CAF_Picto_0-4.svg", package = "tab10"),
+      alt = "Figuur dat de GIZ-methodiek 0-4 jaar samenvat"
+    )},
+    deleteFile = FALSE
+  )
+  output$probability_lg <-
+    renderText(format(round(language_risk(), digits = 2), nsmall = 2))
+  output$rank_lg <-
+    renderText(format(round(language_rank())))
+  output$tab10_lg <- renderPlotly({
+    create_tab10(pri = language_risk(),
+                 outcome = input$outcome,
+                 palet = input$color,
+                 seed = 1)
+  })
+
+  # preterm-32w: outputs ----
+  output$gizviz_pt <- renderImage({
+    list(
+      src = system.file("extdata", "CAF_Picto_0-4.svg", package = "tab10"),
+      alt = "Figuur dat de GIZ-methodiek 0-4 jaar samenvat"
+    )},
+    deleteFile = FALSE
+  )
+  output$probability_pt <-
+    renderText(format(round(preterm_risk(), digits = 4), nsmall = 4))
+  output$rank_pt <-
+    renderText(format(round(preterm_rank())))
+  output$stedelijkheid_pt <- renderText(
+    ifelse(is.na(pwu_pt()$urb),
+           "Bebouwing: ",
+           paste0("Bebouwing: ", sted_pt())
+    )
+  )
+  output$COROP_pt <- renderText(
+    ifelse(is.na(pwu_pt()$urb),
+           "COROP: ",
+           paste0("COROP: ", tab10::corop[as.numeric(corop_pt()), "naam"])
+    )
+  )
+
+  output$tab10_pt <- renderPlotly({
+    create_tab10(pri = preterm_risk(),
+                 outcome = input$outcome,
+                 palet = input$color,
+                 seed = 1,
+                 ntab = 10000)
+  })
+
+}
+
+shinyApp(ui, server)
