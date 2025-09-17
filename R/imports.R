@@ -1,4 +1,3 @@
-#' @import     jamesdemodata
 #' @importFrom AGD      y2z
 #' @importFrom bsicons  bs_icon
 #' @importFrom bslib    card card_header nav_panel layout_column_wrap

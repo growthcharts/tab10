@@ -1,13 +1,95 @@
+# ---- app.R bootstrap: ensure app-only Suggests are available -----------------
+
+.ensure_pkg <- function(pkg, github = NULL, min_version = NULL) {
+  ok <- requireNamespace(pkg, quietly = TRUE)
+  if (ok && !is.null(min_version)) {
+    ok <- utils::packageVersion(pkg) >= as.package_version(min_version)
+  }
+  if (ok) return(invisible(TRUE))
+
+  # Non-interactive (e.g., R CMD check, Shiny Server start) -> fail fast
+  if (!interactive()) {
+    msg <- sprintf(
+      "Missing required app package '%s'%s. Install it before running the app.%s",
+      pkg,
+      if (!is.null(min_version)) paste0(" (>= ", min_version, ")") else "",
+      if (!is.null(github)) sprintf(" Try: remotes::install_github('%s')", github) else ""
+    )
+    stop(msg, call. = FALSE)
+  }
+
+  message(sprintf("Installing missing package '%s'...", pkg))
+
+  # Prefer pak if available (fast + locked)
+  if (requireNamespace("pak", quietly = TRUE)) {
+    if (!is.null(github)) {
+      pak::pak(github, ask = FALSE)
+    } else {
+      pak::pak(pkg, ask = FALSE)
+    }
+  } else {
+    # Ensure 'remotes' for GitHub installs
+    if (!is.null(github)) {
+      if (!requireNamespace("remotes", quietly = TRUE)) {
+        install.packages("remotes")
+      }
+      remotes::install_github(github, upgrade = "never", dependencies = NA)
+    } else {
+      install.packages(pkg, dependencies = TRUE)
+    }
+  }
+
+  # Re-check
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(sprintf("Failed to install '%s'. Please install it manually.", pkg), call. = FALSE)
+  }
+  invisible(TRUE)
+}
+
+# ---- declare the app-only deps (Suggests) here --------------------------------
+# Map package -> GitHub slug if it’s not on CRAN
+.app_suggests <- list(
+  # CRAN packages used only by the app can be listed with github = NULL
+  # e.g. "MASS" = NULL,
+  # App needs to load, but not imported by tab10:
+  "bdsreader"  = "growthcharts/bdsreader",
+  "bdsmodels"  = "growthcharts/bdsmodels",
+  "jamesdemodata" = "growthcharts/jamesdemodata",
+  # App uses a GH-only rhandsontable fork (as in Remotes):
+  "rhandsontable" = "stefvanbuuren/rhandsontable",
+  # App uses AGD from GitHub:
+  "AGD" = "stefvanbuuren/AGD"
+)
+
+# Optionally enforce versions (example shown but not required)
+.app_min_versions <- list(
+  # "bdsreader" = "0.1.0",
+  # "bdsmodels" = "0.1.0"
+)
+
+# ---- ensure all app-only deps are installed -----------------------------------
+for (pkg in names(.app_suggests)) {
+  .ensure_pkg(
+    pkg,
+    github = .app_suggests[[pkg]],
+    min_version = .app_min_versions[[pkg]]
+  )
+}
+
+# From here on, it's safe to use the app-only packages
+# library(bdsreader); library(bdsmodels); library(jamesdemodata)
+# ------------------------------------------------------------------------------
+
 library(shiny)
 library(bslib)
-library(bdsreader)
-library(bdsmodels)
 library(rhandsontable)
 library(ggplot2)
 library(tab10)
 library(AGD)
 library(plotly)
 library(shinyjs)
+library(bdsreader)
+library(bdsmodels)
 library(jamesdemodata)
 
 ## Note to developer:

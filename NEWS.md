@@ -1,3 +1,12 @@
+# tab10 1.0.0
+
+## Revises the dependencies for the package
+
+* Adds `bdsreader`, `bdsmodels` to Suggests
+* Moves `jamedemodata` from Depends to Suggests
+* Updates `app.R` with safe-loading code for app-only packages
+* Moves the minimal R version to 4.1.0
+
 # tab10 0.9.0
 
 * merges `app_jesse.R` from the `shinyserver` branch, which contains the JESSE integration and runs on a server (#4)

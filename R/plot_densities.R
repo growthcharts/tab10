@@ -17,7 +17,7 @@ plot_densities <- function(data = tab10::predictions,
                              0 ~ colors[1],
                              1 ~ colors[2])
     )
-  print(data)
+  # print(data)
 
   fig <- suppressWarnings(
     ggplot2::ggplot(data,
