@@ -1,0 +1,61 @@
+# tab10 no longer depends on JESSE's postReq/getData.R (that was the only
+# reason to build FROM ghcr.io/growthcharts/jesse) -- dossier data now comes
+# from a JAMES session via app_james.R's own httr2 fetch (see
+# shiny/app_james.R). JESSE itself builds FROM rocker/shiny:4.3.2, so this
+# uses the same base directly.
+FROM rocker/shiny:4.3.2
+
+# Copy config file
+COPY /shiny srv/shiny-server/app
+# Overwrite default app.R with the james (jamesapp-integrated) variant
+RUN mv srv/shiny-server/app/app_james.R srv/shiny-server/app/app.R
+
+# System libraries required by httr2/curl and by AGD/plotly/rhandsontable's
+# fork (fonts, TLS). Verify during local build/test that this list stays
+# sufficient -- JESSE's own Dockerfile additionally installs
+# libsodium-dev/cron/git, which were only needed for JESSE's postReq
+# encryption+cleanup mechanism and are not needed here.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      libcurl4-gnutls-dev \
+      libssl-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# install R packages required
+
+# Change the packages list to suit your needs
+RUN R -e 'install.packages(c(\
+             "bsicons", \
+             "rhandsontable", \
+             "AGD", \
+             "plotly", \
+             "shinyjs", \
+             "htmltools", \
+             "bslib", \
+             "httr2" \
+           ) , \
+           repos="https://packagemanager.rstudio.com/cran/__linux__/focal/2021-04-23" \
+         )'
+
+
+# get github packages
+COPY Renviron .Renviron
+RUN R -e 'install.packages("jsonvalidate")' # require 1.3.2
+# rhandsontable and AGD: use the same forks pinned in DESCRIPTION's Remotes:
+# (stefvanbuuren/rhandsontable, stefvanbuuren/AGD), not the CRAN versions
+# installed above -- the fork carries an unreleased bug fix. Install after
+# the CRAN step so remotes::install_github() overwrites it.
+RUN R -e 'remotes::install_github("stefvanbuuren/rhandsontable")'
+RUN R -e 'remotes::install_github("stefvanbuuren/AGD")'
+RUN R -e 'remotes::install_github("https://github.com/growthcharts/bdsreader")'
+RUN R -e 'remotes::install_github("https://github.com/growthcharts/bdsmodels")'
+RUN R -e 'remotes::install_github("https://github.com/growthcharts/jamesdemodata")'
+# Installs from main -- app_james.R now lives on main, not a separate
+# shinyserver branch (that branch split existed only to isolate
+# JESSE-specific app_jesse.R deploy concerns, which no longer apply here).
+RUN R -e 'remotes::install_github("https://github.com/growthcharts/tab10")'
+RUN rm .Renviron
+
+# Downgrade to v3.4.4. ggplot2 v3.5.0 breaks functionality of bslib.
+RUN R -e 'install.packages("http://cran.r-project.org/src/contrib/Archive/ggplot2/ggplot2_3.4.4.tar.gz", repos=NULL, type="source")'
+
+ENV JAMES_BASE_URL=http://james

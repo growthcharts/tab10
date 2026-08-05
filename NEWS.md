@@ -1,3 +1,18 @@
+# tab10 1.1.0
+
+## Adds a jamesapp-integrated app variant
+
+* Adds `shiny/app_james.R`, a new app variant that retrieves dossier data
+  from a JAMES OpenCPU session (`?session=` query param) instead of JESSE's
+  local encrypted-RDS lookup, via a new `httr2`-based fetch of the session's
+  `/rda` path. Part of wiring tab10's Table of Ten into jamesapp; see
+  `james`'s new `request_tab10()` and `jamesdocker`'s new `/tab10` routes.
+* Adds `Dockerfile.james`, a new build alongside the existing `Dockerfile`,
+  based on `rocker/shiny:4.3.2` instead of the JESSE base image (JESSE was
+  only needed for `postReq/getData.R`, which `app_james.R` no longer uses).
+  `Dockerfile` (JESSE/I-JGZ) is unchanged.
+* Adds `httr2` to Suggests
+
 # tab10 1.0.0
 
 ## Revises the dependencies for the package
