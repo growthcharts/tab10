@@ -26,7 +26,7 @@ Imports:
     bsicons,
     bslib,
     dplyr,
-    ggplot2 (<= 3.4.4),
+    ggplot2,
     glue,
     plotly,
     rhandsontable,
@@ -50,4 +50,4 @@ Remotes:
     growthcharts/jamesdemodata,
     growthcharts/tab10
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.1.0
