@@ -1,3 +1,10 @@
+# tab10 1.2.0
+
+* `Dockerfile.james` temporarily installs tab10 from the
+  `jamesapp-integration` branch instead of main (`app_james.R` doesn't exist
+  on main yet); revert to installing without a `ref` once that branch is
+  merged
+
 # tab10 1.1.0
 
 ## Adds a jamesapp-integrated app variant
