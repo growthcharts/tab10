@@ -49,10 +49,14 @@ RUN R -e 'remotes::install_github("stefvanbuuren/AGD")'
 RUN R -e 'remotes::install_github("https://github.com/growthcharts/bdsreader")'
 RUN R -e 'remotes::install_github("https://github.com/growthcharts/bdsmodels")'
 RUN R -e 'remotes::install_github("https://github.com/growthcharts/jamesdemodata")'
-# Installs from main -- app_james.R now lives on main, not a separate
-# shinyserver branch (that branch split existed only to isolate
-# JESSE-specific app_jesse.R deploy concerns, which no longer apply here).
-RUN R -e 'remotes::install_github("https://github.com/growthcharts/tab10")'
+# TEMPORARY: pinned to the jamesapp-integration branch until it's merged to
+# main (PR: https://github.com/growthcharts/tab10/pull/new/jamesapp-integration).
+# app_james.R doesn't exist on main yet -- switch back to installing plain
+# "https://github.com/growthcharts/tab10" (no ref) once merged. Not a
+# separate permanent branch like the old "shinyserver" split (that existed
+# to isolate JESSE-specific app_jesse.R deploy concerns, which don't apply
+# here).
+RUN R -e 'remotes::install_github("https://github.com/growthcharts/tab10", ref = "jamesapp-integration")'
 RUN rm .Renviron
 
 # Downgrade to v3.4.4. ggplot2 v3.5.0 breaks functionality of bslib.
