@@ -50,7 +50,6 @@
 # Map package -> GitHub slug if it's not on CRAN
 .app_suggests <- list(
   # App needs to load, but not imported by tab10:
-  "bdsreader"  = "growthcharts/bdsreader",
   "bdsmodels"  = "growthcharts/bdsmodels",
   # App uses a GH-only rhandsontable fork (as in Remotes):
   "rhandsontable" = "stefvanbuuren/rhandsontable",
@@ -62,7 +61,6 @@
 
 # Optionally enforce versions (example shown but not required)
 .app_min_versions <- list(
-  # "bdsreader" = "0.1.0",
   # "bdsmodels" = "0.1.0"
 )
 
@@ -78,7 +76,6 @@ for (pkg in names(.app_suggests)) {
 
 library(shiny)
 library(bslib)
-library(bdsreader)
 library(bdsmodels)
 library(rhandsontable)
 library(ggplot2)

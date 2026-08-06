@@ -16,8 +16,7 @@ RUN R -e 'install.packages(c(\
   "plotly", \
   "shinyjs", \
   "htmltools", \
-  "httr2", \
-  "jsonvalidate" \
+  "httr2" \
   ) , \
   repos="https://cran.r-project.org" \
   )'
@@ -26,10 +25,8 @@ RUN R -e 'install.packages(c(\
 COPY Renviron .Renviron
 RUN R -e 'remotes::install_github("stefvanbuuren/rhandsontable")'
 RUN R -e 'remotes::install_github("stefvanbuuren/AGD")'
-RUN R -e 'remotes::install_github("https://github.com/growthcharts/jamesdemodata")'
 RUN R -e 'install.packages(c("stringi", "stringr"), repos="https://cran.r-project.org")'
 RUN R -e 'remotes::install_github("https://github.com/growthcharts/bdsmodels")'
-RUN R -e 'remotes::install_github("https://github.com/growthcharts/bdsreader")'
 RUN R -e 'remotes::install_github("https://github.com/growthcharts/tab10", ref = "jamesapp-integration")'
 RUN rm .Renviron
 
