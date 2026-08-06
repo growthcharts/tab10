@@ -53,8 +53,12 @@
   "bdsmodels"  = "growthcharts/bdsmodels",
   # App uses a GH-only rhandsontable fork (as in Remotes):
   "rhandsontable" = "stefvanbuuren/rhandsontable",
-  # App uses AGD from GitHub:
-  "AGD" = "stefvanbuuren/AGD",
+  # BMI Z-scores use the 1997 Dutch reference already bundled in
+  # nlreferences (a bdsmodels dependency), via centile::y2z() -- replaces
+  # the AGD::y2z()/AGD::nl4.bmi combination, confirmed to give identical
+  # results, so the separate AGD fork install is no longer needed.
+  "nlreferences" = "growthcharts/nlreferences",
+  "centile" = "growthcharts/centile",
   # HTTP client used to fetch dossier data from a JAMES session:
   "httr2" = NULL
 )
@@ -80,7 +84,8 @@ library(bdsmodels)
 library(rhandsontable)
 library(ggplot2)
 library(tab10)
-library(AGD)
+library(centile)
+library(nlreferences)
 library(plotly)
 library(shinyjs)
 
@@ -1022,10 +1027,14 @@ server <- function(input, output, session) {
         as.numeric(dates - dates[1]) / 365.25
       }
       DF$BMI <-  DF$Gewicht/1000 / ( DF$Lengte/1000)^2
-      DF$SDS <- AGD::y2z(y = DF$BMI,
+      bmi_sex <- ifelse(input$sex == "Meisje", "female", "male")
+      bmi_refcode <- centile::make_refcode(
+        name = "nl", year = "1997", yname = "bmi", sex = bmi_sex, sub = "nl"
+      )
+      DF$SDS <- centile::y2z(y = DF$BMI,
                          x =  DF$Leeftijd,
-                         sex = ifelse(input$sex == "Meisje", "F", "M"),
-                         ref = AGD::nl4.bmi)
+                         refcode = bmi_refcode,
+                         pkg = "nlreferences")
 
     values[["DF"]] <- DF
     # } else {
