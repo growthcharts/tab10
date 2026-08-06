@@ -589,7 +589,7 @@ cards_pt <- list(
 ui <- function() {
 
 
-  page_sidebar(
+  page_fillable(
     #CSS code to color border of GIZ tiles.
     tags$head(
       tags$style(HTML('
@@ -641,45 +641,44 @@ ui <- function() {
     '))
     ),
     useShinyjs(),
-    collapsible = TRUE,
-    fillable = TRUE,
     theme = bslib::bs_theme(),
-    window_title = "tab10",
-    sidebar = sidebar(
-      title = "",
-      selectInput(
-        inputId = "outcome",
-        label = "Model",
-        choices = list(
-          "Overgewicht 4 jaar" = "overweight-4y",
-          "Spraaktaal 4 jaar" = "lang-4y",
-          "Vroeggeboorte <32w" = "preterm-32w"
-        ),
-        selected = "overweight-4y"
-      ),
-      selectInput(
-        inputId = "color",
-        label = "Kleur",
-        choices = list(
-          "Rood-blauw" = "softred",
-          "Mandarijn" = "mandarin",
-          "Rood-grijs" = "redshadow"
+    title = "tab10",
+    # Replaces the former sidebar (page_sidebar()): outcome/color stay
+    # tab10-internal inputs, just repositioned into a permanent top bar so
+    # tab10 fits jamesapp's embedded Proeftuin panel instead of a
+    # standalone full-width page. This div is a sibling of the three
+    # card(...) blocks below, not nested in one -- outcome drives which
+    # card is shown (see shinyjs::hide()/show() further down), so it must
+    # never disappear when switching outcomes.
+    div(
+      class = "tab10-topbar",
+      style = "display:flex; gap:16px; align-items:flex-end; padding:8px 16px; border-bottom:1px solid #ddd;",
+      div(style = "min-width:220px;",
+        selectInput(
+          inputId = "outcome",
+          label = "Model",
+          choices = list(
+            "Overgewicht 4 jaar" = "overweight-4y",
+            "Spraaktaal 4 jaar" = "lang-4y",
+            "Vroeggeboorte <32w" = "preterm-32w"
+          ),
+          selected = "overweight-4y"
         )
       ),
-
-      br(),
-      div(HTML("&copy; Copyright, TNO 2024"),
-          style = "
-                 position:fixed;
-                 bottom:10.5px;
-                 width: 100%;
-                 height:20px;
-                 color: black;
-                 padding: 0px;
-                 z-index: 100;
-                 background-color: blanc;
-                 align:right;
-                ")
+      div(style = "min-width:180px;",
+        selectInput(
+          inputId = "color",
+          label = "Kleur",
+          choices = list(
+            "Rood-blauw" = "softred",
+            "Mandarijn" = "mandarin",
+            "Rood-grijs" = "redshadow"
+          )
+        )
+      ),
+      div(style = "margin-left:auto; font-size:0.85em; color:#666;",
+        HTML("&copy; TNO 2024")
+      )
     ),
     ### ui card OV ----
     card(
