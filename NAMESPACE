@@ -115,9 +115,5 @@ importFrom(stats,
   rbinom,
   runif
 )
-importFrom(stringr,
-  str_glue,
-  str_wrap
-)
 importFrom(tibble,tibble)
 importFrom(utils,hasName)

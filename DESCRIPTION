@@ -33,7 +33,6 @@ Imports:
     rlang,
     shiny,
     shinyjs,
-    stringr,
     tibble,
     utils
 Suggests:
