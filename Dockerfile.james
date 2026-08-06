@@ -31,5 +31,12 @@ RUN rm .Renviron
 ENV JAMES_BASE_URL=http://james
 
 RUN rm -rf /srv/shiny-server/*
-COPY /shiny srv/shiny-server/
-RUN mv srv/shiny-server/app_james.R srv/shiny-server/app.R
+# Trailing "/." on the source copies shiny/'s contents directly into
+# /srv/shiny-server/ -- "COPY /shiny srv/shiny-server/" (no trailing dot)
+# is ambiguous and was observed to instead nest the whole directory one
+# level deep as /srv/shiny-server/app/ in a multi-platform buildx push
+# (not reproduced in a single-platform local build), leaving no app.R at
+# the root Shiny Server actually serves and silently falling back to its
+# default "Welcome to the ES Shiny Server!" page.
+COPY /shiny/. /srv/shiny-server/
+RUN mv /srv/shiny-server/app_james.R /srv/shiny-server/app.R
