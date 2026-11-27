@@ -999,6 +999,8 @@ server <- function(input, output, session) {
                       selected = current.target()[["psn"]][["sex"]] )
         updateTextInput(inputId = "mother_age_pt",
                     value = current.target()[["psn"]][["agem"]])
+    updateNumericInput(inputId = "pc4_pt",
+                       value = current.target()[["psn"]][["pc4"]])
 
 
 
@@ -1211,7 +1213,7 @@ server <- function(input, output, session) {
     lp <- -4.11456 + sex_pt_beta() +
       N_vroeg_24_37_pt_beta() + vooraf_zw_vroeg_24_37_pt_beta() +
       N_vooraf_sga_pt_beta() + vooraf_sga_pt_beta() +
-      interpreg_cat_pt_beta() + interpreg_cat_pt_beta() +
+      interpreg_cat_pt_beta() +
       amddd1ond_cat_pt_beta() + grav_cat_pt_beta() +
       father_educ_pt_beta() + father_age_pt_beta() +
       mother_educ_pt_beta() + mother_age_pt_beta() +
