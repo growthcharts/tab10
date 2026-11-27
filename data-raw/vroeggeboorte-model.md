@@ -178,16 +178,16 @@ url   # open in de browser
 
 ### Wat JAMES nu vult voor vroeggeboorte
 
-Van de 17 voorspellers worden er via JAMES **maar 2** automatisch gevuld:
+Van de 17 voorspellers worden er via JAMES **maar 4** automatisch gevuld:
 
 | Voorspeller | Bron in `psn` | Opmerking |
 |------------------------|------------------------|------------------------|
 | Geslacht (`sex_pt`) | `sex` | Geslacht van het kind. Bij 16–20 weken meestal nog onbekend. |
 | Leeftijd moeder (`mother_age_pt`) | `agem` | `collect_predictors` gebruikt `agem - 1`, ongeveer de leeftijd bij conceptie. |
+| Stedelijkheid en COROP (via `pc4_pt`) | `pc4` | Opgezocht in `tab10::pc4` (sinds 1.2.2). Een onbekende postcode geeft "Onbekend". |
 
 Alle andere velden blijven op "Onbekend" en krijgen dus het gewicht uit de kolom *Bij onbekend* in §2. Wil je meer automatisch vullen, dan zijn deze stappen nodig:
 
-- **Postcode → stedelijkheid/COROP.** `psn$pc4` is beschikbaar, maar wordt nu alleen naar `pc4` (overgewicht) geschreven. Voeg toe: `updateNumericInput(inputId = "pc4_pt", value = current.target()[["psn"]][["pc4"]])`.
 - **Opleiding ouders.** `collect_predictors` levert `eduf`/`edum` in de overgewicht-indeling ("Geen, Basis", "VMBO-P", …). Het vroeggeboortemodel gebruikt een andere indeling ("Basis", "VMBO", "MBO 2", …). Daarvoor is een mapping vanuit de BDS-codes nodig.
 - **Obstetrische voorgeschiedenis** (graviditeit, eerdere vroeggeboorte/SGA, interpregnantie-interval, amenorroeduur) en **sociaaleconomische velden** (huishouden, inkomen, woningbezit). Die zitten nog niet in `collect_predictors`. Daarvoor moeten BDS-elementen (of nieuwe elementen) worden vastgesteld en in `bdsmodels` worden toegevoegd.
 
@@ -196,5 +196,5 @@ Alle andere velden blijven op "Onbekend" en krijgen dus het gewicht uit de kolom
 1.  **Interpregnantie-interval dubbel geteld (opgelost in 1.2.2, #6).** In `preterm_risk()` stond `interpreg_cat_pt_beta() + interpreg_cat_pt_beta()`, in alle drie de apps. Bij "Onbekend" verlaagde dit de lineaire predictor met 0,335 extra, waardoor de odds ongeveer 28 % te laag uitkwamen.
 2.  **"Onbekend" bij opleiding** krijgt het gewicht van HBO/WO, het laagste risico. Kies bewust: liever de referentie, of een gemiddelde.
 3.  **Eerste zwangerschap.** Hoe codeer je een nullipara consistent? Door de collineaire `nvt`-termen is dit niet eenduidig. Advies: gebruik `# voorafgaande SGA = "nvt"` en `Interpregnantie interval = "nvt"`, en laat bij de vroeggeboorte-items `"0"` / `"Ja"` (gewicht 0) staan. Laat dit bevestigen door de modelbouwer.
-4.  **Bug in `bdsmodels::collect_predictors`** (purpose `"tab10"`): `edum` wordt afgeleid uit `p$eduf` in plaats van `p$edum`. Dat raakt nu alleen het overgewichtmodel, maar wel zodra opleiding moeder ook voor vroeggeboorte wordt gevuld.
+4.  **Opleiding moeder = opleiding vader (bewust).** `bdsmodels::collect_predictors` (purpose `"tab10"`) leidt `edum` af uit `p$eduf`. Ook `app_james.R` en `app_jesse.R` gebruiken de gewichten van "Geboorteland moeder" voor het geboorteland van de vader. Dit is bewust zo gedaan, omdat er geen informatie over de vader beschikbaar was. Het is geen fout. Houd hier rekening mee als opleiding ook voor vroeggeboorte wordt gevuld.
 5.  **Geen pakketfunctie.** De berekening staat drie keer gekopieerd in de Shiny-apps. Een functie `predict_preterm()` in `R/` (zoals in §4) voorkomt afwijkingen tussen de apps.

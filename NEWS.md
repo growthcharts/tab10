@@ -4,6 +4,9 @@
   and `app_jesse.R`: the weight of the interpregnancy interval was added twice
   to the linear predictor, which underestimated the risk by up to ~30 % in
   odds, also when the field was "Onbekend" (#6)
+* Fills the postal code of the preterm birth card (`pc4_pt`) from the dossier
+  data, so urbanicity and COROP region are no longer always "Onbekend" when
+  tab10 is opened from JAMES or JESSE
 
 # tab10 1.2.1
 

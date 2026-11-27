@@ -1110,6 +1110,8 @@ server <- function(input, output, session) {
                       selected = current.target()[["psn"]][["sex"]] )
         updateTextInput(inputId = "mother_age_pt",
                     value = current.target()[["psn"]][["agem"]])
+    updateNumericInput(inputId = "pc4_pt",
+                       value = current.target()[["psn"]][["pc4"]])
 
 
 
