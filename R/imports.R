@@ -28,7 +28,6 @@
 #'                      updateSelectInput
 #' @importFrom shinyjs  hide show useShinyjs
 #' @importFrom stats    approx na.omit runif rbinom quantile
-#' @importFrom stringr  str_glue str_wrap
 #' @importFrom tibble   tibble
 #' @importFrom utils    hasName
 NULL

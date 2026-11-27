@@ -78,7 +78,11 @@ create_tab10 <- function(pri = NULL,
   if (!is.null(dpar$width)) {
     script <- script |>
       mutate(
-        frametext = str_wrap(.data$frametext, width = !!dpar$wrap)
+        frametext = vapply(
+          .data$frametext,
+          function(x) paste(strwrap(x, width = !!dpar$wrap), collapse = "\n"),
+          character(1L)
+        )
       )
   }
 

@@ -1,0 +1,42 @@
+FROM rocker/shiny:4.3.2
+
+# System libraries required by httr2/curl and by plotly/rhandsontable's
+# fork (fonts, TLS).
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  libcurl4-gnutls-dev \
+  libssl-dev \
+  libuv1-dev \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN echo 'options(repos = c(CRAN = "https://cran.r-project.org"))' >> /usr/local/lib/R/etc/Rprofile.site
+RUN R -e 'install.packages("remotes", repos="https://cran.r-project.org")'
+RUN R -e 'install.packages(c(\
+  "tidyr", \
+  "ggplot2", \
+  "bsicons", \
+  "plotly", \
+  "shinyjs", \
+  "httr2" \
+  ) , \
+  repos="https://cran.r-project.org" \
+  )'
+
+# get github packages
+COPY Renviron .Renviron
+RUN R -e 'remotes::install_github("stefvanbuuren/rhandsontable")'
+RUN R -e 'remotes::install_github("https://github.com/growthcharts/bdsmodels")'  # 3
+RUN R -e 'remotes::install_github("https://github.com/growthcharts/tab10", ref = "jamesapp-integration")'  # 4
+RUN rm .Renviron
+
+ENV JAMES_BASE_URL=http://james
+
+RUN rm -rf /srv/shiny-server/*
+# Trailing "/." on the source copies shiny/'s contents directly into
+# /srv/shiny-server/ -- "COPY /shiny srv/shiny-server/" (no trailing dot)
+# is ambiguous and was observed to instead nest the whole directory one
+# level deep as /srv/shiny-server/app/ in a multi-platform buildx push
+# (not reproduced in a single-platform local build), leaving no app.R at
+# the root Shiny Server actually serves and silently falling back to its
+# default "Welcome to the ES Shiny Server!" page.
+COPY /shiny/. /srv/shiny-server/
+RUN mv /srv/shiny-server/app_james.R /srv/shiny-server/app.R

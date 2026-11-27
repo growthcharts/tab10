@@ -10,3 +10,6 @@
 ^shiny$
 ^rsconnect$
 ^Dockerfile$
+^Dockerfile\.james$
+^Renviron$
+^.claude$
