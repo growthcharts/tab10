@@ -1,9 +1,45 @@
+# tab10 1.2.1
+
+* `Dockerfile.james` installs tab10 from master again, now that the
+  `jamesapp-integration` branch is merged (#5)
+* Updates `renv.lock` from ggplot2 3.4.4 to 4.0.4 (adds S7), so local
+  development uses the same ggplot2 major version as the `Dockerfile.james`
+  image
+* Adds `data-raw/vroeggeboorte-model.md`, which documents the preterm birth
+  model (`preterm-32w`): its predictors, where the risk is calculated, and
+  how to apply it to a dataset or to individual data via JAMES
+
 # tab10 1.2.0
 
-* `Dockerfile.james` temporarily installs tab10 from the
-  `jamesapp-integration` branch instead of main (`app_james.R` doesn't exist
-  on main yet); revert to installing without a `ref` once that branch is
-  merged
+## Package
+
+* Drops the `ggplot2 (<= 3.4.4)` constraint from DESCRIPTION; tab10 works
+  with ggplot2 4.x
+* Regenerates `emptyplot.rda` for the S7-based classes of ggplot2 4.x (the
+  old object gave a blank BMI chart). `data-raw/R/emptychart.R` now saves it
+  with `save()` instead of `usethis::use_data()`
+* Replaces `stringr::str_wrap()` with `base::strwrap()` in `create_tab10()`
+  and removes `stringr` from Imports
+
+## `app_james.R`
+
+* Replaces the sidebar with a permanent top bar (`page_fillable()`) for
+  embedded use in jamesapp
+* Replaces `AGD::y2z()` with `centile::y2z()` via `nlreferences` (numerically
+  identical BMI SDS)
+
+## `Dockerfile.james`
+
+* Temporarily installs tab10 from the `jamesapp-integration` branch, because
+  `app_james.R` was not yet on master
+* Installs packages from live CRAN, also overriding rocker's dated
+  `Rprofile.site` snapshot
+* Serves the app at the Shiny Server root, to match the `/tab10` proxy in
+  jamesdocker, and fixes the ambiguous `COPY` that nested the app one level
+  too deep in multi-platform builds
+* Drops the unused `bdsreader`, `jamesdemodata`, `jsonvalidate` and `AGD`
+  installs, and speeds up the build (layer ordering, pre-installed `tidyr`,
+  `libuv1-dev`)
 
 # tab10 1.1.0
 
