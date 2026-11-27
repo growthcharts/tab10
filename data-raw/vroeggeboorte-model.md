@@ -153,7 +153,7 @@ Rij 2 (alles onbekend) laat het risico zien dat de app toont als er niets is ing
 
 **Data in CBS-codering.** Brondata in de codering van het oorspronkelijke model (bijv. `geslmannelijk`, `grav_cat`) moet je eerst omzetten naar de `Categorie`-labels. Gebruik daarvoor de kolom `Modelterm` in `tab10::betas`.
 
-**Verschil met de app.** De app telt het gewicht van het interpregnantie-interval twee keer op (zie §6). Om de app exact te reproduceren tel je `w("Interpregnantie interval", data$interpreg)` dubbel.
+**Overeenkomst met de app.** Tot en met versie 1.2.1 telde de app het gewicht van het interpregnantie-interval twee keer op (#6). Sinds 1.2.2 geeft deze functie hetzelfde resultaat als de app.
 
 ## 5. Toepassen op individuele data via JAMES
 
@@ -193,7 +193,7 @@ Alle andere velden blijven op "Onbekend" en krijgen dus het gewicht uit de kolom
 
 ## 6. Bekende problemen en open punten
 
-1.  **Interpregnantie-interval dubbel geteld.** In `preterm_risk()` staat `interpreg_cat_pt_beta() + interpreg_cat_pt_beta()` ([shiny/app_james.R:1325](../shiny/app_james.R#L1325); ook in `app.R:1467` en `app_jesse.R:1214`). Zolang het veld "Onbekend" is, verlaagt dit de lineaire predictor met 0,335 extra. Het risico wordt dan ongeveer 30 % lager dan bedoeld.
+1.  **Interpregnantie-interval dubbel geteld (opgelost in 1.2.2, #6).** In `preterm_risk()` stond `interpreg_cat_pt_beta() + interpreg_cat_pt_beta()`, in alle drie de apps. Bij "Onbekend" verlaagde dit de lineaire predictor met 0,335 extra, waardoor de odds ongeveer 28 % te laag uitkwamen.
 2.  **"Onbekend" bij opleiding** krijgt het gewicht van HBO/WO, het laagste risico. Kies bewust: liever de referentie, of een gemiddelde.
 3.  **Eerste zwangerschap.** Hoe codeer je een nullipara consistent? Door de collineaire `nvt`-termen is dit niet eenduidig. Advies: gebruik `# voorafgaande SGA = "nvt"` en `Interpregnantie interval = "nvt"`, en laat bij de vroeggeboorte-items `"0"` / `"Ja"` (gewicht 0) staan. Laat dit bevestigen door de modelbouwer.
 4.  **Bug in `bdsmodels::collect_predictors`** (purpose `"tab10"`): `edum` wordt afgeleid uit `p$eduf` in plaats van `p$edum`. Dat raakt nu alleen het overgewichtmodel, maar wel zodra opleiding moeder ook voor vroeggeboorte wordt gevuld.

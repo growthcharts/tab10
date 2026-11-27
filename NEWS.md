@@ -1,3 +1,10 @@
+# tab10 1.2.2
+
+* Fixes the preterm birth model (`preterm-32w`) in `app.R`, `app_james.R`
+  and `app_jesse.R`: the weight of the interpregnancy interval was added twice
+  to the linear predictor, which underestimated the risk by up to ~30 % in
+  odds, also when the field was "Onbekend" (#6)
+
 # tab10 1.2.1
 
 * `Dockerfile.james` installs tab10 from master again, now that the
