@@ -1,0 +1,21 @@
+citHeader("To cite package 'tab10' in publications, please use:")
+
+bibentry(
+  bibtype = "Manual",
+  title = "Apps for project Kansrijke Start",
+  author = c(
+    person("Stef", "van Buuren",
+           email = "stef.vanbuuren@tno.nl",
+           role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0003-1098-2119")),
+    person("Iris", "Eekhout",
+           email = "iris.eekhout@tno.nl",
+           role = "aut"),
+    person("Arjan", "Huizing",
+           email = "arjan.huizing@tno.nl",
+           role = "aut")
+  ),
+  year = "2024", # Adjust as needed
+  note = "R package version 0.8.0",
+  url = "https://github.com/growthcharts/tab10"
+)

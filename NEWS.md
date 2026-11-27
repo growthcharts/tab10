@@ -1,3 +1,7 @@
+# tab10 0.8.1
+
+* Adds CITATION file
+
 # tab10 0.8.0
 
 * Various changes to make all R CMD CHECK warnings and notes disappear
